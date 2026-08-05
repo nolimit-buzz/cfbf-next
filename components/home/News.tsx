@@ -6,24 +6,43 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutGrid, List, Tag, Calendar, ArrowRight, User } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { newsArticles } from '@/lib/newsData';
+import { NEWS_DEFAULTS } from '@/lib/cms/defaults';
+import { withoutEmpty } from '@/lib/cms/content';
+import type { NewsSection } from '@/lib/cms/types';
 
-export default function LatestNews() {
+export default function LatestNews({ data }: { data?: NewsSection }) {
+  const c = { ...NEWS_DEFAULTS, ...withoutEmpty(data) };
   const router = useRouter();
   const [viewMode, setViewMode] = useState('card');
-  const newsItems = newsArticles.slice(0, 3);
+
+  // The CMS mirrors `lib/newsData` by id, so the cards keep linking into the
+  // /news/[id] detail route either way. Fall back to the local list when the
+  // CMS has no articles.
+  const newsItems = (c.articles.length > 0
+    ? c.articles.map(article => ({
+        id: article.articleId,
+        image: article.image,
+        tag: article.tag,
+        date: article.date,
+        title: article.title,
+        author: article.author,
+      }))
+    : newsArticles
+  ).slice(0, 3);
 
   return (
     <section id="news" className="py-24 bg-brand-light relative z-10 border-t border-gray-100">
       <div className="container mx-auto px-6">
         <SectionHeader
-          sub="Media Center"
-          title="Latest News & Updates"
+          sub={c.eyebrow}
+          title={c.heading}
           activeTab={viewMode}
           onTabChange={setViewMode}
-          tabs={[
-            { id: 'card', label: 'Card View', icon: LayoutGrid },
-            { id: 'list', label: 'List View', icon: List }
-          ]}
+          tabs={c.viewTabs.map(tab => ({
+            id: tab.tabId,
+            label: tab.label,
+            icon: tab.tabId === 'list' ? List : LayoutGrid
+          }))}
         />
 
         <AnimatePresence mode="wait">
@@ -66,7 +85,7 @@ export default function LatestNews() {
                       {item.title}
                     </h3>
                     <div className="mt-auto pt-4 flex items-center gap-2 text-brand-accent font-bold text-sm uppercase tracking-wider group-hover:gap-3 transition-all font-sans">
-                      Read Article <ArrowRight size={16} />
+                      {c.readArticleLabel} <ArrowRight size={16} />
                     </div>
                   </div>
                 </motion.div>
@@ -112,10 +131,10 @@ export default function LatestNews() {
 
         <div className="mt-12 flex justify-center">
           <button
-            onClick={() => router.push('/news')}
+            onClick={() => router.push(c.ctaHref)}
             className="flex items-center gap-2 border-b border-brand-accent pb-1 text-brand-dark font-bold hover:text-brand-primary transition-colors font-sans uppercase tracking-wider text-sm focus:outline-none"
           >
-            View All News <ArrowRight size={18} />
+            {c.ctaLabel} <ArrowRight size={18} />
           </button>
         </div>
       </div>

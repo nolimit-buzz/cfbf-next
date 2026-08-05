@@ -3,11 +3,21 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import NigeriaMap from '../NigeriaMap';
+import { MAP_DEFAULTS } from '@/lib/cms/defaults';
+import { withoutEmpty } from '@/lib/cms/content';
+import type { MapSectionData } from '@/lib/cms/types';
 
-export default function MapSection() {
+export default function MapSection({ data }: { data?: MapSectionData }) {
+  const c = { ...MAP_DEFAULTS, ...withoutEmpty(data) };
   const [filter, setFilter] = useState('All');
 
-  const categories = ['All', 'Solar Grid', 'Hydro', 'Biofuel', 'Telecoms'];
+  const categories = c.categories.map(cat => cat.label);
+  const activeStates = c.activeStates.map(state => state.stateId);
+  const hotspots = c.markers.map(marker => ({
+    name: marker.name,
+    x: Number(marker.x),
+    y: Number(marker.y),
+  }));
 
   return (
     <section className="py-24 bg-white relative overflow-hidden">
@@ -23,7 +33,7 @@ export default function MapSection() {
                 className="flex items-center gap-3 mb-3"
               >
                 <div className="h-px w-8 bg-brand-primary"></div>
-                <span className="text-brand-primary text-xs font-normal tracking-[0.2em] uppercase font-sans">National Footprint</span>
+                <span className="text-brand-primary text-xs font-normal tracking-[0.2em] uppercase font-sans">{c.eyebrow}</span>
               </motion.div>
               <motion.h2 
                 initial={{ opacity: 0, y: 30 }}
@@ -32,7 +42,7 @@ export default function MapSection() {
                 transition={{ delay: 0.2 }}
                 className="text-3xl md:text-4xl font-bold text-brand-dark font-sans tracking-tight leading-tight"
               >
-                Geographical <span className="text-[#7C9590]">Distribution</span>
+                {c.headingPrimary}<span className="text-[#7C9590]">{c.headingSecondary}</span>
               </motion.h2>
            </div>
 
@@ -68,17 +78,17 @@ export default function MapSection() {
             >
 
                 <div className="flex items-baseline gap-4 mb-4">
-                  <span className="text-[6rem] md:text-[8rem] font-bold text-[#0EA5E9] leading-none tracking-tighter font-sans">35</span>
+                  <span className="text-[6rem] md:text-[8rem] font-bold text-[#0EA5E9] leading-none tracking-tighter font-sans">{c.statValue}</span>
                 </div>
-                
-                <h4 className="text-3xl text-brand-dark font-medium mb-8 font-sans">States</h4>
-                
+
+                <h4 className="text-3xl text-brand-dark font-medium mb-8 font-sans">{c.statLabel}</h4>
+
                 <p className="text-gray-500 text-lg leading-relaxed mb-10 max-w-md font-sans">
-                  Collectively, renewable energy projects located in 35 states across the six geo-political zones in Nigeria have been approved for co-financing by the Facility.
+                  {c.body}
                 </p>
-                
+
                 <button className="bg-[#009ca6] hover:bg-[#00878f] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-[#009ca6]/20 transition-all hover:-translate-y-1 interactive font-sans">
-                  View Locations
+                  {c.ctaLabel}
                 </button>
             </motion.div>
 
@@ -90,7 +100,7 @@ export default function MapSection() {
               transition={{ duration: 0.8 }}
               className="relative w-full flex items-center justify-center"
             >
-               <NigeriaMap />
+               <NigeriaMap activeStates={activeStates} hotspots={hotspots} />
              </motion.div>
 
         </div>

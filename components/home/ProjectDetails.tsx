@@ -14,9 +14,19 @@ interface Project {
 
 interface ProjectDetailsProps {
   project: Project;
+  challengeLabel: string;
+  solutionLabel: string;
+  impactLabel: string;
+  ctaLabel: string;
 }
 
-export default function ProjectDetails({ project }: ProjectDetailsProps) {
+export default function ProjectDetails({
+  project,
+  challengeLabel,
+  solutionLabel,
+  impactLabel,
+  ctaLabel,
+}: ProjectDetailsProps) {
   const router = useRouter();
 
   return (
@@ -34,18 +44,18 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
           <div className="flex items-start gap-4 mb-8">
             <div className="w-1 h-12 bg-brand-accent rounded-full mt-1 shrink-0"></div>
             <div>
-              <h4 className="text-xs font-bold text-brand-accent uppercase tracking-widest mb-3 font-sans">Challenge Analysis</h4>
+              <h4 className="text-xs font-bold text-brand-accent uppercase tracking-widest mb-3 font-sans">{challengeLabel}</h4>
               <p className="text-xl text-gray-200 font-medium leading-relaxed font-sans">{project.problem}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-8 mb-10 bg-white/5 p-6 rounded-[6px] border border-white/10">
             <div>
-              <h5 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 font-sans">Solution</h5>
+              <h5 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 font-sans">{solutionLabel}</h5>
               <p className="text-gray-300 text-sm leading-relaxed font-sans">{project.solution}</p>
             </div>
             <div>
-              <h5 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 font-sans">Impact</h5>
+              <h5 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 font-sans">{impactLabel}</h5>
               <p className="text-gray-300 text-sm leading-relaxed font-sans">{project.impact}</p>
             </div>
           </div>
@@ -54,7 +64,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
             onClick={() => router.push(`/projects/${project.id}`)}
             className="self-start flex items-center gap-2 text-white border-b-2 border-brand-accent pb-1 hover:text-brand-accent transition-colors text-sm font-bold uppercase tracking-wider interactive font-sans focus:outline-none"
           >
-            Learn More <ArrowUpRight size={16} />
+            {ctaLabel} <ArrowUpRight size={16} />
           </button>
         </div>
       </div>
