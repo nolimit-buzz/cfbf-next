@@ -3,6 +3,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Zap, Leaf, Users, MapPin, Landmark, Wifi, Check } from 'lucide-react';
+import { withoutEmpty } from '@/lib/cms/content';
+import { parseSdgs } from '@/lib/cms/projects-content';
+import { PROJECTS_PIPELINE_CONSOLE_DEFAULTS } from '@/lib/cms/projects-defaults';
+import type { ProjectsPipelineConsoleSection } from '@/lib/cms/projects-types';
 
 // Data types
 interface MetricData {
@@ -272,19 +276,44 @@ interface PipelineConsoleProps {
   stages?: StageInfo[];
   totalSectorPipeline?: TableRow[];
   mandatedDeals?: TableRow[];
+  data?: ProjectsPipelineConsoleSection;
 }
 
 export default function PipelineConsole({
-  stages = PIPELINE_STAGES,
-  totalSectorPipeline = SECTOR_TOTAL_PIPELINE,
-  mandatedDeals = SECTOR_MANDATED_DEALS
+  stages,
+  totalSectorPipeline,
+  mandatedDeals,
+  data
 }: PipelineConsoleProps) {
+  const copy = { ...PROJECTS_PIPELINE_CONSOLE_DEFAULTS, ...withoutEmpty(data) };
+
+  // Explicit props still win — they are how a caller overrides the CMS — but the
+  // fallback chain now runs through the CMS before reaching the bundled arrays.
+  const resolvedStages: StageInfo[] = stages ?? copy.stages.map((stage) => ({
+    id: stage.stageId,
+    label: stage.label,
+    title: stage.title,
+    usdVal: stage.usdVal,
+    ngnVal: stage.ngnVal,
+    desc: stage.desc,
+    sdgs: parseSdgs(stage.sdgs),
+    // A stage with no connections figure is a table stage, not a metrics stage.
+    // `metrics: undefined` is what switches the right column to the sector table.
+    metrics: stage.metrics?.connections ? stage.metrics : undefined,
+  }));
+
+  const resolvedTotalPipeline = totalSectorPipeline ?? copy.totalPipelineRows;
+  const resolvedMandatedDeals = mandatedDeals ?? copy.mandatedDealRows;
+
+  /** SDG display copy from the CMS, keyed by goal number. Colours stay in `SDG_METADATA`. */
+  const sdgCopy = new Map(copy.sdgFrameworks.map((s) => [Number.parseInt(s.number, 10), s]));
+
   const [activeStageId, setActiveStageId] = useState<string>("project-pipeline");
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [businessModelView, setBusinessModelView] = useState<'total-pipeline' | 'mandated-deals'>('total-pipeline');
   
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const activeStage = stages.find((s) => s.id === activeStageId) || stages[1];
+  const activeStage = resolvedStages.find((s) => s.id === activeStageId) || resolvedStages[1];
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -301,9 +330,9 @@ export default function PipelineConsole({
   const getStageValues = () => {
     if (activeStage.id === 'business-models') {
       if (businessModelView === 'total-pipeline') {
-        return { usd: "687.3", ngn: "948.20B NGN EQUIV" };
+        return { usd: activeStage.usdVal, ngn: activeStage.ngnVal };
       } else {
-        return { usd: "213.2", ngn: "294.28B NGN EQUIV" };
+        return { usd: copy.businessModelsMandatedUsd, ngn: copy.businessModelsMandatedNgn };
       }
     }
     return { usd: activeStage.usdVal, ngn: activeStage.ngnVal };
@@ -311,53 +340,48 @@ export default function PipelineConsole({
 
   const currentValues = getStageValues();
 
-  // Metrics configurations with matching Icons and Labels
-  const metricCards = (metrics: MetricData) => [
-    {
-      label: metrics.connectionsLabel || "Projected Connections",
-      value: metrics.connections,
-      icon: <Wifi className="w-5 h-5" />,
-      glow: "rgba(129,195,77,0.15)",
-      iconColor: "#81C34D"
-    },
-    {
-      label: "Projected Capacity",
-      value: metrics.capacity,
-      icon: <Zap className="w-5 h-5" />,
-      glow: "rgba(253,183,19,0.15)",
-      iconColor: "#FDB713"
-    },
-    {
-      label: metrics.communitiesLabel || "Communities",
-      value: metrics.communities,
-      icon: <MapPin className="w-5 h-5" />,
-      glow: "rgba(0,159,212,0.15)",
-      iconColor: "#009FD4"
-    },
-    {
-      label: "Jobs to be Created",
-      value: metrics.jobs,
-      icon: <Users className="w-5 h-5" />,
-      glow: "rgba(255,74,107,0.15)",
-      iconColor: "#FF4A6B"
-    },
-    {
-      label: "GHG Emissions Reduced",
-      value: metrics.ghg,
-      unit: "tCO₂e/yr",
-      icon: <Leaf className="w-5 h-5" />,
-      glow: "rgba(86,195,106,0.15)",
-      iconColor: "#56C36A"
-    },
-    {
-      label: "Private Capital Mobilised",
-      value: metrics.capital,
-      unit: metrics.capitalSub,
-      icon: <Landmark className="w-5 h-5" />,
-      glow: "rgba(243,109,37,0.15)",
-      iconColor: "#F36D25"
-    }
+  /**
+   * Icon and accent per metric card, positional.
+   *
+   * Colours stay here rather than in the CMS; `copy.metricLabels` supplies the
+   * label, unit and description for the same position.
+   */
+  const METRIC_CARD_STYLES = [
+    { icon: <Wifi className="w-5 h-5" />, glow: "rgba(129,195,77,0.15)", iconColor: "#81C34D" },
+    { icon: <Zap className="w-5 h-5" />, glow: "rgba(253,183,19,0.15)", iconColor: "#FDB713" },
+    { icon: <MapPin className="w-5 h-5" />, glow: "rgba(0,159,212,0.15)", iconColor: "#009FD4" },
+    { icon: <Users className="w-5 h-5" />, glow: "rgba(255,74,107,0.15)", iconColor: "#FF4A6B" },
+    { icon: <Leaf className="w-5 h-5" />, glow: "rgba(86,195,106,0.15)", iconColor: "#56C36A" },
+    { icon: <Landmark className="w-5 h-5" />, glow: "rgba(243,109,37,0.15)", iconColor: "#F36D25" },
   ];
+
+  // Metrics configurations with matching Icons and Labels
+  const metricCards = (metrics: MetricData) => {
+    // A stage may override two of the labels (an urban stage says "Local Gov
+    // Areas" rather than "Communities"); everything else comes from the section.
+    const values = [
+      { value: metrics.connections, labelOverride: metrics.connectionsLabel },
+      { value: metrics.capacity },
+      { value: metrics.communities, labelOverride: metrics.communitiesLabel },
+      { value: metrics.jobs },
+      { value: metrics.ghg },
+      { value: metrics.capital, unitOverride: metrics.capitalSub },
+    ];
+
+    return values.map((entry, i) => {
+      const label = copy.metricLabels[i];
+      const style = METRIC_CARD_STYLES[i];
+      return {
+        label: entry.labelOverride || label?.label || '',
+        value: entry.value,
+        unit: entry.unitOverride ?? label?.unit ?? '',
+        description: label?.description ?? '',
+        icon: style.icon,
+        glow: style.glow,
+        iconColor: style.iconColor,
+      };
+    });
+  };
 
   return (
     <section className="relative z-10 w-full mt-24 pt-20" id="facility-pipeline">
@@ -365,13 +389,13 @@ export default function PipelineConsole({
       <div className="container mx-auto px-6 mb-12">
         <div className="flex items-center gap-3 mb-4">
           <div className="h-px w-8 bg-brand-accent"></div>
-          <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-mono">Consolidated Dealflow</span>
+          <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-mono">{copy.eyebrow}</span>
         </div>
         <h2 className="text-3xl md:text-4xl font-bold font-sans leading-tight tracking-tight mb-4 text-left">
-          Facility Pipeline <span className="text-[#9BB7B1]">Status</span>
+          {copy.headingPartOne}<span className="text-[#9BB7B1]">{copy.headingHighlight}</span>
         </h2>
         <p className="text-gray-400 text-sm leading-relaxed max-w-2xl font-light font-sans text-left">
-          Browse live consolidated aggregates of our clean energy pipelines, mandated capital transactions, and forecasted developmental impact numbers de-risked by our concessional guarantee structures.
+          {copy.body}
         </p>
       </div>
 
@@ -388,8 +412,8 @@ export default function PipelineConsole({
               {/* Background Layer with light-blue logo overlay, bleeding to the left screen edge on desktop */}
               <div className="absolute inset-y-0 left-0 w-full lg:left-auto lg:right-0 lg:w-[100vw] z-0 pointer-events-none select-none overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=1200&auto=format&fit=crop"
-                  alt=""
+                  src={copy.leftBackgroundImage}
+                  alt={copy.leftBackgroundImage_alt_text}
                   className="absolute inset-0 w-full h-full object-cover opacity-40"
                 />
                 <div className="absolute inset-0 bg-[#009FD4]/80" />
@@ -400,7 +424,7 @@ export default function PipelineConsole({
                 {/* Top Row: Dropdown selector (Height matched with top right row) */}
                 <div className="h-[84px] flex flex-col justify-end relative" ref={dropdownRef}>
                   <span className="text-[9px] font-bold tracking-[0.25em] text-[#81C34D] uppercase font-mono block mb-2">
-                    Select Pipeline Stage
+                    {copy.selectStageLabel}
                   </span>
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -419,7 +443,7 @@ export default function PipelineConsole({
                         transition={{ duration: 0.2 }}
                         className="absolute left-0 right-0 top-full mt-1 bg-[#051F1A] border border-white/15 rounded-[6px] overflow-hidden shadow-2xl z-50 divide-y divide-white/5"
                       >
-                        {stages.map((stage) => (
+                        {resolvedStages.map((stage) => (
                           <button
                             key={stage.id}
                             onClick={() => {
@@ -449,7 +473,7 @@ export default function PipelineConsole({
                     <span className="text-4xl md:text-5xl font-light text-white tracking-tight leading-none font-sans font-bold">
                       {currentValues.usd}
                     </span>
-                    <span className="text-xl text-white font-light ml-1">m USD</span>
+                    <span className="text-xl text-white font-light ml-1">{copy.usdUnitLabel}</span>
                   </div>
                   <div className="text-[#81C34D] text-xs font-mono font-bold tracking-wider mt-2.5 uppercase">
                     {currentValues.ngn}
@@ -463,7 +487,7 @@ export default function PipelineConsole({
                 {/* Bottom Row: SDG Aligned Grid (Enlarged SDG boxes & font sizes) */}
                 <div className="border-t border-white/10 pt-6">
                   <span className="text-[9px] font-bold tracking-[0.2em] text-[#81C34D] uppercase font-mono block mb-4">
-                    Aligned UN SDG Frameworks
+                    {copy.sdgFrameworksLabel}
                   </span>
                   <motion.div 
                     variants={containerVariants}
@@ -475,16 +499,21 @@ export default function PipelineConsole({
                     {activeStage.sdgs.map((sdgNum) => {
                       const sdg = SDG_METADATA[sdgNum as keyof typeof SDG_METADATA];
                       if (!sdg) return null;
+                      // Copy and imagery are editable; `sdg.color`, `borderClass`
+                      // and `colorHex` are the official SDG palette and stay here.
+                      const cms = sdgCopy.get(sdgNum);
+                      const title = cms?.name || sdg.title;
+                      const bgImage = cms?.image || sdg.bgImage;
                       return (
                         <motion.div
                           key={sdgNum}
                           variants={cardVariants}
                           className={`relative rounded-[6px] overflow-hidden p-4 flex flex-col justify-between text-left min-h-[135px] group border transition-all duration-300 ${sdg.borderClass}`}
-                          title={`SDG ${sdgNum}: ${sdg.title}`}
+                          title={`SDG ${sdgNum}: ${title}`}
                         >
-                          <img 
-                            src={sdg.bgImage}
-                            alt={sdg.title}
+                          <img
+                            src={bgImage}
+                            alt={cms?.image_alt_text || title}
                             className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 pointer-events-none select-none"
                           />
                           <div className="absolute inset-0 bg-[#02100d]/92 group-hover:bg-[#02100d]/85 transition-colors duration-300 pointer-events-none" />
@@ -500,7 +529,7 @@ export default function PipelineConsole({
                             <span className={`inline-block text-[10px] font-bold text-white font-mono ${sdg.color} px-2 py-0.5 rounded-full mb-2 leading-none`}>
                               SDG {sdgNum}
                             </span>
-                            <h4 className="font-bold text-xs md:text-sm text-white font-sans leading-tight line-clamp-2">{sdg.title}</h4>
+                            <h4 className="font-bold text-xs md:text-sm text-white font-sans leading-tight line-clamp-2">{title}</h4>
                           </div>
                         </motion.div>
                       );
@@ -516,8 +545,8 @@ export default function PipelineConsole({
               {/* Background Layer with deep blue hero overlay, bleeding to the right screen edge on desktop */}
               <div className="absolute inset-y-0 left-0 w-full lg:w-[100vw] z-0 pointer-events-none select-none overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?q=80&w=1200&auto=format&fit=crop"
-                  alt=""
+                  src={copy.rightBackgroundImage}
+                  alt={copy.rightBackgroundImage_alt_text}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-[#00314b]/75" />
@@ -537,7 +566,7 @@ export default function PipelineConsole({
                             : 'text-gray-400 hover:text-white'
                         }`}
                       >
-                        Total Pipeline
+                        {copy.toggleTotalLabel}
                       </button>
                       <button
                         onClick={() => setBusinessModelView('mandated-deals')}
@@ -547,7 +576,7 @@ export default function PipelineConsole({
                             : 'text-gray-400 hover:text-white'
                         }`}
                       >
-                        Mandated Deals
+                        {copy.toggleMandatedLabel}
                       </button>
                     </div>
                   )}
@@ -556,13 +585,10 @@ export default function PipelineConsole({
                 {/* Middle Row: Content header aligned horizontally with left stage titles */}
                 <div className="mt-8 mb-8 flex-grow">
                   <h3 className="text-xs font-bold font-mono uppercase tracking-[0.2em] text-[#81C34D] block m-0 mt-0">
-                    {activeStage.metrics ? "/ EXPECTED IMPACT METRICS" : "/ BUSINESS MODELS DISTRIBUTION"}
+                    {activeStage.metrics ? copy.metricsHeader : copy.businessModelsHeader}
                   </h3>
                   <p className="text-gray-300 text-base font-sans font-light mt-4 leading-relaxed max-w-xl">
-                    {activeStage.metrics 
-                      ? "Forecasted socio-economic and environmental outputs expected from the active pipeline deals de-risked by our concessional guarantee structures."
-                      : "Distribution of blended finance transactions categorized by developer business models mandated by the facility."
-                    }
+                    {activeStage.metrics ? copy.metricsSubcopy : copy.businessModelsSubcopy}
                   </p>
                 </div>
 
@@ -588,14 +614,7 @@ export default function PipelineConsole({
                           {metricCards(activeStage.metrics).map((card, i) => {
                             const cleanValue = card.value;
                             const displaysUnit = card.unit || "";
-                            
-                            const cardDesc = card.label.toLowerCase().includes("connections") || card.label.toLowerCase().includes("households") ? "projected household and SME connections powered." :
-                              card.label.toLowerCase().includes("capacity") ? "installed clean generating capacity co-financed." :
-                              card.label.toLowerCase().includes("communities") || card.label.toLowerCase().includes("local gov") ? "underserved administrative areas connected." :
-                              card.label.toLowerCase().includes("jobs") ? "sustainable employment opportunities facilitated." :
-                              card.label.toLowerCase().includes("emissions") || card.label.toLowerCase().includes("ghg") ? "tonnes of annual carbon emissions mitigated." :
-                              card.label.toLowerCase().includes("capital") ? "local private currency co-investment mobilized." :
-                              "tracked developmental pipeline metrics.";
+                            const cardDesc = card.description;
 
                             return (
                               <motion.div
@@ -638,16 +657,16 @@ export default function PipelineConsole({
                               <table className="w-full text-left border-collapse text-xs md:text-sm">
                                 <thead>
                                   <tr className="border-b border-white/10 text-[10px] font-mono font-bold text-gray-400 uppercase tracking-wider">
-                                    <th className="py-4 px-6 sticky top-0 bg-[#02100d] z-30">DRE Business Model</th>
-                                    <th className="py-4 px-6 text-center sticky top-0 bg-[#02100d] z-30">Projects</th>
+                                    <th className="py-4 px-6 sticky top-0 bg-[#02100d] z-30">{copy.tableHeadSector}</th>
+                                    <th className="py-4 px-6 text-center sticky top-0 bg-[#02100d] z-30">{copy.tableHeadProjects}</th>
                                     <th className="py-4 px-6 text-right sticky top-0 bg-[#02100d] z-30">
-                                      {businessModelView === 'total-pipeline' ? 'Pipeline (NGN\'B)' : 'Mandated (NGN\'B)'}
+                                      {businessModelView === 'total-pipeline' ? copy.tableHeadPipelineNgn : copy.tableHeadMandatedNgn}
                                     </th>
-                                    <th className="py-4 px-6 text-right sticky top-0 bg-[#02100d] z-30">Deal Size (%)</th>
+                                    <th className="py-4 px-6 text-right sticky top-0 bg-[#02100d] z-30">{copy.tableHeadDealSize}</th>
                                   </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5 text-gray-300 font-sans">
-                                  {(businessModelView === 'total-pipeline' ? totalSectorPipeline : mandatedDeals).map((row, index) => (
+                                  {(businessModelView === 'total-pipeline' ? resolvedTotalPipeline : resolvedMandatedDeals).map((row, index) => (
                                     <tr key={index} className="hover:bg-white/[0.02] transition-colors">
                                       <td className="py-3.5 px-6 font-medium text-white">{row.sector}</td>
                                       <td className="py-3.5 px-6 text-center font-mono">{row.projectsCount}</td>
@@ -658,12 +677,12 @@ export default function PipelineConsole({
                                 </tbody>
                                 <tfoot className="border-t border-white/10 bg-[#02100d] text-[10px] font-mono font-bold text-white uppercase tracking-wider sticky bottom-0 z-20">
                                   <tr>
-                                    <td className="py-3 px-5">Total Portfolio</td>
-                                    <td className="py-3 px-5 text-center">71</td>
+                                    <td className="py-3 px-5">{copy.footerLabel}</td>
+                                    <td className="py-3 px-5 text-center">{copy.footerProjects}</td>
                                     <td className="py-3 px-5 text-right text-[#81C34D]">
-                                      {businessModelView === 'total-pipeline' ? "948.20" : "294.28"}
+                                      {businessModelView === 'total-pipeline' ? copy.footerTotalPipeline : copy.footerTotalMandated}
                                     </td>
-                                    <td className="py-3 px-5 text-right">100%</td>
+                                    <td className="py-3 px-5 text-right">{copy.footerPercent}</td>
                                   </tr>
                                 </tfoot>
                               </table>

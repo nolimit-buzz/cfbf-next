@@ -18,6 +18,9 @@ import {
   getLGAsForState,
 } from '@/lib/mapData';
 import LGAModal from './LGAModal';
+import { withoutEmpty } from '@/lib/cms/content';
+import { PROJECTS_FOOTPRINT_MAP_DEFAULTS } from '@/lib/cms/projects-defaults';
+import type { ProjectsFootprintMapCopy, ProjectsLgaModalSection } from '@/lib/cms/projects-types';
 
 interface NigeriaStateLocation {
   id: string;
@@ -67,7 +70,23 @@ const STATE_CENTROIDS: Record<string, { x: number; y: number }> = {
   zamfara:       { x: 270, y: 105 },
 };
 
-export default function FootprintMap() {
+export interface FootprintMapProps {
+  /**
+   * Labels only — already narrowed on the server by `pickFootprintMapCopy`.
+   *
+   * The section's `mapSvg`, `legend`, `states` and `lgaProjects` fields are not
+   * in this type: geometry comes from `@svg-maps/nigeria`, state/LGA data from
+   * `lib/mapData`, and every colour from `getProjectTypeColor` /
+   * `PROJECT_TYPE_LEGEND`. The seed's legend hexes differ from the ones this
+   * map paints, so reading colour from the CMS would recolour the key.
+   */
+  data?: ProjectsFootprintMapCopy;
+  modalData?: ProjectsLgaModalSection;
+}
+
+export default function FootprintMap({ data, modalData }: FootprintMapProps = {}) {
+  const copy = { ...PROJECTS_FOOTPRINT_MAP_DEFAULTS, ...withoutEmpty(data) };
+
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [hoveredState, setHoveredState] = useState<string | null>(null);
   const [selectedLGA, setSelectedLGA] = useState<string | null>(null);
@@ -145,25 +164,24 @@ export default function FootprintMap() {
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-[#81C34D]" />
-            <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-mono">National Footprint</span>
+            <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-mono">{copy.eyebrow}</span>
           </div>
           <h2 className="text-3xl font-bold font-sans tracking-tight mb-3">
-            Geographical <span className="text-[#9BB7B1]">Distribution</span>
+            {copy.headingPartOne}<span className="text-[#9BB7B1]">{copy.headingHighlight}</span>
           </h2>
           <p className="text-gray-400 text-sm leading-relaxed max-w-lg font-sans font-light">
-            Off-grid renewable energy and rural telephony projects located across the
-            six geo-political zones in Nigeria, approved for co-financing by the Facility.
+            {copy.body}
           </p>
         </div>
         {/* Right: stats */}
         <div className="flex gap-8 sm:flex-col sm:items-end sm:gap-4 shrink-0">
           <div className="sm:text-right">
             <span className="text-4xl font-extrabold text-[#81C34D] font-sans">{totalStates}</span>
-            <p className="text-gray-400 text-xs uppercase tracking-wider font-mono mt-0.5">States</p>
+            <p className="text-gray-400 text-xs uppercase tracking-wider font-mono mt-0.5">{copy.statesStatLabel}</p>
           </div>
           <div className="sm:text-right">
             <span className="text-4xl font-extrabold text-[#81C34D] font-sans">{totalCommunities}+</span>
-            <p className="text-gray-400 text-xs uppercase tracking-wider font-mono mt-0.5">Communities</p>
+            <p className="text-gray-400 text-xs uppercase tracking-wider font-mono mt-0.5">{copy.communitiesStatLabel}</p>
           </div>
         </div>
       </div>
@@ -175,7 +193,7 @@ export default function FootprintMap() {
         <div className="lg:col-span-3 border-r border-white/8 flex flex-col">
           {/* Header */}
           <div className="px-4 py-3 border-b border-white/8 bg-white/[0.02] flex-shrink-0">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 font-mono mb-2">States</h3>
+            <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 font-mono mb-2">{copy.statesColumnLabel}</h3>
             {/* Search */}
             <div className="relative">
               <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none" />
@@ -183,7 +201,7 @@ export default function FootprintMap() {
                 type="text"
                 value={stateSearch}
                 onChange={e => setStateSearch(e.target.value)}
-                placeholder="Search states…"
+                placeholder={copy.searchPlaceholder}
                 className="w-full bg-white/[0.03] border border-white/8 rounded-[6px] pl-7 pr-3 py-1.5 text-xs text-gray-300 placeholder-gray-600 focus:outline-none focus:border-[#81C34D]/40 font-sans transition-colors"
               />
               {stateSearch && (
@@ -239,7 +257,7 @@ export default function FootprintMap() {
           {/* Map label */}
           <div className="absolute top-3 left-3 z-10">
             <span className="text-[10px] font-bold uppercase tracking-widest text-gray-600 font-mono">
-              Interactive Map
+              {copy.mapLabel}
             </span>
           </div>
 
@@ -247,7 +265,7 @@ export default function FootprintMap() {
           {!selectedState && (
             <div className="absolute top-3 right-3 z-10">
               <span className="text-[9px] font-bold uppercase tracking-widest text-gray-700 font-mono hidden md:block">
-                Click a state
+                {copy.mapHint}
               </span>
             </div>
           )}
@@ -368,7 +386,7 @@ export default function FootprintMap() {
                 {/* LGA Column Header */}
                 <div className="px-4 py-3 border-b border-white/8 bg-white/[0.02] flex-shrink-0">
                   <p className="text-[9px] font-bold uppercase tracking-widest text-gray-500 font-mono">
-                    {selectedStateInfo.name} State (LGA's)
+                    {selectedStateInfo.name} {copy.lgaPanelSuffix}
                   </p>
                 </div>
 
@@ -408,7 +426,7 @@ export default function FootprintMap() {
                   ) : (
                     <div className="flex flex-col items-center justify-center h-full py-12 text-center px-4">
                       <MapPin size={24} className="text-gray-600 mb-2" />
-                      <p className="text-gray-500 text-xs font-sans">No LGA data found for this state.</p>
+                      <p className="text-gray-500 text-xs font-sans">{copy.lgaEmptyMessage}</p>
                     </div>
                   )}
                 </div>
@@ -419,7 +437,7 @@ export default function FootprintMap() {
                     onClick={() => setSelectedState(null)}
                     className="text-[10px] font-bold text-gray-500 hover:text-white uppercase tracking-wider font-mono transition-colors flex items-center gap-1 focus:outline-none"
                   >
-                    <X size={10} /> Clear Selection
+                    <X size={10} /> {copy.clearSelectionLabel}
                   </button>
                 </div>
               </motion.div>
@@ -435,9 +453,9 @@ export default function FootprintMap() {
                 <div className="w-12 h-12 rounded-full bg-white/[0.03] border border-white/8 flex items-center justify-center mb-1">
                   <MapPin size={20} className="text-gray-600" />
                 </div>
-                <h4 className="text-sm font-semibold text-gray-400 font-sans">Select a State</h4>
+                <h4 className="text-sm font-semibold text-gray-400 font-sans">{copy.placeholderTitle}</h4>
                 <p className="text-xs text-gray-600 leading-relaxed font-sans max-w-[180px]">
-                  Click a state from the list or on the map to view its Local Government Areas.
+                  {copy.placeholderBody}
                 </p>
               </motion.div>
             )}
@@ -452,6 +470,7 @@ export default function FootprintMap() {
         stateName={selectedStateInfo?.name ?? ''}
         projects={modalProjects}
         onClose={handleCloseModal}
+        data={modalData}
       />
     </>
   );

@@ -1,29 +1,31 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { ABOUT_STICKY_NAV_DEFAULTS } from '@/lib/cms/about-defaults';
+import { withoutEmpty } from '@/lib/cms/content';
+import type { AboutStickyNavSection } from '@/lib/cms/about-types';
 
-const navItems = [
-  { id: 'mandate',   label: 'Mandate'          },
-  { id: 'market',    label: 'Market Thesis'     },
-  { id: 'framework', label: 'Framework'         },
-  { id: 'partners',  label: 'Partners'          },
-  { id: 'milestones',label: 'Milestones'        },
-  { id: 'audience',  label: 'Who We Serve'      },
-];
+export default function StickyAboutNav({ data }: { data?: AboutStickyNavSection }) {
+  const { links: navItems } = { ...ABOUT_STICKY_NAV_DEFAULTS, ...withoutEmpty(data) };
+  const [activeSection, setActiveSection] = useState(navItems[0]?.sectionId ?? 'mandate');
 
-export default function StickyAboutNav() {
-  const [activeSection, setActiveSection] = useState('mandate');
+  // `navItems` is a fresh array each render, so the effect depends on the ids
+  // rather than the array itself — otherwise the scroll listener would be torn
+  // down and re-attached on every render.
+  const sectionIds = navItems.map((item) => item.sectionId).join(',');
 
   useEffect(() => {
+    const ids = sectionIds.split(',');
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 180;
-      for (const item of navItems) {
-        const el = document.getElementById(item.id);
+      for (const id of ids) {
+        const el = document.getElementById(id);
         if (el) {
           const top = el.offsetTop;
           const height = el.offsetHeight;
           if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(item.id);
+            setActiveSection(id);
             break;
           }
         }
@@ -31,7 +33,7 @@ export default function StickyAboutNav() {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [sectionIds]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -49,10 +51,10 @@ export default function StickyAboutNav() {
       <div className="max-w-[1280px] mx-auto px-6 flex items-center justify-start md:justify-center overflow-x-auto gap-6 md:gap-10 scrollbar-none">
         {navItems.map(item => (
           <button
-            key={item.id}
-            onClick={() => scrollToSection(item.id)}
+            key={item.sectionId}
+            onClick={() => scrollToSection(item.sectionId)}
             className={`text-[10px] font-bold uppercase tracking-widest transition-all duration-300 pb-1.5 border-b-2 font-mono whitespace-nowrap focus:outline-none ${
-              activeSection === item.id
+              activeSection === item.sectionId
                 ? 'text-[#00A788] border-[#00A788]'
                 : 'text-gray-400 border-transparent hover:text-[#051F1A]'
             }`}

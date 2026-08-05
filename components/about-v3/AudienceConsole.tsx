@@ -2,103 +2,60 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldCheck, Zap, Globe, Check, ArrowRight, Download, FileText, ChevronDown } from 'lucide-react';
+import { ShieldCheck, Zap, Globe, ArrowRight, Download, FileText, ChevronDown } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { ABOUT_AUDIENCE_DEFAULTS } from '@/lib/cms/about-defaults';
+import { withoutEmpty } from '@/lib/cms/content';
+import type { AboutAudienceSection } from '@/lib/cms/about-types';
 
-type Persona = 'investor' | 'developer' | 'partner';
+/**
+ * Icon per persona, matched by position.
+ *
+ * Whether a CTA opens in a new tab is derived from its href rather than stored:
+ * a factsheet is a file to download, an internal route is a page to navigate
+ * to, and an editor changing one to the other should not have to remember to
+ * flip a flag as well.
+ */
+const PERSONA_ICONS = [ShieldCheck, Zap, Globe];
 
-interface ChecklistItem {
-  question: string;
-  answer: string;
+function isDownloadHref(href: string) {
+  return /\.(pdf|docx?|xlsx?|zip)$/i.test(href);
 }
 
-interface PersonaDetails {
-  id: Persona;
-  tabLabel: string;
-  icon: React.ElementType;
-  title: string;
-  tagline: string;
-  intro: string;
-  ctaText: string;
-  ctaHref: string;
-  isDownload: boolean;
-  checklist: ChecklistItem[];
-}
+export default function AudienceConsole({
+  className = "",
+  data,
+}: {
+  className?: string;
+  data?: AboutAudienceSection;
+}) {
+  const c = { ...ABOUT_AUDIENCE_DEFAULTS, ...withoutEmpty(data) };
+  const PERSONA_DATA = c.personas ?? [];
 
-const PERSONA_DATA: PersonaDetails[] = [
-  {
-    id: 'investor',
-    tabLabel: 'Institutional Investor',
-    icon: ShieldCheck,
-    title: "Unlocking secure local currency assets for Nigerian PFAs",
-    tagline: "Regulatory-compliant, AAA-rated investments de-risked from first loss.",
-    intro: "CFBF bridges the gap between infrastructure need and institutional safety. By blending concessional seed capital with AAA-credit wraps, we deliver institutional-grade green debt structures tailored for Pension Fund Administrators, Asset Managers, and Insurance providers.",
-    ctaText: "Download Prospectus & Factsheet",
-    ctaHref: "/wp-content/uploads/2026/05/CFBF-Factsheet-compressed.pdf",
-    isDownload: true,
-    checklist: [
-      { question: "Is the investment principal secured?", answer: "Yes, Senior debt blocks are wrapped in an unconditional, irrevocable AAA credit guarantee administered by InfraCredit." },
-      { question: "What is the green asset governance standard?", answer: "Every transaction is pre-certified under the international Climate Bonds Initiative (CBI) standards." },
-      { question: "How does it align with PENCOM guidelines?", answer: "Structures comply fully with PENCOM regulations, matching statutory asset quality and tenor requirements (up to 10 years)." },
-      { question: "Are payments denominated in foreign currency?", answer: "No, all transactions and payouts are denominated in Nigerian Naira (NGN) to eliminate foreign exchange risk." },
-    ]
-  },
-  {
-    id: 'developer',
-    tabLabel: 'Project Developer',
-    icon: Zap,
-    title: "Accessing catalytic local currency funding for clean energy assets",
-    tagline: "Concessional subordinated debt and risk-sharing structures for developers.",
-    intro: "We provide project developers with first-loss risk-sharing facilities, credit-guaranteed local currency loans, and structured debt co-financing. This de-risks clean energy projects, enabling them to raise patient capital from local markets.",
-    ctaText: "Start Eligibility Assessment",
-    ctaHref: "/eligibility",
-    isDownload: false,
-    checklist: [
-      { question: "What technologies are eligible for facility support?", answer: "Solar hybrid mini-grids, green telecom infrastructure, productive agro-use solar hubs, clean cooking, and solar home systems." },
-      { question: "What is the minimum scale or capacity required?", answer: "Projects require a minimum of 150 kW combined capacity, 1 active operational site, and 200+ registered paying customers." },
-      { question: "Do you offer equity or seed grants?", answer: "CFBF operates through local currency debt instruments and guarantees, co-investing alongside project sponsors." },
-      { question: "What ESG safeguards must my project satisfy?", answer: "Developers must comply strictly with IFC Environmental & Social Safeguards, and PENCOM rules." },
-    ]
-  },
-  {
-    id: 'partner',
-    tabLabel: 'Development Partner',
-    icon: Globe,
-    title: "Scaling catalytic development impact in Sub-Saharan Africa",
-    tagline: "High-leverage mobilization of private finance to support climate goals.",
-    intro: "Seeded by the UK FCDO and co-invested with BII, CFBF sets a repeatable blueprint for blended finance. We absorb early-stage risk, mobilizing domestic private pension capital at scale to achieve real-world energy access and emission reductions.",
-    ctaText: "View Impact Reports & SDGs",
-    ctaHref: "/projects",
-    isDownload: false,
-    checklist: [
-      { question: "What is the capitalization of the facility?", answer: "Capitalisation of USD21.3M concessional funding from the UK Foreign, Commonwealth & Development Office (FCDO) and British International Investment (BII)." },
-      { question: "How is the capital mobilization leverage measured?", answer: "We target a high multiplier, leveraging institutional capital by layering concessional risk-absorption cushions." },
-      { question: "Which UN Sustainable Development Goals (SDGs) are aligned?", answer: "Primary focus is SDG 7 (Affordable Clean Energy) and SDG 13 (Climate Action), with secondary impact on SDG 8 & 9 (Jobs and Infrastructure)." },
-      { question: "How does the facility align with national climate policies?", answer: "We directly support Nigeria's Energy Transition Plan (ETP) target of achieving Net Zero emissions by 2060." },
-    ]
-  }
-];
-
-export default function AudienceConsole({ className = "" }: { className?: string }) {
-  const [activePersona, setActivePersona] = useState<Persona>('investor');
+  // Personas are identified by index rather than a stable id: the CMS component
+  // has no id field, and an editor reordering the tabs should not silently
+  // change which one is selected on load.
+  const [activeIndex, setActiveIndex] = useState(0);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
   const router = useRouter();
 
-  const currentData = PERSONA_DATA.find((p) => p.id === activePersona)!;
-  const ActiveIcon = currentData.icon;
+  const currentData = PERSONA_DATA[Math.min(activeIndex, PERSONA_DATA.length - 1)];
+  const ActiveIcon = PERSONA_ICONS[activeIndex % PERSONA_ICONS.length];
 
-  const handlePersonaChange = (persona: Persona) => {
-    setActivePersona(persona);
+  const handlePersonaChange = (index: number) => {
+    setActiveIndex(index);
     setExpandedIndex(0);
   };
 
-  const handleCta = (href: string, isDownload: boolean) => {
-    if (isDownload) {
+  const handleCta = (href: string) => {
+    if (isDownloadHref(href)) {
       window.open(href, '_blank');
     } else {
       router.push(href);
     }
   };
+
+  if (!currentData) return null;
 
   return (
     <section className={`py-24 bg-white relative overflow-hidden ${className}`}>
@@ -110,21 +67,22 @@ export default function AudienceConsole({ className = "" }: { className?: string
             <div className="flex items-center gap-3 mb-2">
               <div className="h-px w-8 bg-brand-primary" />
               <span className="text-brand-primary text-xs font-semibold tracking-[0.2em] uppercase font-mono">
-                Identify your role
+                {c.eyebrow}
               </span>
             </div>
             <h2 className="text-2xl md:text-4xl font-bold text-brand-dark font-sans tracking-tight">
-              Partner with <span className="text-[#7C9590] italic font-serif">CFBF</span>
+              {c.headingPrimary}
+              <span className="text-[#7C9590] italic font-serif">{c.headingSecondary}</span>
             </h2>
           </div>
 
           <div className="flex gap-6 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
-            {PERSONA_DATA.map((p) => {
-              const isSelected = activePersona === p.id;
+            {PERSONA_DATA.map((p, i) => {
+              const isSelected = activeIndex === i;
               return (
                 <button
-                  key={p.id}
-                  onClick={() => handlePersonaChange(p.id)}
+                  key={p.tabLabel || i}
+                  onClick={() => handlePersonaChange(i)}
                   className={`text-sm tracking-wide transition-all duration-300 font-sans pb-2 whitespace-nowrap cursor-pointer focus:outline-none relative select-none ${
                     isSelected
                       ? 'text-brand-dark font-medium'
@@ -147,7 +105,7 @@ export default function AudienceConsole({ className = "" }: { className?: string
         {/* Dynamic Display Board */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={activePersona}
+            key={activeIndex}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
@@ -162,7 +120,7 @@ export default function AudienceConsole({ className = "" }: { className?: string
                   <ActiveIcon size={16} />
                 </div>
                 <span className="text-brand-primary text-xs font-bold uppercase tracking-widest font-mono">
-                  {currentData.tabLabel} Journey
+                  {currentData.tabLabel}{c.journeySuffix}
                 </span>
               </div>
 
@@ -180,11 +138,11 @@ export default function AudienceConsole({ className = "" }: { className?: string
 
               <div className="pt-4">
                 <button
-                  onClick={() => handleCta(currentData.ctaHref, currentData.isDownload)}
+                  onClick={() => handleCta(currentData.ctaHref)}
                   className="inline-flex items-center gap-3 bg-[#051F1A] hover:bg-brand-primary text-white hover:text-white px-8 py-4 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-colors duration-300 font-sans shadow-lg focus:outline-none cursor-pointer"
                 >
-                  {currentData.isDownload ? <Download size={14} /> : <FileText size={14} />}
-                  {currentData.ctaText}
+                  {isDownloadHref(currentData.ctaHref) ? <Download size={14} /> : <FileText size={14} />}
+                  {currentData.ctaLabel}
                   <ArrowRight size={14} />
                 </button>
               </div>
@@ -193,11 +151,11 @@ export default function AudienceConsole({ className = "" }: { className?: string
             {/* Right Checklist (5 columns) - Interactive Accordion Deck */}
             <div className="lg:col-span-5 bg-[#FAFDFB] border border-gray-100 rounded-[8px] p-6 md:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.015)]">
               <h4 className="text-xs font-bold font-mono text-gray-400 uppercase tracking-widest mb-6 pb-3 border-b border-gray-100 text-left">
-                Critical Questions &amp; Answers
+                {c.questionsHeading}
               </h4>
-              
+
               <div className="divide-y divide-gray-100 text-left">
-                {currentData.checklist.map((item, i) => {
+                {(currentData.questions ?? []).map((item, i) => {
                   const isOpen = expandedIndex === i;
                   return (
                     <div key={i} className="py-2.5 first:pt-0 last:pb-0">
