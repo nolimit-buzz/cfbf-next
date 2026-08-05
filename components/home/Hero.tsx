@@ -5,8 +5,17 @@ import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform, Variants, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { newsArticles } from '@/lib/newsData';
+import { HERO_DEFAULTS } from '@/lib/cms/defaults';
+import { withoutEmpty } from '@/lib/cms/content';
+import type { HeroSection } from '@/lib/cms/types';
 
-export default function Hero() {
+// The background clip is a long video; these bounds pick the segment that
+// loops well behind the headline. Presentation detail, not CMS content.
+const VIDEO_LOOP_START = 130;
+const VIDEO_LOOP_END = 150;
+
+export default function Hero({ data }: { data?: HeroSection }) {
+  const c = { ...HERO_DEFAULTS, ...withoutEmpty(data) };
   const router = useRouter();
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 1000], [0, 300]);
@@ -22,11 +31,11 @@ export default function Hero() {
     let isMounted = true;
 
     if (video.readyState >= 1) {
-      video.currentTime = 130;
+      video.currentTime = VIDEO_LOOP_START;
     }
 
     const handleLoadedMetadata = () => {
-      video.currentTime = 130;
+      video.currentTime = VIDEO_LOOP_START;
     };
 
     const handleSeeked = () => {
@@ -46,8 +55,8 @@ export default function Hero() {
     };
 
     const handleTimeUpdate = () => {
-      if (video.currentTime >= 150) {
-        video.currentTime = 130;
+      if (video.currentTime >= VIDEO_LOOP_END) {
+        video.currentTime = VIDEO_LOOP_START;
       }
     };
 
@@ -74,7 +83,7 @@ export default function Hero() {
       video.removeEventListener('timeupdate', handleTimeUpdate);
       video.removeEventListener('error', handleError);
     };
-  }, []);
+  }, [c.backgroundVideo]);
 
   const container: Variants = {
     hidden: { opacity: 0 },
@@ -131,15 +140,15 @@ export default function Hero() {
         
         {/* Fallback image */}
         <img
-          src="https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=2070&auto=format&fit=crop"
-          alt="Solar Panels"
+          src={c.backgroundImage}
+          alt={c.backgroundImage_alt_text}
           className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-1000 ${videoReady ? 'opacity-0' : 'opacity-65'}`}
         />
 
-        {/* Local background loop video starting at 130s and ending at 150s */}
+        {/* Background loop video, seeking to the segment defined above */}
         <video
           ref={videoRef}
-          src="/videos/hero-bg.mp4"
+          src={c.backgroundVideo}
           muted
           playsInline
           loop
@@ -159,34 +168,34 @@ export default function Hero() {
           >
             <div className="overflow-hidden mb-2 pt-6">
               <motion.h1 variants={item} className="text-5xl md:text-6xl lg:text-[4.5rem] font-semibold text-white leading-[1.05] tracking-tight font-sans">
-                Local Currency Blended
+                {c.headingPrimary}
               </motion.h1>
             </div>
             <div className="overflow-hidden mb-6">
               <motion.h1 variants={item} className="text-5xl md:text-6xl lg:text-[4.5rem] font-semibold font-sans">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-brand-primary">
-                  Climate Finance
+                  {c.headingSecondary}
                 </span>
               </motion.h1>
             </div>
 
             <motion.p variants={item} className="text-lg text-gray-300 leading-relaxed max-w-xl mb-10 font-sans font-light">
-              Mobilising blended finance for sustainable energy access. The first of its kind to receive certification under the Electrical Grids and Storage criteria by the Climate Bonds Standard.
+              {c.subheadline}
             </motion.p>
 
             {/* Button + Emblem Row */}
             <motion.div variants={item} className="mb-16 flex flex-wrap items-center gap-6">
               <button
-                onClick={() => router.push('/projects')}
+                onClick={() => router.push(c.ctaHref)}
                 className="bg-white hover:bg-brand-accent text-brand-dark hover:text-white px-8 py-4 rounded-full font-medium flex items-center justify-center gap-2 group transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(72,192,163,0.5)] font-sans interactive uppercase tracking-wider text-sm focus:outline-none"
               >
-                Explore Our Impact
+                {c.ctaLabel}
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
               {/* Climate Bond emblem (mobile/tablet fallback only) */}
               <img
-                src="https://infracredit.ng/climate-facility/wp-content/uploads/2023/01/climate-bond-standard-certfied.svg"
-                alt="Climate Bonds Certified"
+                src={c.certificationBadge}
+                alt={c.certificationBadge_alt_text}
                 className="h-10 w-auto object-contain opacity-85 block lg:hidden"
                 loading="lazy"
               />
@@ -194,42 +203,21 @@ export default function Hero() {
 
             {/* Stats Row */}
             <motion.div variants={item} className="grid grid-cols-3 gap-4 border-t border-white/10 pt-8">
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0 },
-                  show: { opacity: 0.7 }
-                }}
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="cursor-pointer"
-              >
-                <div className="text-3xl font-bold text-white mb-1">$21.3m</div>
-                <div className="text-xs text-gray-400 uppercase tracking-widest">Total Funding</div>
-              </motion.div>
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0 },
-                  show: { opacity: 0.7 }
-                }}
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="cursor-pointer"
-              >
-                <div className="text-2xl md:text-3xl font-bold text-white mb-1">35+</div>
-                <div className="text-xs text-gray-400 uppercase tracking-widest">States</div>
-              </motion.div>
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0 },
-                  show: { opacity: 0.7 }
-                }}
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="cursor-pointer"
-              >
-                <div className="text-3xl font-bold text-white mb-1">2.4m</div>
-                <div className="text-xs text-gray-400 uppercase tracking-widest">Lives Impacted</div>
-              </motion.div>
+              {c.stats.map((stat, i) => (
+                <motion.div
+                  key={stat.id ?? i}
+                  variants={{
+                    hidden: { opacity: 0 },
+                    show: { opacity: 0.7 }
+                  }}
+                  whileHover={{ opacity: 1 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="cursor-pointer"
+                >
+                  <div className="text-2xl md:text-3xl font-bold text-white mb-1">{stat.value}</div>
+                  <div className="text-xs text-gray-400 uppercase tracking-widest">{stat.label}</div>
+                </motion.div>
+              ))}
             </motion.div>
           </motion.div>
 
@@ -246,8 +234,8 @@ export default function Hero() {
                 initial={{ opacity: 0.4 }}
                 whileHover={{ opacity: 1, rotate: 2 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                src="https://infracredit.ng/climate-facility/wp-content/uploads/2023/01/climate-bond-standard-certfied.svg"
-                alt="Climate Bonds Certified"
+                src={c.certificationBadge}
+                alt={c.certificationBadge_alt_text}
                 className="h-[180px] w-auto object-contain cursor-pointer"
                 loading="lazy"
               />
@@ -289,7 +277,7 @@ export default function Hero() {
                       </h3>
                     </div>
                     <div className="flex items-center gap-1 text-xs font-medium text-white group-hover:text-brand-accent transition-colors font-sans">
-                      Read Article
+                      {c.newsCtaLabel}
                       <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </motion.div>

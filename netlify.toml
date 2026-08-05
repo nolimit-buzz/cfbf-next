@@ -3,7 +3,12 @@
   publish = ".next"
 
 [build.environment]
-  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_STRAPI_URL"
-  # Public CMS base URL; set here so deploy previews and branch deploys get it too.
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_STRAPI_URL,STRAPI_URL"
+  # CMS base URL, read server-side only. Set here so deploy previews and branch
+  # deploys get it too. NOTE: this host is proxied by Cloudflare, whose bot
+  # protection 403s requests from datacenter IPs — a CI build will fall back to
+  # bundled copy unless it is allowlisted or this points at the origin directly.
+  STRAPI_URL = "https://climatefacilitycms.infracredit.ng"
+  # Legacy fallback, kept until every environment has migrated to STRAPI_URL.
   NEXT_PUBLIC_STRAPI_URL = "https://climatefacilitycms.infracredit.ng"
-  
+

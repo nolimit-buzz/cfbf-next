@@ -6,6 +6,9 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { LayoutGrid, List, ArrowRight, Zap, Briefcase, Plus, Minus } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
 import ProjectDetails from './ProjectDetails';
+import { PROJECTS_DEFAULTS } from '@/lib/cms/defaults';
+import { withoutEmpty } from '@/lib/cms/content';
+import type { ProjectEntry, ProjectsSection } from '@/lib/cms/types';
 
 interface Project {
   id: string;
@@ -23,7 +26,24 @@ interface Project {
   impact: string;
 }
 
-const ProjectGridItem: React.FC<{ project: Project, index: number }> = ({ project, index }) => {
+/** Flattens a CMS project entry onto the shape this section renders. */
+const toProject = (entry: ProjectEntry): Project => ({
+  id: entry.projectId,
+  title: entry.title,
+  location: entry.location,
+  year: entry.year,
+  capital: entry.capital,
+  capacity: entry.capacity,
+  category: entry.category,
+  image: entry.image,
+  images: [entry.imageOne, entry.imageTwo].filter((img): img is string => Boolean(img)),
+  desc: entry.description,
+  problem: entry.problem,
+  solution: entry.solution,
+  impact: entry.impact,
+});
+
+const ProjectGridItem: React.FC<{ project: Project, index: number, capitalLabel: string, capacityLabel: string }> = ({ project, index, capitalLabel, capacityLabel }) => {
   const cardRef = useRef(null);
   const router = useRouter();
   const { scrollYProgress } = useScroll({
@@ -66,11 +86,11 @@ const ProjectGridItem: React.FC<{ project: Project, index: number }> = ({ projec
         <div className="grid grid-cols-1 gap-3 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
           <div className="flex items-center gap-3 text-gray-300 text-sm border-t border-white/10 pt-3 font-sans">
             <Briefcase size={16} className="text-brand-accent" />
-            <span>{project.capital} Private Capital</span>
+            <span>{project.capital} {capitalLabel}</span>
           </div>
           <div className="flex items-center gap-3 text-gray-300 text-sm border-t border-white/10 pt-3 font-sans">
             <Zap size={16} className="text-brand-accent" />
-            <span>{project.capacity} Capacity</span>
+            <span>{project.capacity} {capacityLabel}</span>
           </div>
         </div>
       </div>
@@ -78,71 +98,17 @@ const ProjectGridItem: React.FC<{ project: Project, index: number }> = ({ projec
   );
 };
 
-export default function Projects() {
+export default function Projects({ data }: { data?: ProjectsSection }) {
+  const c = { ...PROJECTS_DEFAULTS, ...withoutEmpty(data) };
   const router = useRouter();
   const [viewMode, setViewMode] = useState('list');
   const [filter, setFilter] = useState('All');
-  const [expandedProject, setExpandedProject] = useState<string | null>('01');
   const sectionRef = useRef(null);
 
-  const projects: Project[] = [
-    {
-      id: "01",
-      title: "Darway Coast, Nigeria",
-      location: "Rivers State",
-      year: "2022",
-      capital: "₦800m",
-      capacity: "526KW",
-      category: "Solar Grid",
-      image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?q=80&w=1200&auto=format&fit=crop",
-      images: [
-        "https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?q=80&w=800&auto=format&fit=crop"
-      ],
-      desc: "Providing clean energy to over 2,000 households and businesses in coastal communities.",
-      problem: "Coastal communities in Rivers State lacked reliable grid connection, relying on expensive and polluting diesel generators for basic needs.",
-      solution: "Deployment of a 526KW Solar Hybrid Mini-Grid with battery storage to provide 24/7 reliable power to the community.",
-      impact: "Replaced 200+ diesel generators, reducing CO2 emissions by 400 tonnes annually and powering 150 SMEs."
-    },
-    {
-      id: "02",
-      title: "Hotspot Network",
-      location: "Kano State",
-      year: "2023",
-      capital: "₦955m",
-      capacity: "324KW",
-      category: "Telecoms",
-      image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=800&auto=format&fit=crop",
-      images: [
-        "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=800&auto=format&fit=crop"
-      ],
-      desc: "Expanding rural telephony and energy access through innovative solar-powered base stations.",
-      problem: "Remote rural areas suffer from lack of connectivity and energy access, hindering economic development and social inclusion.",
-      solution: "Installation of solar-powered telecommunication base stations that serve as community energy hubs.",
-      impact: "Connected 50,000 people to mobile networks and provided charging services to 5,000 households."
-    },
-    {
-      id: "03",
-      title: "Prado Power Energy",
-      location: "Jigawa State",
-      year: "2024",
-      capital: "₦1.95bn",
-      capacity: "850kW",
-      category: "Agro-Processing",
-      image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800&auto=format&fit=crop",
-      images: [
-        "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800&auto=format&fit=crop"
-      ],
-      desc: "Agro-processing solar hybrid solution powering industrial growth in the northern region.",
-      problem: "Post-harvest loss exceeding 40% due to lack of local power for processing and cold storage.",
-      solution: "Industrial-scale solar hybrid solution tailored for agro-processing hubs.",
-      impact: "Processed 5,000 tonnes of produce, creating 300 direct jobs and significantly reducing food waste."
-    }
-  ];
+  const projects: Project[] = c.projects.map(toProject);
+  const [expandedProject, setExpandedProject] = useState<string | null>(projects[0]?.id ?? null);
 
-  const categories = ['All', 'Solar Grid', 'Telecoms', 'Agro-Processing'];
+  const categories = c.categories.map(cat => cat.label);
   const filteredProjects = filter === 'All' ? projects : projects.filter(p => p.category === filter);
 
   const handleFilterChange = (newFilter: string) => {
@@ -159,14 +125,15 @@ export default function Projects() {
     <section ref={sectionRef} id="projects" className="py-24 bg-brand-dark text-white relative z-10 overflow-hidden">
       <div className="container mx-auto px-6 relative z-20">
         <SectionHeader
-          sub="Project Showcase"
-          title="Leading with innovation in solar projects worldwide"
+          sub={c.eyebrow}
+          title={c.heading}
           activeTab={viewMode}
           onTabChange={setViewMode}
-          tabs={[
-            { id: 'list', label: 'List View', icon: List },
-            { id: 'grid', label: 'Grid View', icon: LayoutGrid }
-          ]}
+          tabs={c.viewTabs.map(tab => ({
+            id: tab.tabId,
+            label: tab.label,
+            icon: tab.tabId === 'grid' ? LayoutGrid : List
+          }))}
           dark={true}
         />
 
@@ -196,7 +163,13 @@ export default function Projects() {
               className="grid md:grid-cols-3 gap-8"
             >
               {filteredProjects.map((p, i) => (
-                <ProjectGridItem key={p.id} project={p} index={i} />
+                <ProjectGridItem
+                  key={p.id}
+                  project={p}
+                  index={i}
+                  capitalLabel={c.capitalLabel}
+                  capacityLabel={c.capacityLabel}
+                />
               ))}
             </motion.div>
           ) : (
@@ -253,7 +226,13 @@ export default function Projects() {
                         transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
                         className="border-t border-white/10 overflow-hidden"
                       >
-                        <ProjectDetails project={p} />
+                        <ProjectDetails
+                          project={p}
+                          challengeLabel={c.challengeLabel}
+                          solutionLabel={c.solutionLabel}
+                          impactLabel={c.impactLabel}
+                          ctaLabel={c.detailCtaLabel}
+                        />
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -265,10 +244,10 @@ export default function Projects() {
 
         <div className="mt-16 flex justify-center">
           <button
-            onClick={() => router.push('/projects')}
+            onClick={() => router.push(c.ctaHref)}
             className="flex items-center gap-2 border-b border-brand-accent pb-1 text-brand-accent font-bold hover:text-white hover:border-white transition-colors font-sans interactive uppercase tracking-wider text-sm focus:outline-none"
           >
-            View All Projects <ArrowRight size={18} />
+            {c.ctaLabel} <ArrowRight size={18} />
           </button>
         </div>
       </div>
