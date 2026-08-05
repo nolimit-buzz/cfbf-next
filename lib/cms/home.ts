@@ -11,10 +11,13 @@ import type { HomeResponse, HomeSection } from './types';
  * vars are substituted at build time, which also means they cannot be corrected
  * without a full rebuild. `NEXT_PUBLIC_STRAPI_URL` stays as a fallback so
  * existing deployments keep working until their env is migrated.
+ *
+ * `||` rather than `??` on purpose: a key created in a hosting dashboard with a
+ * blank value arrives as `""`, which would otherwise shadow a perfectly good
+ * legacy value instead of falling through to it.
  */
-const CMS_URL = (process.env.STRAPI_URL ?? process.env.NEXT_PUBLIC_STRAPI_URL)
-  ?.trim()
-  .replace(/\/+$/, '');
+const CMS_URL = (process.env.STRAPI_URL?.trim() || process.env.NEXT_PUBLIC_STRAPI_URL?.trim())
+  ?.replace(/\/+$/, '');
 
 /**
  * Strapi rejects deeper populate syntax on this instance (`pLevel` is not

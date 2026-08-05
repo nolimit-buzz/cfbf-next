@@ -49,14 +49,20 @@ export default function HomeSections({
   news?: NewsSection;
   netZero?: NetZeroSectionData;
 }) {
-  // Dev-only: inspect what the CMS actually returned for each section.
-  // `undefined` means that section is missing from the dynamic zone and the
-  // component is rendering its bundled defaults.
+  // Opt-in diagnostic: shows whether each section rendered from the CMS or from
+  // its bundled defaults. Off unless NEXT_PUBLIC_CMS_DEBUG=1, so visitors never
+  // see it — but available in production, which a NODE_ENV check could not do.
+  // The NEXT_PUBLIC_ prefix is required (this runs in the browser); note that it
+  // is inlined at build time, so toggling it on a host needs a redeploy.
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production') return;
-    console.log('[cms] home sections', {
-      hero, about, impact, projects, map, stories, news, netZero,
-    });
+    if (process.env.NEXT_PUBLIC_CMS_DEBUG !== '1') return;
+
+    const sections = { hero, about, impact, projects, map, stories, news, netZero };
+    const source = Object.fromEntries(
+      Object.entries(sections).map(([name, value]) => [name, value ? 'cms' : 'default'])
+    );
+
+    console.log('[cms] home sections', source, sections);
   }, [hero, about, impact, projects, map, stories, news, netZero]);
 
   return (
