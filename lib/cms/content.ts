@@ -1,18 +1,25 @@
-import type { HomeSection, SectionByComponent } from './types';
-
 /**
  * Pure helpers for shaping CMS content.
  *
- * These live apart from `./home` because client components import them, and
- * `./home` pulls in `next/cache`, which is server-only.
+ * These live apart from `./home` and `./about` because client components import
+ * them, and those pull in `next/cache`, which is server-only.
  */
 
-/** Returns the first section matching `component`, or `undefined`. */
-export function pickSection<K extends keyof SectionByComponent>(
-  sections: HomeSection[],
+/**
+ * Returns the first section matching `component`, or `undefined`.
+ *
+ * Generic over the section union rather than tied to the homepage's, so every
+ * page's dynamic zone can use it. `Extract` narrows the result to the one
+ * member of the union carrying that `__component`, which is what lets callers
+ * pass the result straight to a typed section prop.
+ */
+export function pickSection<S extends { __component: string }, K extends S['__component']>(
+  sections: S[],
   component: K
-): SectionByComponent[K] | undefined {
-  return sections.find((s) => s.__component === component) as SectionByComponent[K] | undefined;
+): Extract<S, { __component: K }> | undefined {
+  return sections.find((s) => s.__component === component) as
+    | Extract<S, { __component: K }>
+    | undefined;
 }
 
 /**

@@ -3,68 +3,19 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ABOUT_MILESTONES_DEFAULTS } from '@/lib/cms/about-defaults';
+import { withoutEmpty } from '@/lib/cms/content';
+import type { AboutMilestonesSection } from '@/lib/cms/about-types';
 
-const MILESTONES = [
-  {
-    period: 'Q4 2022',
-    year: 2022,
-    color: '#009FD4',
-    label: 'Fund seeded & framework certified',
-    events: [
-      { date: '10.22', text: 'Clean Energy Transition Strategy & Framework formally issued' },
-      { date: '11.22', text: 'USD21.3M concessional capital committed by UK FCDO & BII to the Facility' },
-      { date: '12.22', text: 'Guarantees framework certified under Climate Bonds Initiative criteria' },
-      { date: '12.22', text: 'InfraCredit appointed as Facility administrator' },
-    ],
-    image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=900&auto=format&fit=crop',
-  },
-  {
-    period: 'Q4 2023',
-    year: 2023,
-    color: '#00A788',
-    label: 'Deployment phase — first portfolio closed',
-    events: [
-      { date: '03.23', text: 'Initial portfolios closed; first local currency guarantee issued' },
-      { date: '06.23', text: '120 telecom base stations solarised across 24 states' },
-      { date: '09.23', text: 'Dedicated financial products developed for mini-grid developers' },
-      { date: '12.23', text: 'USD 21.3M total concessional capital deployed to active pipeline' },
-    ],
-    image: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?q=80&w=900&auto=format&fit=crop',
-  },
-  {
-    period: 'Q4 2024',
-    year: 2024,
-    color: '#81C34D',
-    label: 'Portfolio consolidation — institutional co-financing expanded',
-    events: [
-      { date: 'Q1.24', text: 'BII second tranche of co-investment committed to active pipeline' },
-      { date: 'Q2.24', text: 'Two additional insurance companies onboarded as co-financiers' },
-      { date: 'Q3.24', text: 'Green bond issuance framework aligned to ICMA Green Bond Principles' },
-      { date: 'Q4.24', text: 'Pipeline at ₦5.2B; 5% renewable investment target achieved ahead of schedule' },
-    ],
-    image: 'https://images.unsplash.com/photo-1497440001374-f26997328c1b?q=80&w=900&auto=format&fit=crop',
-  },
-  {
-    period: 'Q4 2025',
-    year: 2025,
-    color: '#009FD4',
-    label: 'Scale-out — ₦7.86B+ pipeline mobilised',
-    events: [
-      { date: 'Q1.25', text: '5% renewable/cleaner energy investments target achieved in portfolio' },
-      { date: 'Q2.25', text: 'Pipeline expanded to ₦7.86B+ across 32 states' },
-      { date: 'Q3.25', text: 'Additional capital mobilised from PFAs and international DFIs' },
-      { date: 'Q4.25', text: 'Full national footprint across all six geo-political zones' },
-    ],
-    image: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=900&auto=format&fit=crop',
-  },
-];
+/**
+ * Accent colour per milestone, matched by position.
+ *
+ * Cycled rather than indexed so a fifth milestone added in Strapi picks up a
+ * colour instead of rendering unstyled.
+ */
+const MILESTONE_COLORS = ['#009FD4', '#00A788', '#81C34D'];
 
-const RAIL_YEARS = [2022, 2023, 2024, 2025];
 const TOTAL_MONTHS = 36;
-
-function getMilestonePosition(year: number) {
-  return (year - RAIL_YEARS[0]) / (RAIL_YEARS[RAIL_YEARS.length - 1] - RAIL_YEARS[0]);
-}
 
 // FIX P1: memoize tick mark data outside the component so it's never re-computed
 const TICK_MARKS = Array.from({ length: TOTAL_MONTHS + 1 }, (_, mi) => {
@@ -74,9 +25,39 @@ const TICK_MARKS = Array.from({ length: TOTAL_MONTHS + 1 }, (_, mi) => {
   return { mi, pct, height: mi % 3 === 0 ? 8 : 4 };
 }).filter(Boolean) as { mi: number; pct: number; height: number }[];
 
-export default function MilestonesTimelineV3() {
+export default function MilestonesTimelineV3({ data }: { data?: AboutMilestonesSection }) {
+  const c = { ...ABOUT_MILESTONES_DEFAULTS, ...withoutEmpty(data) };
   const [active, setActive] = useState(0);
-  const current = MILESTONES[active];
+
+  // Years are text in the CMS but the rail positions milestones arithmetically,
+  // so they are parsed once here rather than at every use.
+  const railYears = useMemo(
+    () => (c.railYears ?? []).map((entry) => Number(entry.label)).filter(Number.isFinite),
+    [c.railYears]
+  );
+
+  const MILESTONES = useMemo(
+    () =>
+      (c.milestones ?? []).map((milestone, i) => ({
+        ...milestone,
+        year: Number(milestone.year),
+        color: MILESTONE_COLORS[i % MILESTONE_COLORS.length],
+      })),
+    [c.milestones]
+  );
+
+  const getMilestonePosition = (year: number) => {
+    const first = railYears[0];
+    const last = railYears[railYears.length - 1];
+    // A single-year rail would divide by zero; pin everything to the start.
+    if (railYears.length < 2 || last === first) return 0;
+    return (year - first) / (last - first);
+  };
+
+  // `active` can outrun a shortened milestone list — clamp rather than crash.
+  const current = MILESTONES[Math.min(active, MILESTONES.length - 1)];
+
+  if (!current) return null;
 
   const handleMilestoneClick = (index: number) => {
     setActive(index);
@@ -104,10 +85,11 @@ export default function MilestonesTimelineV3() {
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-brand-primary" />
-            <span className="text-brand-primary text-xs font-semibold tracking-[0.2em] uppercase font-mono">Progress indicator</span>
+            <span className="text-brand-primary text-xs font-semibold tracking-[0.2em] uppercase font-mono">{c.eyebrow}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-brand-dark font-sans tracking-tight leading-tight">
-            Facility milestones <span className="text-[#7C9590]">&amp; growth timeline</span>
+            {c.headingPrimary}
+            <span className="text-[#7C9590]">{c.headingSecondary}</span>
           </h2>
         </motion.div>
 
@@ -135,7 +117,7 @@ export default function MilestonesTimelineV3() {
                   {current.label}
                 </h3>
                 <ul className="space-y-3 mt-auto">
-                  {current.events.map((ev, i) => (
+                  {(current.events ?? []).map((ev, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <span className="text-[10px] font-mono font-bold pt-0.5 shrink-0 w-10" style={{ color: current.color }}>
                         {ev.date}
@@ -149,7 +131,7 @@ export default function MilestonesTimelineV3() {
               <div className="md:col-span-2 relative min-h-[180px]">
                 <img
                   src={current.image}
-                  alt={current.label}
+                  alt={current.image_alt_text || current.label}
                   width={480}
                   height={360}
                   loading="lazy"
@@ -183,7 +165,7 @@ export default function MilestonesTimelineV3() {
           ))}
 
           {/* Year labels */}
-          {RAIL_YEARS.map((yr) => {
+          {railYears.map((yr) => {
             const pct = getMilestonePosition(yr);
             return (
               <div
