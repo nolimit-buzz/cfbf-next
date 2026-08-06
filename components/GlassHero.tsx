@@ -25,6 +25,8 @@ interface GlassHeroProps {
   bgImage: string;
   /** Active breadcrumb segment label (e.g. "eligibility"). */
   currentPage: string;
+  /** First breadcrumb segment. Overridable so a CMS page can supply its own. */
+  homeLabel?: string;
   /** Optional intermediate breadcrumb (e.g. projects → detail). */
   parent?: { label: string; href: string };
   /** Colour the hero fades into at the bottom — match the next section. */
@@ -41,6 +43,7 @@ export default function GlassHero({
   description,
   bgImage,
   currentPage,
+  homeLabel = 'home',
   parent,
   fade = 'light',
   panel = 'glass',
@@ -117,7 +120,7 @@ export default function GlassHero({
               onClick={() => router.push('/')}
               className={`transition-colors focus:outline-none interactive lowercase ${t.crumb}`}
             >
-              home
+              {homeLabel}
             </button>
             <span className={t.crumbSep}>/</span>
             {parent && (
