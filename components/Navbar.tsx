@@ -6,12 +6,17 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Search, Lock, Zap, BookOpen, ChevronDown, ArrowUpRight } from 'lucide-react';
 import { projects } from '@/lib/projectsData';
-import { newsArticles } from '@/lib/newsData';
+import type { NewsSummary } from '@/lib/cms/news-content';
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 const NAV_MAX = 1280;
 
-const Navbar = () => {
+/**
+ * @param news CMS articles, supplied by the root layout. Defaults to empty so
+ *   the mega menu and search simply show no news rather than crashing if a
+ *   future caller renders the navbar without them.
+ */
+const Navbar = ({ news = [] }: { news?: NewsSummary[] }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -236,7 +241,7 @@ const Navbar = () => {
                   </Link>
                 </div>
                 <div className="flex flex-col gap-1">
-                  {newsArticles.slice(0, 3).map((n) => (
+                  {news.slice(0, 3).map((n) => (
                     <Link
                       key={n.id}
                       href={`/news/${n.id}`}
@@ -244,7 +249,7 @@ const Navbar = () => {
                       className="group flex gap-3 items-center p-2 rounded-[6px] hover:bg-[#F3FAF6] transition-colors"
                     >
                       <div className="w-14 h-14 rounded-[6px] overflow-hidden shrink-0 bg-[#051F1A]">
-                        <img src={n.image} alt={n.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <img src={n.image} alt={n.imageAlt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       </div>
                       <div className="min-w-0">
                         <div className="text-[9px] text-gray-400 font-mono uppercase tracking-wider mb-0.5">{n.date} · {n.tag}</div>
@@ -389,7 +394,7 @@ const Navbar = () => {
                     p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                     p.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
                     p.category.toLowerCase().includes(searchQuery.toLowerCase())
-                  ).length > 0 || newsArticles.filter(n =>
+                  ).length > 0 || news.filter(n =>
                     n.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                     n.tag.toLowerCase().includes(searchQuery.toLowerCase()) ||
                     n.themes.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -425,7 +430,7 @@ const Navbar = () => {
                         </div>
                       </div>
                     )}
-                    {newsArticles.filter(n =>
+                    {news.filter(n =>
                       n.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                       n.tag.toLowerCase().includes(searchQuery.toLowerCase()) ||
                       n.themes.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -433,7 +438,7 @@ const Navbar = () => {
                       <div>
                         <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#009FD4] mb-3 font-mono">News & Insights</h4>
                         <div className="flex flex-col gap-2">
-                          {newsArticles.filter(n =>
+                          {news.filter(n =>
                             n.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             n.tag.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             n.themes.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))

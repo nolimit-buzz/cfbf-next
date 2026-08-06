@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Hero from "@/components/home/Hero"; // Above fold — keep eager
+import type { NewsSummary } from '@/lib/cms/news-content';
 import type {
   AboutSection,
   HeroSection,
@@ -39,6 +40,7 @@ export default function HomeSections({
   stories,
   news,
   netZero,
+  newsArticles = [],
 }: {
   hero?: HeroSection;
   about?: AboutSection;
@@ -48,6 +50,8 @@ export default function HomeSections({
   stories?: StoriesSection;
   news?: NewsSection;
   netZero?: NetZeroSectionData;
+  /** News page articles, shared by the hero ticker and the news cards. */
+  newsArticles?: NewsSummary[];
 }) {
   // Opt-in diagnostic: shows whether each section rendered from the CMS or from
   // its bundled defaults. Off unless NEXT_PUBLIC_CMS_DEBUG=1, so visitors never
@@ -67,13 +71,13 @@ export default function HomeSections({
 
   return (
     <>
-      <Hero data={hero} />
+      <Hero data={hero} articles={newsArticles} />
       <AboutSectionView data={about} />
       <HowWeDriveImpact data={impact} />
       <Projects data={projects} />
       <MapSection data={map} />
       <FeaturedStories data={stories} />
-      <LatestNews data={news} />
+      <LatestNews data={news} articles={newsArticles} />
       <NetZeroSection data={netZero} />
     </>
   );

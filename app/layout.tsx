@@ -5,6 +5,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CookieBanner from "@/components/CookieBanner";
+import { getNewsArticles } from "@/lib/cms/news";
+import { toNewsSummaries } from "@/lib/cms/news-content";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -42,6 +44,15 @@ export const metadata: Metadata = {
   }
 };
 
+/**
+ * Awaits the article list inside the existing `<Suspense>` boundary rather than
+ * in `RootLayout` itself, so a slow CMS delays only the navbar and not every
+ * page's first byte.
+ */
+async function NavbarWithNews() {
+  return <Navbar news={toNewsSummaries(await getNewsArticles())} />;
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -51,7 +62,7 @@ export default function RootLayout({
     <html lang="en" className={`${outfit.variable}`} suppressHydrationWarning>
       <body className="bg-white text-brand-dark font-sans antialiased selection:bg-brand-accent selection:text-brand-dark" suppressHydrationWarning>
         <Suspense fallback={<div className="h-16 bg-brand-dark" />}>
-          <Navbar />
+          <NavbarWithNews />
         </Suspense>
         {children}
         <Footer />

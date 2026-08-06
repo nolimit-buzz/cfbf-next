@@ -449,8 +449,9 @@ export const NEWS_DEFAULTS: NewsContent = {
     { tabId: 'card', label: 'Card View' },
     { tabId: 'list', label: 'List View' },
   ],
-  // Empty so the section falls back to `lib/newsData` — the same source the
-  // /news/[id] detail route reads — when the CMS is unavailable.
+  // Unused: the homepage cards now read the News page's article list via
+  // `getNewsArticles`, so this section supplies labels only. Kept because the
+  // Strapi component still declares the field.
   articles: [],
 };
 

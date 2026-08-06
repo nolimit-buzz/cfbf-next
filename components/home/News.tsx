@@ -5,30 +5,26 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutGrid, List, Tag, Calendar, ArrowRight, User } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
-import { newsArticles } from '@/lib/newsData';
 import { NEWS_DEFAULTS } from '@/lib/cms/defaults';
 import { withoutEmpty } from '@/lib/cms/content';
+import type { NewsSummary } from '@/lib/cms/news-content';
 import type { NewsSection } from '@/lib/cms/types';
 
-export default function LatestNews({ data }: { data?: NewsSection }) {
+export default function LatestNews({
+  data,
+  articles = [],
+}: {
+  data?: NewsSection;
+  /** The News page's article list — the single source for every surface. */
+  articles?: NewsSummary[];
+}) {
+  // `home-page.news-section` supplies the labels only; the cards come from the
+  // News page's article list so the homepage cannot show a different set.
   const c = { ...NEWS_DEFAULTS, ...withoutEmpty(data) };
   const router = useRouter();
   const [viewMode, setViewMode] = useState('card');
 
-  // The CMS mirrors `lib/newsData` by id, so the cards keep linking into the
-  // /news/[id] detail route either way. Fall back to the local list when the
-  // CMS has no articles.
-  const newsItems = (c.articles.length > 0
-    ? c.articles.map(article => ({
-        id: article.articleId,
-        image: article.image,
-        tag: article.tag,
-        date: article.date,
-        title: article.title,
-        author: article.author,
-      }))
-    : newsArticles
-  ).slice(0, 3);
+  const newsItems = articles.slice(0, 3);
 
   return (
     <section id="news" className="py-24 bg-brand-light relative z-10 border-t border-gray-100">
@@ -67,7 +63,7 @@ export default function LatestNews({ data }: { data?: NewsSection }) {
                   <div className="relative h-60 overflow-hidden rounded-[6px] mb-6 shadow-sm border border-gray-100">
                     <img
                       src={item.image}
-                      alt={item.title}
+                      alt={item.imageAlt}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-[6px] text-xs font-bold text-brand-primary uppercase tracking-wider shadow-sm flex items-center gap-2 font-sans">
@@ -106,7 +102,7 @@ export default function LatestNews({ data }: { data?: NewsSection }) {
                   className="group flex flex-col md:flex-row gap-6 items-center bg-white border border-gray-100 p-6 rounded-[6px] hover:border-brand-accent/30 transition-all cursor-pointer interactive text-left"
                 >
                   <div className="w-full md:w-32 h-32 rounded-[6px] overflow-hidden shrink-0">
-                    <img src={item.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={item.title} />
+                    <img src={item.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={item.imageAlt} />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
