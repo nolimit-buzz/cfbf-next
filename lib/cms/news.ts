@@ -1,8 +1,10 @@
 // Server-only: `next/cache` cannot be imported from a client component. Pure
 // helpers that client components need live in `./content` instead.
 import { cacheLife, cacheTag } from 'next/cache';
+import { pickSection } from './content';
 import { buildZoneQuery, fetchPageSections } from './fetchPage';
-import type { NewsPageSection } from './news-types';
+import { NEWS_ARTICLE_DEFAULTS } from './news-defaults';
+import type { NewsArticleItem, NewsPageSection } from './news-types';
 
 export const NEWS_CACHE_TAG = 'news';
 
@@ -42,4 +44,22 @@ export async function getNewsSections(): Promise<NewsPageSection[]> {
   cacheTag(NEWS_CACHE_TAG);
 
   return fetchPageSections<NewsPageSection>('/api/news', 'NEWS PAGE', NEWS_QUERY);
+}
+
+/**
+ * The one list of articles every surface reads.
+ *
+ * The News page owns the articles, but the navbar mega menu, the homepage
+ * ticker, the homepage cards and the LLM feed all show the same items — reading
+ * them from here rather than from `lib/newsData` is what stops a CMS-only
+ * article from being invisible outside `/news`.
+ *
+ * No fetch of its own: it reuses `getNewsSections`, so it shares that cache
+ * entry and `POST /api/revalidate-news` already invalidates it.
+ */
+export async function getNewsArticles(): Promise<NewsArticleItem[]> {
+  const sections = await getNewsSections();
+  const articles = pickSection(sections, 'news-page.articles-section')?.articles ?? [];
+
+  return articles.length > 0 ? articles : NEWS_ARTICLE_DEFAULTS;
 }

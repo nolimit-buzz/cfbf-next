@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { projects } from '@/lib/projectsData';
-import { newsArticles } from '@/lib/newsData';
+import { getNewsArticles } from '@/lib/cms/news';
 
 export async function GET() {
+  const newsArticles = await getNewsArticles();
+
   const feed = {
     projects: Object.values(projects).map((p) => ({
       id: p.id,
@@ -25,17 +27,17 @@ export async function GET() {
       impact: p.impact,
     })),
     news: newsArticles.map((n) => ({
-      id: n.id,
+      id: n.articleId,
       tag: n.tag,
       date: n.date,
       readTime: n.readTime,
-      themes: n.themes,
+      themes: n.themes.map((theme) => theme.label),
       context: n.keyContext,
       title: n.title,
       excerpt: n.excerpt,
       author: n.author,
       body: n.paragraphs
-        .filter((item) => item.type === 'p' || item.type === 'blockquote')
+        .filter((item) => item.blockType === 'p' || item.blockType === 'blockquote')
         .map((item) => item.text)
         .join(' '),
     })),

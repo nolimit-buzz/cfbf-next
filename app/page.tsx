@@ -2,10 +2,13 @@ import HomeSections from "@/components/home/HomeSections";
 import { STRUCTURED_DATA_DEFAULTS } from "@/lib/cms/defaults";
 import { pickSection, withoutEmpty } from "@/lib/cms/content";
 import { getHomeSections } from "@/lib/cms/home";
+import { getNewsArticles } from "@/lib/cms/news";
+import { toNewsSummaries } from "@/lib/cms/news-content";
 
 export default async function Home() {
-  const sections = await getHomeSections();
- 
+  // Two independent single types — fetch them together rather than in series.
+  const [sections, articles] = await Promise.all([getHomeSections(), getNewsArticles()]);
+
 
   const seo = {
     ...STRUCTURED_DATA_DEFAULTS,
@@ -57,6 +60,7 @@ export default async function Home() {
         stories={pickSection(sections, 'home-page.stories-section')}
         news={pickSection(sections, 'home-page.news-section')}
         netZero={pickSection(sections, 'home-page.net-zero-section')}
+        newsArticles={toNewsSummaries(articles)}
       />
     </>
   );

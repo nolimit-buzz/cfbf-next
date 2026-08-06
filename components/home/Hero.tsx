@@ -4,9 +4,9 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform, Variants, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { newsArticles } from '@/lib/newsData';
 import { HERO_DEFAULTS } from '@/lib/cms/defaults';
 import { withoutEmpty } from '@/lib/cms/content';
+import type { NewsSummary } from '@/lib/cms/news-content';
 import type { HeroSection } from '@/lib/cms/types';
 
 // The background clip is a long video; these bounds pick the segment that
@@ -14,7 +14,14 @@ import type { HeroSection } from '@/lib/cms/types';
 const VIDEO_LOOP_START = 130;
 const VIDEO_LOOP_END = 150;
 
-export default function Hero({ data }: { data?: HeroSection }) {
+export default function Hero({
+  data,
+  articles = [],
+}: {
+  data?: HeroSection;
+  /** News ticker items, from the News page's CMS article list. */
+  articles?: NewsSummary[];
+}) {
   const c = { ...HERO_DEFAULTS, ...withoutEmpty(data) };
   const router = useRouter();
   const { scrollY } = useScroll();
@@ -105,7 +112,7 @@ export default function Hero({ data }: { data?: HeroSection }) {
     }
   };
 
-  const news = newsArticles.map(art => ({
+  const news = articles.map(art => ({
     id: art.id,
     title: art.title,
     source: art.tag,
@@ -113,11 +120,15 @@ export default function Hero({ data }: { data?: HeroSection }) {
   }));
 
   const [currentIndex, setCurrentIndex] = React.useState(0);
+  // Falls back to the first item so a CMS edit that shortens the list mid-rotation
+  // cannot index past the end.
+  const activeItem = news[currentIndex] ?? news[0];
   const [progress, setProgress] = React.useState(0);
   const [isHovered, setIsHovered] = React.useState(false);
 
   React.useEffect(() => {
-    if (isHovered) return;
+    // `% 0` is NaN, so an empty list would freeze the ticker on a bad index.
+    if (isHovered || news.length === 0) return;
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -242,6 +253,7 @@ export default function Hero({ data }: { data?: HeroSection }) {
             </motion.div>
 
             {/* Bottom: News Card Slider (glassmorphism like cleanenergyfund.ng) */}
+            {activeItem && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -251,7 +263,7 @@ export default function Hero({ data }: { data?: HeroSection }) {
               <div
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                onClick={() => router.push(`/news/${news[currentIndex].id}`)}
+                onClick={() => router.push(`/news/${activeItem.id}`)}
                 className="group w-full h-[160px] bg-brand-dark/10 backdrop-blur-md border border-white/10 relative rounded-[6px] overflow-hidden flex flex-col justify-between p-6 opacity-70 hover:opacity-100 transition-all duration-300 hover:bg-brand-dark/20 hover:border-white/20 cursor-pointer shadow-2xl"
               >
                 <AnimatePresence mode="wait">
@@ -266,14 +278,14 @@ export default function Hero({ data }: { data?: HeroSection }) {
                     <div>
                       <div className="flex justify-between items-start mb-3">
                         <span className="font-medium text-[10px] tracking-widest uppercase text-white/50">
-                          {news[currentIndex].source}
+                          {activeItem.source}
                         </span>
                         <span className="text-[10px] text-white/30 uppercase tracking-widest">
-                          {news[currentIndex].date}
+                          {activeItem.date}
                         </span>
                       </div>
                       <h3 className="text-white font-medium text-sm leading-snug line-clamp-2 group-hover:text-brand-accent transition-colors font-sans">
-                        {news[currentIndex].title}
+                        {activeItem.title}
                       </h3>
                     </div>
                     <div className="flex items-center gap-1 text-xs font-medium text-white group-hover:text-brand-accent transition-colors font-sans">
@@ -292,6 +304,7 @@ export default function Hero({ data }: { data?: HeroSection }) {
                 </div>
               </div>
             </motion.div>
+            )}
           </div>
 
         </div>
