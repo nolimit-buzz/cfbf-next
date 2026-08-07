@@ -27,6 +27,16 @@ const CMS_URL = (process.env.STRAPI_URL?.trim() || process.env.NEXT_PUBLIC_STRAP
 export const SECTIONS_QUERY = 'populate[sections][populate]=*';
 
 /**
+ * How long to wait on Strapi before giving up and using bundled defaults.
+ *
+ * Without this, `fetch` inherits undici's default header timeout — minutes —
+ * during which the page renders nothing at all. A CMS that has not answered in
+ * eight seconds is not going to save the render, and the fallback path already
+ * produces a complete page, so failing fast is strictly better than waiting.
+ */
+export const CMS_TIMEOUT_MS = 8_000;
+
+/**
  * Builds a `populate[sections][on][…]` query for a dynamic zone.
  *
  * Strapi's `on` form is the only way to populate past two levels: it takes one

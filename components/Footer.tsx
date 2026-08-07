@@ -92,7 +92,7 @@ const TaSlider = () => {
           href={item.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute inset-0 flex items-center group/ta"
+          className="absolute inset-0 flex items-center justify-center lg:justify-start group/ta"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
@@ -116,7 +116,7 @@ const TaSlider = () => {
         </motion.a>
       </AnimatePresence>
       {/* Dot indicators */}
-      <div className="absolute -bottom-5 left-0 flex gap-1.5">
+      <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 lg:left-0 lg:translate-x-0 flex gap-1.5">
         {TA_PROVIDERS.map((_, i) => (
           <button
             key={i}
@@ -133,13 +133,14 @@ const TaSlider = () => {
 };
 
 const PartnersColumn = () => (
-  <div className="text-left space-y-8">
+  <div className="text-center lg:text-left space-y-8">
     {/* Anchor Funders */}
     <div>
       <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 font-sans mb-4">
         Anchor Funders
       </p>
-      <div className="flex flex-row items-center gap-6">
+      {/* Stacked and centred on mobile, side-by-side from lg */}
+      <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-center">
         {ANCHOR_FUNDERS.map((f) => (
           <a key={f.alt} href={f.href} target="_blank" rel="noopener noreferrer" className="interactive">
             <PartnerLogo src={f.src} alt={f.alt} className="h-8 w-auto" />
@@ -153,23 +154,25 @@ const PartnersColumn = () => (
       <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 font-sans mb-4">
         Co-Financing Partner
       </p>
-      <a href={CO_FINANCING.href} target="_blank" rel="noopener noreferrer" className="interactive inline-block group/ic">
-        {/* White PNG default */}
-        <img
-          src={CO_FINANCING.srcWhite}
-          alt={CO_FINANCING.alt}
-          className="h-7 w-auto object-contain absolute transition-all duration-400 group-hover/ic:opacity-0 group-hover/ic:scale-95"
-          loading="lazy"
-        />
-        {/* Coloured SVG on hover */}
-        <img
-          src={CO_FINANCING.srcColour}
-          alt=""
-          aria-hidden="true"
-          className="h-7 w-auto object-contain opacity-0 scale-95 transition-all duration-400 group-hover/ic:opacity-100 group-hover/ic:scale-100"
-          loading="lazy"
-        />
-      </a>
+      <div className="flex justify-center lg:justify-start">
+        <a href={CO_FINANCING.href} target="_blank" rel="noopener noreferrer" className="interactive relative inline-block group/ic">
+          {/* White PNG default — kept in flow so the anchor has height */}
+          <img
+            src={CO_FINANCING.srcWhite}
+            alt={CO_FINANCING.alt}
+            className="h-7 w-auto object-contain transition-all duration-400 group-hover/ic:opacity-0 group-hover/ic:scale-95"
+            loading="lazy"
+          />
+          {/* Coloured SVG on hover */}
+          <img
+            src={CO_FINANCING.srcColour}
+            alt=""
+            aria-hidden="true"
+            className="h-7 w-auto object-contain absolute inset-0 opacity-0 scale-95 transition-all duration-400 group-hover/ic:opacity-100 group-hover/ic:scale-100"
+            loading="lazy"
+          />
+        </a>
+      </div>
     </div>
 
     {/* Technical Assistance Providers */}
