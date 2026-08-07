@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import HomeSections from "@/components/home/HomeSections";
 import { STRUCTURED_DATA_DEFAULTS } from "@/lib/cms/defaults";
 import { pickSection, withoutEmpty } from "@/lib/cms/content";
@@ -5,7 +6,16 @@ import { getHomeSections } from "@/lib/cms/home";
 import { getNewsArticles } from "@/lib/cms/news";
 import { toNewsSummaries } from "@/lib/cms/news-content";
 
-export default async function Home() {
+/**
+ * The CMS-dependent body, split out so it can sit behind `<Suspense>`.
+ *
+ * Awaiting in `Home` itself would block the whole route: nothing could be
+ * streamed until the slower of the two single types came back, which on a cold
+ * cache is seconds. Behind a boundary the shell flushes immediately and this
+ * swaps in when the data lands — the same reasoning as `NavbarWithNews` in
+ * `app/layout.tsx`.
+ */
+async function HomeContent() {
   // Two independent single types — fetch them together rather than in series.
   const [sections, articles] = await Promise.all([getHomeSections(), getNewsArticles()]);
 
@@ -63,5 +73,13 @@ export default async function Home() {
         newsArticles={toNewsSummaries(articles)}
       />
     </>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="bg-brand-dark min-h-screen" aria-hidden="true" />}>
+      <HomeContent />
+    </Suspense>
   );
 }

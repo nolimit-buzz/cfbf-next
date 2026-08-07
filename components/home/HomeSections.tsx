@@ -15,20 +15,26 @@ import type {
   StoriesSection,
 } from '@/lib/cms/types';
 
-// Below-fold — lazy loaded to prevent simultaneous hydration
-const AboutSectionView  = dynamic(() => import('@/components/home/About'),   { ssr: false });
-const HowWeDriveImpact  = dynamic(() => import('@/components/home/Impact'),  { ssr: false });
-const Projects          = dynamic(() => import('@/components/home/Projects'), { ssr: false });
-const MapSection        = dynamic(() => import('@/components/home/Map'),     { ssr: false });
-const FeaturedStories   = dynamic(() => import('@/components/home/Stories'), { ssr: false });
-const LatestNews        = dynamic(() => import('@/components/home/News'),    { ssr: false });
-const NetZeroSection    = dynamic(() => import('@/components/home/NetZero'), { ssr: false });
+// Below-fold — still split into their own chunks, but server-rendered.
+//
+// These previously carried `{ ssr: false }`, which kept every section but the
+// hero out of the HTML entirely: the CMS copy only appeared after hydration had
+// downloaded seven chunks, so the page looked empty for as long as that took and
+// search engines saw a hero and nothing else. Lazy loading alone gives the chunk
+// splitting without costing the server render.
+const AboutSectionView  = dynamic(() => import('@/components/home/About'));
+const HowWeDriveImpact  = dynamic(() => import('@/components/home/Impact'));
+const Projects          = dynamic(() => import('@/components/home/Projects'));
+const MapSection        = dynamic(() => import('@/components/home/Map'));
+const FeaturedStories   = dynamic(() => import('@/components/home/Stories'));
+const LatestNews        = dynamic(() => import('@/components/home/News'));
+const NetZeroSection    = dynamic(() => import('@/components/home/NetZero'));
 
 /**
  * Client boundary for the homepage.
  *
- * `dynamic(..., { ssr: false })` can only be used from a client component, so
- * the lazy imports live here while the CMS fetch stays in the server page.
+ * Every section below is itself a client component, so the tree crosses to the
+ * client here while the CMS fetch stays in the server page.
  * Every section prop is optional — components fall back to bundled defaults.
  */
 export default function HomeSections({

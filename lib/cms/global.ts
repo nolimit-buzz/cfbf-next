@@ -1,5 +1,6 @@
 // Server-only: `next/cache` cannot be imported from a client component.
 import { cacheLife, cacheTag } from 'next/cache';
+import { CMS_TIMEOUT_MS } from './fetchPage';
 import { GLOBAL_DEFAULTS, type GlobalSettings, type SocialLinkItem } from './global-defaults';
 
 export const GLOBAL_CACHE_TAG = 'global';
@@ -51,7 +52,7 @@ export async function getGlobalSettings(): Promise<GlobalSettings> {
   }
 
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: AbortSignal.timeout(CMS_TIMEOUT_MS) });
 
     // Strapi answers 404 for a single type that has no entry yet. Unlike the
     // page zones, `Global` is not seeded on boot, so "not created" is an
@@ -77,7 +78,12 @@ export async function getGlobalSettings(): Promise<GlobalSettings> {
     // shape is always the five known platforms.
     return socialLinks.length > 0 ? { socialLinks } : GLOBAL_DEFAULTS;
   } catch (err) {
-    reportFallback('request failed', url, err instanceof Error ? err.message : String(err));
+    const timedOut = err instanceof Error && err.name === 'TimeoutError';
+    reportFallback(
+      timedOut ? `no response within ${CMS_TIMEOUT_MS}ms` : 'request failed',
+      url,
+      err instanceof Error ? err.message : String(err)
+    );
     return GLOBAL_DEFAULTS;
   }
 }

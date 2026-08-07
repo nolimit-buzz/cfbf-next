@@ -139,7 +139,15 @@ export async function fetchPageSections<S>(
 
     return sections;
   } catch (err) {
-    reportFallback(label, url, 'request failed', err instanceof Error ? err.message : String(err));
+    // A timeout aborts with `TimeoutError`; name it rather than lumping it in
+    // with connection failures, since the two point at different problems.
+    const timedOut = err instanceof Error && err.name === 'TimeoutError';
+    reportFallback(
+      label,
+      url,
+      timedOut ? `no response within ${CMS_TIMEOUT_MS}ms` : 'request failed',
+      err instanceof Error ? err.message : String(err)
+    );
     return [];
   }
 }
