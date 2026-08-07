@@ -72,6 +72,9 @@ const Navbar = ({ news = [] }: { news?: NewsSummary[] }) => {
     { name: 'Contact', href: '/contact', key: 'contact' },
   ];
 
+  // The mobile drawer gets a Home entry; on desktop the logo already covers it.
+  const mobileNavLinks = [{ name: 'Home', href: '/', key: 'home' }, ...navLinks];
+
   const getActivePage = () => {
     if (pathname === '/') return 'home';
     if (pathname.startsWith('/projects')) return 'projects';
@@ -209,13 +212,16 @@ const Navbar = ({ news = [] }: { news?: NewsSummary[] }) => {
             <Lock size={20} />
           </Link>
 
-          <button
-            className={`p-2 focus:outline-none transition-colors ${isWhite ? 'text-brand-dark' : 'text-white'}`}
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Hidden while open — the drawer renders its own close button in the same spot */}
+          {!menuOpen && (
+            <button
+              className={`p-2 focus:outline-none transition-colors ${isWhite ? 'text-brand-dark' : 'text-white'}`}
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu size={24} />
+            </button>
+          )}
         </div>
       </motion.div>
 
@@ -320,27 +326,38 @@ const Navbar = ({ news = [] }: { news?: NewsSummary[] }) => {
             animate={{ opacity: 1, height: '100vh' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="md:hidden fixed top-0 left-0 w-full bg-brand-dark z-40 flex flex-col pt-32 px-6 overflow-hidden pointer-events-auto"
+            className="md:hidden fixed top-0 left-0 w-full bg-brand-dark z-40 flex flex-col overflow-hidden pointer-events-auto"
           >
-            {navLinks.map((link, i) => (
-              <motion.div
-                key={link.name}
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.1 * i + 0.3 }}
-                className="w-full border-b border-white/10"
-              >
-                <Link
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className={`block w-full text-white text-4xl font-light py-6 font-sans text-left focus:outline-none ${
-                    activePage === link.key ? 'text-brand-accent font-normal' : ''
-                  }`}
+            <button
+              onClick={() => setMenuOpen(false)}
+              aria-label="Close menu"
+              className="absolute top-5 right-4 p-2 text-white focus:outline-none z-10"
+            >
+              <X size={28} />
+            </button>
+
+            {/* Inner scroller: the drawer clips its height animation, so the list scrolls in here */}
+            <div className="flex-1 overflow-y-auto pt-24 px-6 pb-8">
+              {mobileNavLinks.map((link, i) => (
+                <motion.div
+                  key={link.name}
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.06 * i + 0.25 }}
+                  className="w-full border-b border-white/10"
                 >
-                  {link.name}
-                </Link>
-              </motion.div>
-            ))}
+                  <Link
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className={`block w-full text-white text-2xl font-light py-4 font-sans text-left focus:outline-none ${
+                      activePage === link.key ? 'text-brand-accent font-normal' : ''
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
