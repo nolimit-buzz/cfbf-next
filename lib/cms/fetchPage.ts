@@ -115,7 +115,7 @@ export async function fetchPageSections<S>(
   }
 
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: AbortSignal.timeout(CMS_TIMEOUT_MS) });
 
     if (!res.ok) {
       // The body is the diagnosis, so surface a slice of it rather than the
