@@ -72,9 +72,13 @@ export default function NewsSections({ hero, listing, articles, nextSteps }: New
 
   // The first category is the "show everything" entry whatever it is called.
   const allLabel = categories[0]?.label ?? 'All';
-  const filteredArticles = activeFilter === allLabel
+  // A category label and an article tag are free-text fields on two unrelated
+  // Strapi components, so nothing keeps their casing or padding in step.
+  // Compare them normalised — a stray capital should not empty the page.
+  const normalise = (s?: string) => (s ?? '').trim().toLowerCase();
+  const filteredArticles = normalise(activeFilter) === normalise(allLabel)
     ? newsArticles
-    : newsArticles.filter(item => item.tag === activeFilter);
+    : newsArticles.filter(item => normalise(item.tag) === normalise(activeFilter));
 
   const GAP = 24;
   const cardWidth = `calc((100% - ${(itemsPerPage - 1) * GAP}px) / ${itemsPerPage})`;
@@ -227,7 +231,24 @@ export default function NewsSections({ hero, listing, articles, nextSteps }: New
 
         {/* Articles List / Grid Container */}
         <AnimatePresence mode="wait">
-          {viewMode === (listingCopy.viewTabs[0]?.tabId ?? 'grid') ? (
+          {filteredArticles.length === 0 ? (
+            /* Without this the grid still renders its padding — a tall blank
+               band that reads as a broken page rather than an empty category. */
+            <motion.div
+              key={`empty-${activeFilter}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="border border-dashed border-gray-300 rounded-[6px] py-16 px-6 text-center"
+            >
+              <p className="text-brand-dark font-sans font-medium">
+                No articles in {activeFilter} yet.
+              </p>
+              <p className="text-gray-500 text-sm font-sans font-light mt-2">
+                Try another category, or check back soon.
+              </p>
+            </motion.div>
+          ) : viewMode === (listingCopy.viewTabs[0]?.tabId ?? 'grid') ? (
             <motion.div
               key={`grid-${activeFilter}`}
               initial={{ opacity: 0, y: 20 }}
@@ -238,9 +259,15 @@ export default function NewsSections({ hero, listing, articles, nextSteps }: New
               {filteredArticles.map((article, i) => (
                 <Link href={`/news/${article.articleId}`} key={article.articleId} className="block h-full">
                   <motion.div
+                    // `animate`, not `whileInView`: these cards remount on every
+                    // filter change inside the AnimatePresence above, so their
+                    // visibility depended entirely on an intersection callback
+                    // landing after a mid-transition mount. A missed callback
+                    // left the whole list stranded at `opacity: 0` — a blank
+                    // band under the tabs, on every tab. `once: false` made it
+                    // worse by re-hiding cards each time they scrolled away.
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05 }}
                     className="group cursor-pointer flex flex-col h-full bg-white rounded-[6px] border border-gray-200/50 hover:border-brand-primary/20 shadow-[0_10px_30px_rgba(0,0,0,0.01)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.03)] transition-all duration-500 interactive"
                   >
@@ -288,9 +315,15 @@ export default function NewsSections({ hero, listing, articles, nextSteps }: New
               {filteredArticles.map((article, i) => (
                 <Link href={`/news/${article.articleId}`} key={article.articleId} className="block">
                   <motion.div
+                    // `animate`, not `whileInView`: these cards remount on every
+                    // filter change inside the AnimatePresence above, so their
+                    // visibility depended entirely on an intersection callback
+                    // landing after a mid-transition mount. A missed callback
+                    // left the whole list stranded at `opacity: 0` — a blank
+                    // band under the tabs, on every tab. `once: false` made it
+                    // worse by re-hiding cards each time they scrolled away.
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05 }}
                     className="group flex flex-col md:flex-row gap-6 items-center bg-white border border-gray-200/50 hover:border-brand-primary/20 p-5 rounded-[6px] shadow-[0_10px_30px_rgba(0,0,0,0.01)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.03)] transition-all cursor-pointer interactive"
                   >

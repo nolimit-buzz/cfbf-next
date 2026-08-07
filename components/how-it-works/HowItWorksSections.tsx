@@ -272,7 +272,7 @@ export default function HowItWorksSections({
       </div>
 
       {/* ── SECTION 2: FACILITY STRUCTURE DIAGRAM (light) ─────────────── */}
-      <div data-rag-chunk="how-it-works-facility-architecture" className="bg-[#FAFDFB] text-[#051F1A] py-24 relative z-10">
+      <div id="architecture" data-rag-chunk="how-it-works-facility-architecture" className="scroll-mt-24 bg-[#FAFDFB] text-[#051F1A] py-24 relative z-10">
         <div className="container mx-auto px-6 max-w-[1280px]">
           <motion.div {...fadeUp(0)}>
             <div className="flex items-center gap-3 mb-4">

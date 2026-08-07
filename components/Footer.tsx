@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download, Facebook, Twitter, Linkedin, Instagram, Youtube } from 'lucide-react';
+import { Download, Facebook, Twitter, Linkedin, Instagram, Youtube, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
+import { GLOBAL_DEFAULTS, type SocialLinkItem, type SocialPlatform } from '@/lib/cms/global-defaults';
 
 const BASE = "https://infracredit.ng/climate-facility/wp-content/uploads";
 
@@ -91,7 +92,7 @@ const TaSlider = () => {
           href={item.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute inset-0 flex items-center group/ta"
+          className="absolute inset-0 flex items-center justify-center lg:justify-start group/ta"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
@@ -115,7 +116,7 @@ const TaSlider = () => {
         </motion.a>
       </AnimatePresence>
       {/* Dot indicators */}
-      <div className="absolute -bottom-5 left-0 flex gap-1.5">
+      <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 lg:left-0 lg:translate-x-0 flex gap-1.5">
         {TA_PROVIDERS.map((_, i) => (
           <button
             key={i}
@@ -132,13 +133,14 @@ const TaSlider = () => {
 };
 
 const PartnersColumn = () => (
-  <div className="text-left space-y-8">
+  <div className="text-center lg:text-left space-y-8">
     {/* Anchor Funders */}
     <div>
       <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 font-sans mb-4">
         Anchor Funders
       </p>
-      <div className="flex flex-row items-center gap-6">
+      {/* Stacked and centred on mobile, side-by-side from lg */}
+      <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-center">
         {ANCHOR_FUNDERS.map((f) => (
           <a key={f.alt} href={f.href} target="_blank" rel="noopener noreferrer" className="interactive">
             <PartnerLogo src={f.src} alt={f.alt} className="h-8 w-auto" />
@@ -152,23 +154,25 @@ const PartnersColumn = () => (
       <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 font-sans mb-4">
         Co-Financing Partner
       </p>
-      <a href={CO_FINANCING.href} target="_blank" rel="noopener noreferrer" className="interactive inline-block group/ic">
-        {/* White PNG default */}
-        <img
-          src={CO_FINANCING.srcWhite}
-          alt={CO_FINANCING.alt}
-          className="h-7 w-auto object-contain absolute transition-all duration-400 group-hover/ic:opacity-0 group-hover/ic:scale-95"
-          loading="lazy"
-        />
-        {/* Coloured SVG on hover */}
-        <img
-          src={CO_FINANCING.srcColour}
-          alt=""
-          aria-hidden="true"
-          className="h-7 w-auto object-contain opacity-0 scale-95 transition-all duration-400 group-hover/ic:opacity-100 group-hover/ic:scale-100"
-          loading="lazy"
-        />
-      </a>
+      <div className="flex justify-center lg:justify-start">
+        <a href={CO_FINANCING.href} target="_blank" rel="noopener noreferrer" className="interactive relative inline-block group/ic">
+          {/* White PNG default — kept in flow so the anchor has height */}
+          <img
+            src={CO_FINANCING.srcWhite}
+            alt={CO_FINANCING.alt}
+            className="h-7 w-auto object-contain transition-all duration-400 group-hover/ic:opacity-0 group-hover/ic:scale-95"
+            loading="lazy"
+          />
+          {/* Coloured SVG on hover */}
+          <img
+            src={CO_FINANCING.srcColour}
+            alt=""
+            aria-hidden="true"
+            className="h-7 w-auto object-contain absolute inset-0 opacity-0 scale-95 transition-all duration-400 group-hover/ic:opacity-100 group-hover/ic:scale-100"
+            loading="lazy"
+          />
+        </a>
+      </div>
     </div>
 
     {/* Technical Assistance Providers */}
@@ -333,7 +337,21 @@ const CTASection = () => {
   );
 };
 
-const Footer = () => (
+/** Platform key -> icon. The CMS supplies the URL; the icon stays in code. */
+const SOCIAL_ICONS: Record<SocialPlatform, LucideIcon> = {
+  facebook: Facebook,
+  twitter: Twitter,
+  linkedin: Linkedin,
+  instagram: Instagram,
+  youtube: Youtube,
+};
+
+interface FooterProps {
+  /** Footer social profiles from the CMS. Entries with a blank url are skipped. */
+  socialLinks?: SocialLinkItem[];
+}
+
+const Footer = ({ socialLinks = GLOBAL_DEFAULTS.socialLinks }: FooterProps) => (
   <footer className="bg-[#02100d] text-white pt-0 pb-12 border-t border-white/5 relative z-20 overflow-hidden">
 
     <PartnerMarquee />
@@ -343,13 +361,13 @@ const Footer = () => (
       <div className="grid lg:grid-cols-4 gap-12 mb-24">
         {/* Col 1: Brand */}
         <div className="flex flex-col items-center lg:items-start lg:col-span-1">
-          <a href="#" className="flex items-center mb-8 interactive group">
+          <Link href="/" className="flex items-center mb-8 interactive group">
             <img
               src="https://infracredit.ng/climate-facility/wp-content/uploads/2022/09/climate-white-logo.svg"
               alt="CFBF Logo"
               className="h-10 w-auto transition-opacity duration-300"
             />
-          </a>
+          </Link>
         </div>
 
         {/* Col 2: Quick Links */}
@@ -381,7 +399,7 @@ const Footer = () => (
               { label: 'Eligibility Assessment', href: '/eligibility/assessment' },
               { label: 'Nigeria Energy Map', href: '/about#energy-map' },
               { label: 'Facility Architecture', href: '/how-it-works#architecture' },
-              { label: 'Dealflow Overview', href: '/projects#dealflow' },
+              { label: 'Dealflow Overview', href: '/projects#facility-pipeline' },
               { label: 'Funder Login', href: '/funder-login' },
             ].map(({ label, href }) => (
               <li key={label} className="hover:text-brand-accent transition-colors interactive w-fit mx-auto lg:mx-0">
@@ -397,23 +415,39 @@ const Footer = () => (
 
       <div className="pt-12 border-t border-white/5 flex flex-col items-center gap-8">
         <div className="flex gap-6">
-          {[
-            { icon: Facebook, href: '#', label: 'Facebook' },
-            { icon: Twitter, href: '#', label: 'Twitter' },
-            { icon: Linkedin, href: '#', label: 'LinkedIn' },
-            { icon: Instagram, href: '#', label: 'Instagram' },
-            { icon: Youtube, href: '#', label: 'YouTube' }
-          ].map((social, i) => {
-            const Icon = social.icon;
-            return (
+          {socialLinks.map((social, i) => {
+            const Icon = SOCIAL_ICONS[social.platform];
+            if (!Icon) return null;
+
+            const href = (social.url ?? '').trim();
+            const label = social.label || social.platform;
+            const isLive = href !== '' && href !== '#';
+            const icon = <Icon size={18} className="opacity-80 transition-opacity" />;
+
+            // The row always shows all five icons so the footer never looks
+            // half-built. Only the ones with a real URL become links — the
+            // rest render as plain marks rather than the `href="#"` that made
+            // them look clickable while doing nothing.
+            return isLive ? (
               <a
                 key={i}
-                href={social.href}
-                aria-label={social.label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
                 className="text-white hover:text-brand-accent cursor-pointer transition-colors interactive p-2 hover:bg-white/5 rounded-full focus:outline-none"
               >
-                <Icon size={18} className="opacity-80 hover:opacity-100 transition-opacity" />
+                {icon}
               </a>
+            ) : (
+              <span
+                key={i}
+                aria-label={`${label} (coming soon)`}
+                title={`${label} — link coming soon`}
+                className="text-white/60 cursor-default p-2 rounded-full"
+              >
+                {icon}
+              </span>
             );
           })}
         </div>

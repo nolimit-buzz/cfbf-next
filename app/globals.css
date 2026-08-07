@@ -78,8 +78,24 @@ html {
 body {
   background-color: #ffffff;
   color: #051F1A;
-  cursor: auto;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Tailwind v4 preflight sets `cursor: default` on buttons — restore the hand
+   cursor for anything actually clickable. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+label[for],
+summary,
+select,
+[type="checkbox"],
+[type="radio"] {
+  cursor: pointer;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
 }
 
 .text-outline {

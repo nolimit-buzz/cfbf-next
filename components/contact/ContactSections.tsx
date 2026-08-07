@@ -216,7 +216,15 @@ export default function ContactSections({
     () => formCopy.technologyOptions[0]?.label ?? CONTACT_ENQUIRY_FORM_DEFAULTS.technologyOptions[0].label
   );
   const [capacity, setCapacity] = useState('');
+  const [institutionType, setInstitutionType] = useState(
+    () =>
+      formCopy.institutionOptions[0]?.label ??
+      CONTACT_ENQUIRY_FORM_DEFAULTS.institutionOptions[0].label
+  );
+  const [investmentTranche, setInvestmentTranche] = useState('');
   const [message, setMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Handle URL Pre-fill parameters
   useEffect(() => {
@@ -242,9 +250,42 @@ export default function ContactSections({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [readiness, score, tech]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (submitting) return;
+
+    setSubmitting(true);
+    setError(null);
+
+    try {
+      // Only the active role's conditional fields are sent — the server
+      // validates per role, so posting the hidden tab's inputs would fail.
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          role,
+          fullName,
+          organization,
+          emailAddress,
+          message,
+          ...(role === 'developer' ? { techType, capacity } : {}),
+          ...(role === 'investor' ? { institutionType, investmentTranche } : {}),
+          ...(readiness ? { readiness, score, tech } : {}),
+        }),
+      });
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
+        throw new Error(body?.error ?? 'Something went wrong. Please try again.');
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   /** Tab label by position, so a card the CMS omits falls back to the bundled one. */
@@ -295,7 +336,7 @@ export default function ContactSections({
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "-80px" }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             className="lg:col-span-5 space-y-8 text-left"
           >
@@ -361,7 +402,7 @@ export default function ContactSections({
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-80px" }}
+              viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
               className="bg-white p-8 md:p-10 rounded-[6px] border border-gray-200/35 text-left"
             >
@@ -529,6 +570,8 @@ export default function ContactSections({
                       <div className="relative mt-2">
                         <select
                           id="institutionType"
+                          value={institutionType}
+                          onChange={(e) => setInstitutionType(e.target.value)}
                           className="peer block w-full px-4 pt-6 pb-2 text-sm text-[#051F1A] bg-transparent border border-gray-200 rounded-[6px] focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all font-sans bg-white"
                         >
                           {formCopy.institutionOptions.map((option) => (
@@ -548,6 +591,8 @@ export default function ContactSections({
                           required
                           type="text"
                           id="investmentTranche"
+                          value={investmentTranche}
+                          onChange={(e) => setInvestmentTranche(e.target.value)}
                           placeholder=" "
                           className="peer block w-full px-4 pt-6 pb-2 text-sm text-[#051F1A] bg-transparent border border-gray-200 rounded-[6px] focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all font-sans placeholder-transparent"
                         />
@@ -579,12 +624,20 @@ export default function ContactSections({
                     </label>
                   </div>
 
+                  {error && (
+                    <div className="p-4 rounded-[6px] border border-red-200 bg-red-50 text-red-800 text-xs flex items-start gap-2.5 font-sans">
+                      <AlertCircle className="shrink-0 mt-0.5 text-red-600" size={16} />
+                      <p className="font-light leading-relaxed">{error}</p>
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full bg-brand-primary hover:bg-[#051F1A] text-white py-4 rounded-full flex items-center justify-center gap-3 font-bold uppercase tracking-wider text-xs shadow-lg shadow-brand-primary/20 transition-all interactive font-sans focus:outline-none"
+                    disabled={submitting}
+                    className="w-full bg-brand-primary hover:bg-[#051F1A] text-white py-4 rounded-full flex items-center justify-center gap-3 font-bold uppercase tracking-wider text-xs shadow-lg shadow-brand-primary/20 transition-all interactive font-sans focus:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-brand-primary"
                   >
                     <Send size={14} />
-                    {formCopy.submitLabel}
+                    {submitting ? 'Sending…' : formCopy.submitLabel}
                   </button>
                 </motion.form>
               ) : (

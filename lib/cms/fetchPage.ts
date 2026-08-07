@@ -27,6 +27,16 @@ const CMS_URL = (process.env.STRAPI_URL?.trim() || process.env.NEXT_PUBLIC_STRAP
 export const SECTIONS_QUERY = 'populate[sections][populate]=*';
 
 /**
+ * How long to wait on Strapi before giving up and using bundled defaults.
+ *
+ * Without this, `fetch` inherits undici's default header timeout — minutes —
+ * during which the page renders nothing at all. A CMS that has not answered in
+ * eight seconds is not going to save the render, and the fallback path already
+ * produces a complete page, so failing fast is strictly better than waiting.
+ */
+export const CMS_TIMEOUT_MS = 8_000;
+
+/**
  * Builds a `populate[sections][on][…]` query for a dynamic zone.
  *
  * Strapi's `on` form is the only way to populate past two levels: it takes one
@@ -105,7 +115,7 @@ export async function fetchPageSections<S>(
   }
 
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: AbortSignal.timeout(CMS_TIMEOUT_MS) });
 
     if (!res.ok) {
       // The body is the diagnosis, so surface a slice of it rather than the
@@ -129,7 +139,15 @@ export async function fetchPageSections<S>(
 
     return sections;
   } catch (err) {
-    reportFallback(label, url, 'request failed', err instanceof Error ? err.message : String(err));
+    // A timeout aborts with `TimeoutError`; name it rather than lumping it in
+    // with connection failures, since the two point at different problems.
+    const timedOut = err instanceof Error && err.name === 'TimeoutError';
+    reportFallback(
+      label,
+      url,
+      timedOut ? `no response within ${CMS_TIMEOUT_MS}ms` : 'request failed',
+      err instanceof Error ? err.message : String(err)
+    );
     return [];
   }
 }

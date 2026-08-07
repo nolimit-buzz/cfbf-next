@@ -17,7 +17,12 @@ const NUM_RE = /^(.*?)(-?\d[\d,]*(?:\.\d+)?)(.*)$/;
 
 export default function CountUp({ value, to, duration = 1.6, className = '' }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { amount: 0.4 });
+  // `amount: 'some'` (any visible pixel), not a 40% ratio: these spans sit in
+  // tall hero cards whose second row could never clear the old threshold, so
+  // their counters stayed pinned at zero. `once` latches the result — a stat
+  // that has finished counting must not restart, and must never be rewritten
+  // back to 0 when the card scrolls off screen.
+  const inView = useInView(ref, { amount: 'some', once: true });
 
   const source = value !== undefined ? value : to;
   const isNumberInput = typeof source === 'number';
@@ -59,11 +64,7 @@ export default function CountUp({ value, to, duration = 1.6, className = '' }: C
   const [display, setDisplay] = useState(() => (parsed ? format(0) : String(source ?? '')));
 
   useEffect(() => {
-    if (!parsed) return;
-    if (!inView) {
-      setDisplay(format(0));
-      return;
-    }
+    if (!parsed || !inView) return;
     const controls = animate(0, target, {
       duration,
       ease: [0.16, 1, 0.3, 1],

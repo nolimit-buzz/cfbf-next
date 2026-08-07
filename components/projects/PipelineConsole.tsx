@@ -272,6 +272,15 @@ const SECTOR_MANDATED_DEALS: TableRow[] = [
   { sector: "E-mobility (2W & 3W)", projectsCount: 6, valueNgn: 13.06, percentage: "4.44%" }
 ];
 
+/** The metric fields that hold a figure; the `*Label` siblings are copy, not data. */
+const METRIC_VALUE_FIELDS = ['connections', 'capacity', 'communities', 'jobs', 'ghg', 'capital'] as const;
+
+/** True when a stage carries at least one real figure and so deserves the metrics grid. */
+function hasAnyMetric(metrics?: MetricData | null): metrics is MetricData {
+  if (!metrics) return false;
+  return METRIC_VALUE_FIELDS.some((field) => String(metrics[field] ?? '').trim() !== '');
+}
+
 interface PipelineConsoleProps {
   stages?: StageInfo[];
   totalSectorPipeline?: TableRow[];
@@ -297,9 +306,12 @@ export default function PipelineConsole({
     ngnVal: stage.ngnVal,
     desc: stage.desc,
     sdgs: parseSdgs(stage.sdgs),
-    // A stage with no connections figure is a table stage, not a metrics stage.
+    // A stage with no metrics at all is a table stage, not a metrics stage.
     // `metrics: undefined` is what switches the right column to the sector table.
-    metrics: stage.metrics?.connections ? stage.metrics : undefined,
+    // Gate on "has any figure" rather than on `connections` alone: one blank
+    // field in the CMS should not collapse the whole Expected Impact Metrics
+    // panel to the table.
+    metrics: hasAnyMetric(stage.metrics) ? stage.metrics : undefined,
   }));
 
   const resolvedTotalPipeline = totalSectorPipeline ?? copy.totalPipelineRows;
@@ -308,12 +320,18 @@ export default function PipelineConsole({
   /** SDG display copy from the CMS, keyed by goal number. Colours stay in `SDG_METADATA`. */
   const sdgCopy = new Map(copy.sdgFrameworks.map((s) => [Number.parseInt(s.number, 10), s]));
 
-  const [activeStageId, setActiveStageId] = useState<string>("project-pipeline");
+  // Prefer the canonical opening stage, but fall back to whatever the CMS
+  // actually supplies rather than a hardcoded id that an editor can rename.
+  const defaultStageId =
+    resolvedStages.find((s) => s.id === "project-pipeline")?.id ?? resolvedStages[0]?.id ?? "";
+  const [activeStageId, setActiveStageId] = useState<string>(defaultStageId);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [businessModelView, setBusinessModelView] = useState<'total-pipeline' | 'mandated-deals'>('total-pipeline');
   
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const activeStage = resolvedStages.find((s) => s.id === activeStageId) || resolvedStages[1];
+  // `resolvedStages[0]`, not `[1]`: the old positional fallback threw outright
+  // when the CMS returned fewer than two stages.
+  const activeStage = resolvedStages.find((s) => s.id === activeStageId) || resolvedStages[0];
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -325,6 +343,11 @@ export default function PipelineConsole({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // No stages at all means there is nothing to console. Render nothing rather
+  // than a heading over an empty frame. Placed after every hook so the hook
+  // order stays stable.
+  if (!activeStage) return null;
 
   // Update left values if business models changes total vs mandated
   const getStageValues = () => {
@@ -368,19 +391,23 @@ export default function PipelineConsole({
       { value: metrics.capital, unitOverride: metrics.capitalSub },
     ];
 
-    return values.map((entry, i) => {
-      const label = copy.metricLabels[i];
-      const style = METRIC_CARD_STYLES[i];
-      return {
-        label: entry.labelOverride || label?.label || '',
-        value: entry.value,
-        unit: entry.unitOverride ?? label?.unit ?? '',
-        description: label?.description ?? '',
-        icon: style.icon,
-        glow: style.glow,
-        iconColor: style.iconColor,
-      };
-    });
+    return values
+      .map((entry, i) => {
+        const label = copy.metricLabels[i];
+        const style = METRIC_CARD_STYLES[i];
+        return {
+          label: entry.labelOverride || label?.label || '',
+          value: entry.value,
+          unit: entry.unitOverride ?? label?.unit ?? '',
+          description: label?.description ?? '',
+          icon: style.icon,
+          glow: style.glow,
+          iconColor: style.iconColor,
+        };
+      })
+      // A card with no figure or no label is an empty tile — a short
+      // `metricLabels` array should shorten the grid, not pad it with blanks.
+      .filter((card) => String(card.value ?? '').trim() !== '' && card.label !== '');
   };
 
   return (
@@ -604,11 +631,21 @@ export default function PipelineConsole({
                     >
                       {activeStage.metrics ? (
                         /* EXPECTED IMPACT METRICS GRID */
-                        <motion.div 
+                        /*
+                          `animate`, not `whileInView`: this grid remounts on
+                          every stage switch inside the AnimatePresence above.
+                          A viewport-gated variant that mounts mid-transition
+                          can miss its intersection callback and, with
+                          `once: true`, then stays at `opacity: 0` forever —
+                          the panel renders as an empty frame under a heading
+                          that is still visible. The stage swap only happens
+                          when the console is already on screen, so gating on
+                          the viewport bought nothing.
+                        */
+                        <motion.div
                           variants={containerVariants}
                           initial="hidden"
-                          whileInView="show"
-                          viewport={{ once: true, margin: "-40px" }}
+                          animate="show"
                           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
                         >
                           {metricCards(activeStage.metrics).map((card, i) => {

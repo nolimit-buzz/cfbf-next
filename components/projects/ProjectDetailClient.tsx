@@ -356,7 +356,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "-85px" }}
+            viewport={{ once: true, margin: "-85px" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="mb-4"
           >
@@ -449,7 +449,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
             <motion.div 
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false }}
+              viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-5 rounded-[6px] overflow-hidden border border-gray-100 w-full min-h-[400px] lg:min-h-full"
             >
@@ -460,7 +460,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
             <motion.div 
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false }}
+              viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-7 flex flex-col justify-between space-y-8"
             >
@@ -531,7 +531,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* Header layout */}
@@ -603,10 +603,15 @@ export default function ProjectDetailPage({ params }: PageProps) {
             Illustrative <span className="text-[#7C9590]">transaction structure</span>
           </h2>
         </div>
-        <div className="w-full overflow-hidden bg-white">
-          <video 
+        {/* The diagram is a remote autoplay video with no intrinsic size known
+            to the layout, so the browser gives it zero height until metadata
+            arrives — an empty white band on a slow first load. Reserve the
+            space up front and fetch metadata eagerly. */}
+        <div className="w-full overflow-hidden bg-white aspect-[16/9]">
+          <video
             src="https://infracredit.ng/climate-facility/wp-content/uploads/2023/08/Hotspot-schematic-graphs6-2.mp4"
-            className="w-full h-auto object-cover bg-white pointer-events-none"
+            className="w-full h-full object-contain bg-white pointer-events-none"
+            preload="metadata"
             autoPlay
             loop
             muted
@@ -773,7 +778,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
                   key={vid.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false }}
+                  viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: idx * 0.1 }}
                   className="group flex flex-col border border-gray-100 rounded-[6px] overflow-hidden bg-white shadow-sm"
                 >
@@ -805,7 +810,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="group flex flex-col border border-gray-100 rounded-[6px] overflow-hidden bg-white col-span-2"
               >
@@ -833,7 +838,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "-85px" }}
+            viewport={{ once: true, margin: "-85px" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4 text-left"
           >
@@ -965,7 +970,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "-85px" }}
+            viewport={{ once: true, margin: "-85px" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="flex justify-between items-end mb-12"
           >
