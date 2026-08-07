@@ -27,7 +27,7 @@ export const HERO_DEFAULTS: HeroContent = {
   subheadline:
     'Mobilising blended finance for sustainable energy access. The first of its kind to receive certification under the Electrical Grids and Storage criteria by the Climate Bonds Standard.',
   ctaLabel: 'Explore Our Impact',
-  ctaHref: '/projects',
+  ctaHref: '/impact',
   newsCtaLabel: 'Read Article',
   backgroundImage:
     'https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=2070&auto=format&fit=crop',
@@ -271,7 +271,9 @@ export const PROJECTS_DEFAULTS: ProjectsContent = {
   ],
   projects: [
     {
-      projectId: '01',
+      // Ids must match the keys in lib/projectsData.ts, which the detail route
+      // looks up directly — Darway Coast is '05' there, not '01'.
+      projectId: '05',
       title: 'Darway Coast, Nigeria',
       location: 'Rivers State',
       year: '2022',
@@ -297,7 +299,7 @@ export const PROJECTS_DEFAULTS: ProjectsContent = {
       imageTwo_alt_text: 'Project detail',
     },
     {
-      projectId: '02',
+      projectId: '04',
       title: 'Hotspot Network',
       location: 'Kano State',
       year: '2023',
