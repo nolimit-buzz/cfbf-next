@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import NigeriaMap from '../NigeriaMap';
 import { MAP_DEFAULTS } from '@/lib/cms/defaults';
@@ -87,9 +88,14 @@ export default function MapSection({ data }: { data?: MapSectionData }) {
                   {c.body}
                 </p>
 
-                <button className="bg-[#009ca6] hover:bg-[#00878f] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-[#009ca6]/20 transition-all hover:-translate-y-1 interactive font-sans">
+                {/* Destination is hardcoded: `map-section` has no `ctaHref` field,
+                    unlike hero and about. The label stays CMS-driven. */}
+                <Link
+                  href="/projects#national-footprint"
+                  className="inline-block bg-[#009ca6] hover:bg-[#00878f] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-[#009ca6]/20 transition-all hover:-translate-y-1 interactive font-sans"
+                >
                   {c.ctaLabel}
-                </button>
+                </Link>
             </motion.div>
 
             {/* Right Column: Map Visualization */}
