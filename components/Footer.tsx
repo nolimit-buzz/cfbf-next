@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download, Facebook, Twitter, Linkedin, Instagram, Youtube } from 'lucide-react';
+import { Download, Facebook, Twitter, Linkedin, Instagram, Youtube, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
+import { GLOBAL_DEFAULTS, type SocialLinkItem, type SocialPlatform } from '@/lib/cms/global-defaults';
 
 const BASE = "https://infracredit.ng/climate-facility/wp-content/uploads";
 
@@ -333,7 +334,21 @@ const CTASection = () => {
   );
 };
 
-const Footer = () => (
+/** Platform key -> icon. The CMS supplies the URL; the icon stays in code. */
+const SOCIAL_ICONS: Record<SocialPlatform, LucideIcon> = {
+  facebook: Facebook,
+  twitter: Twitter,
+  linkedin: Linkedin,
+  instagram: Instagram,
+  youtube: Youtube,
+};
+
+interface FooterProps {
+  /** Footer social profiles from the CMS. Entries with a blank url are skipped. */
+  socialLinks?: SocialLinkItem[];
+}
+
+const Footer = ({ socialLinks = GLOBAL_DEFAULTS.socialLinks }: FooterProps) => (
   <footer className="bg-[#02100d] text-white pt-0 pb-12 border-t border-white/5 relative z-20 overflow-hidden">
 
     <PartnerMarquee />
@@ -343,13 +358,13 @@ const Footer = () => (
       <div className="grid lg:grid-cols-4 gap-12 mb-24">
         {/* Col 1: Brand */}
         <div className="flex flex-col items-center lg:items-start lg:col-span-1">
-          <a href="#" className="flex items-center mb-8 interactive group">
+          <Link href="/" className="flex items-center mb-8 interactive group">
             <img
               src="https://infracredit.ng/climate-facility/wp-content/uploads/2022/09/climate-white-logo.svg"
               alt="CFBF Logo"
               className="h-10 w-auto transition-opacity duration-300"
             />
-          </a>
+          </Link>
         </div>
 
         {/* Col 2: Quick Links */}
@@ -381,7 +396,7 @@ const Footer = () => (
               { label: 'Eligibility Assessment', href: '/eligibility/assessment' },
               { label: 'Nigeria Energy Map', href: '/about#energy-map' },
               { label: 'Facility Architecture', href: '/how-it-works#architecture' },
-              { label: 'Dealflow Overview', href: '/projects#dealflow' },
+              { label: 'Dealflow Overview', href: '/projects#facility-pipeline' },
               { label: 'Funder Login', href: '/funder-login' },
             ].map(({ label, href }) => (
               <li key={label} className="hover:text-brand-accent transition-colors interactive w-fit mx-auto lg:mx-0">
@@ -397,23 +412,39 @@ const Footer = () => (
 
       <div className="pt-12 border-t border-white/5 flex flex-col items-center gap-8">
         <div className="flex gap-6">
-          {[
-            { icon: Facebook, href: '#', label: 'Facebook' },
-            { icon: Twitter, href: '#', label: 'Twitter' },
-            { icon: Linkedin, href: '#', label: 'LinkedIn' },
-            { icon: Instagram, href: '#', label: 'Instagram' },
-            { icon: Youtube, href: '#', label: 'YouTube' }
-          ].map((social, i) => {
-            const Icon = social.icon;
-            return (
+          {socialLinks.map((social, i) => {
+            const Icon = SOCIAL_ICONS[social.platform];
+            if (!Icon) return null;
+
+            const href = (social.url ?? '').trim();
+            const label = social.label || social.platform;
+            const isLive = href !== '' && href !== '#';
+            const icon = <Icon size={18} className="opacity-80 transition-opacity" />;
+
+            // The row always shows all five icons so the footer never looks
+            // half-built. Only the ones with a real URL become links — the
+            // rest render as plain marks rather than the `href="#"` that made
+            // them look clickable while doing nothing.
+            return isLive ? (
               <a
                 key={i}
-                href={social.href}
-                aria-label={social.label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
                 className="text-white hover:text-brand-accent cursor-pointer transition-colors interactive p-2 hover:bg-white/5 rounded-full focus:outline-none"
               >
-                <Icon size={18} className="opacity-80 hover:opacity-100 transition-opacity" />
+                {icon}
               </a>
+            ) : (
+              <span
+                key={i}
+                aria-label={`${label} (coming soon)`}
+                title={`${label} — link coming soon`}
+                className="text-white/60 cursor-default p-2 rounded-full"
+              >
+                {icon}
+              </span>
             );
           })}
         </div>

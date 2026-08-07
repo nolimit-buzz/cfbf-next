@@ -152,7 +152,7 @@ const IconStatBox: React.FC<{
   <motion.div
     initial={{ opacity: 0, y: 16 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: false, margin: "-60px" }}
+    viewport={{ once: true, margin: "-60px" }}
     transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay }}
     whileHover={{ y: -4, scale: 1.01 }}
     className="relative flex flex-col justify-between p-5 bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[6px] min-h-[180px] group cursor-default will-change-transform transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06] shadow-lg text-left"
@@ -602,7 +602,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
                           })}
                           {[50, 90, 130].map(r => <circle key={r} cx={AX} cy={AY} r={r} fill="none" stroke="#00A788" strokeWidth="1" opacity="0.1" />)}
                           <path d={arc(AX, AY, AR, A_START, A_END)} fill="none" stroke="rgba(255, 255, 255, 0.05)" strokeWidth="14" strokeLinecap="round" />
-                          <motion.path d={arc(AX, AY, AR, A_START, A_END)} fill="none" stroke="#00A788" strokeWidth="14" strokeLinecap="round" initial={{ pathLength: 0 }} whileInView={{ pathLength: PROGRESS }} viewport={{ once: false, margin: '-50px' }} transition={{ duration: 2.2, ease: 'easeOut', delay: 0.4 }} />
+                          <motion.path d={arc(AX, AY, AR, A_START, A_END)} fill="none" stroke="#00A788" strokeWidth="14" strokeLinecap="round" initial={{ pathLength: 0 }} whileInView={{ pathLength: PROGRESS }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 2.2, ease: 'easeOut', delay: 0.4 }} />
 
                           {numbersCopy.timelinePoints.map((tp, idx) => {
                             const style = WHEEL_POINTS[idx];
@@ -671,7 +671,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
                           <span className="text-[#009FD4] font-bold font-mono text-sm">{numbersCopy.pensionTargetValue}</span>
                         </div>
                         <div className="relative h-2 bg-white/10 rounded-full overflow-hidden mb-1.5">
-                          <motion.div initial={{ width: 0 }} whileInView={{ width: '30%' }} viewport={{ once: false }} transition={{ duration: 1.4, ease: 'easeOut', delay: 0.5 }} className="absolute inset-y-0 left-0 bg-[#009FD4] rounded-full" />
+                          <motion.div initial={{ width: 0 }} whileInView={{ width: '30%' }} viewport={{ once: true }} transition={{ duration: 1.4, ease: 'easeOut', delay: 0.5 }} className="absolute inset-y-0 left-0 bg-[#009FD4] rounded-full" />
                           <div className="absolute inset-y-0 left-[6.67%] w-px bg-white/30" />
                         </div>
                         <div className="flex justify-between text-[10px] font-mono text-gray-400">

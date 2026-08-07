@@ -108,7 +108,7 @@ function AboutSectionsContent(props: AboutSectionsProps) {
       <MarketSection data={market} />
 
       {/* ── 4. NIGERIA MARKET FUNDING GAP (Shared EnergyAccessMap) ────── */}
-      <div data-rag-chunk="about-energy-gap-map" className="relative z-10">
+      <div id="energy-map" data-rag-chunk="about-energy-gap-map" className="scroll-mt-24 relative z-10">
         <EnergyAccessMap data={energyMap} />
       </div>
 

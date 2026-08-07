@@ -295,7 +295,7 @@ export default function ContactSections({
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "-80px" }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             className="lg:col-span-5 space-y-8 text-left"
           >
@@ -361,7 +361,7 @@ export default function ContactSections({
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "-80px" }}
+              viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
               className="bg-white p-8 md:p-10 rounded-[6px] border border-gray-200/35 text-left"
             >

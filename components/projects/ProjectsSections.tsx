@@ -112,7 +112,7 @@ const IconStatBox: React.FC<{
   <motion.div
     initial={{ opacity: 0, y: 16 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: false, margin: "-60px" }}
+    viewport={{ once: true, margin: "-60px" }}
     transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay }}
     whileHover={{ y: -4, scale: 1.01 }}
     className="relative flex flex-col justify-between p-5 bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[6px] min-h-[180px] group cursor-default will-change-transform transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06] shadow-lg text-left"
@@ -323,7 +323,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-80px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-white/10 pb-8"
         >
@@ -412,7 +412,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, margin: "-80px" }}
+                viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                 className="bg-white/[0.02] backdrop-blur-md rounded-[6px] border border-white/10 overflow-hidden shadow-2xl"
               >
@@ -526,7 +526,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, margin: "-80px" }}
+                viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="flex gap-4 overflow-x-auto pb-2 no-scrollbar"
               >
@@ -549,7 +549,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, margin: "-80px" }}
+                viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                 className="flex flex-col gap-4"
               >
@@ -712,7 +712,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
           id="national-footprint"
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-80px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="mt-24 border-t border-white/10 pt-16"
         >
