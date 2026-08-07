@@ -17,6 +17,7 @@ import {
   Leaf,
   Info
 } from 'lucide-react';
+import Link from 'next/link';
 import CountUp from '@/components/ui/CountUp';
 import { IMPACT_DEFAULTS } from '@/lib/cms/defaults';
 import { withoutEmpty } from '@/lib/cms/content';
@@ -84,9 +85,13 @@ const CapacityBuildingContent = ({ content }: { content: ImpactContent }) => {
           <p className="text-gray-500 mb-8 font-sans leading-relaxed text-sm lg:text-base">
             {capacityTab?.description}
           </p>
+          {/* Hidden until a Knowledge Hub route exists — this was an inert button
+              with no href, so it read as a link and went nowhere. Restore when the
+              page ships. `capacityCtaLabel` is kept in the CMS schema for that day.
           <button className="group flex items-center gap-2 text-brand-primary font-bold uppercase tracking-wider text-sm border-b border-brand-primary/20 pb-1 hover:text-brand-dark hover:border-brand-dark transition-all interactive">
             {content.capacityCtaLabel} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </button>
+          */}
         </div>
 
         <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 auto-rows-[400px]">
@@ -409,12 +414,12 @@ export default function HowWeDriveImpact({ data }: { data?: ImpactSection }) {
                   <p className="text-gray-500 mb-8 font-sans leading-relaxed text-sm lg:text-base">
                     {tabs.find(t => t.tabId === 'numbers')?.description}
                   </p>
-                  <button
-                    onClick={() => setActiveTab('capacity')}
-                    className="group flex items-center gap-2 text-brand-primary font-bold uppercase tracking-wider text-sm border-b border-brand-primary/20 pb-1 hover:text-brand-dark hover:border-brand-dark transition-all interactive"
+                  <Link
+                    href="/impact#capacity"
+                    className="group inline-flex items-center gap-2 text-brand-primary font-bold uppercase tracking-wider text-sm border-b border-brand-primary/20 pb-1 hover:text-brand-dark hover:border-brand-dark transition-all interactive"
                   >
                     {content.numbersCtaLabel} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                  </button>
+                  </Link>
                 </div>
 
                 <div className="w-full">
@@ -536,10 +541,13 @@ export default function HowWeDriveImpact({ data }: { data?: ImpactSection }) {
                 </div>
 
                 <div className="mt-16 flex justify-center relative z-10">
-                  <button className="flex items-center gap-3 bg-white hover:bg-gray-50 border border-gray-200 px-8 py-3 rounded-full text-sm font-sans text-gray-600 hover:text-brand-primary transition-all interactive shadow-sm">
+                  <Link
+                    href="/contact"
+                    className="flex items-center gap-3 bg-white hover:bg-gray-50 border border-gray-200 px-8 py-3 rounded-full text-sm font-sans text-gray-600 hover:text-brand-primary transition-all interactive shadow-sm"
+                  >
                     <Info size={16} className="text-brand-primary" />
                     {content.theoryFooterLabel}
-                  </button>
+                  </Link>
                 </div>
               </div>
             </motion.div>

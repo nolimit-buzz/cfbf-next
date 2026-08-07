@@ -351,6 +351,12 @@ export default function ImpactSections(props: ImpactSectionsProps) {
       </section>
 
       {/* ── IMPACT STORIES & METRICS CONSOLE SECTION ────── */}
+      {/*
+        `#capacity` is the landing target for the homepage "Visit Capacity
+        Building Page" CTA. There is no dedicated capacity-building page yet, so
+        it drops the reader at the console — retarget it once one exists.
+      */}
+      <span id="capacity" aria-hidden className="block scroll-mt-24" />
       <section id="stories" className="py-24 bg-[#02100d] text-white relative z-10 border-t border-white/5">
         <div className="container mx-auto px-6 max-w-[1280px]">
 

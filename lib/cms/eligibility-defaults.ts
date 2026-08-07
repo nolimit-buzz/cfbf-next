@@ -274,7 +274,7 @@ export const ELIGIBILITY_FINAL_CTA_DEFAULTS: EligibilityContent<EligibilityFinal
   primaryCtaLabel: 'Start the process',
   primaryCtaHref: '/eligibility/assessment',
   downloadCtaLabel: 'Download factsheet',
-  downloadCtaHref: '/wp-content/uploads/2026/05/CFBF-Factsheet-compressed.pdf',
+  downloadCtaHref: '/download.pdf',
   downloadFileName: 'CFBF_Factsheet.pdf',
 };
 
