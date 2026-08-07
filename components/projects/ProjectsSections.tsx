@@ -714,7 +714,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-24 border-t border-white/10 pt-16"
+          className="mt-24 border-t border-white/10 pt-16 scroll-mt-24"
         >
           <FootprintMap data={footprintMap} modalData={lgaModal} />
         </motion.section>
