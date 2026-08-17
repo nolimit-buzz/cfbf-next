@@ -108,8 +108,8 @@ export default function EnergyAccessMap({ data }: { data?: AboutEnergyMapSection
 
   const handleSvgMouseLeave = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
     // Only clear if we leave the SVG entirely (not cross into another path)
-    const related = e.relatedTarget as Element | null;
-    if (!related || !(e.currentTarget as Element).contains(related)) {
+    const related = e.relatedTarget;
+    if (!(related instanceof Node) || !e.currentTarget.contains(related)) {
       setHoveredState(null);
     }
   }, []);
