@@ -15,26 +15,36 @@ import type { AboutSection as AboutSectionData } from '@/lib/cms/types';
  */
 const PARTNER_LOGOS: Record<string, ReactNode> = {
   UKaid: (
-    <div className="flex items-center gap-2">
-      <div className="flex gap-0.5">
-        <div className="w-3 h-3 bg-[#00247D]"></div>
-        <div className="w-3 h-3 bg-[#CC0000]"></div>
-      </div>
-      <span className="font-bold text-brand-dark text-lg tracking-tight font-sans">UKaid</span>
-    </div>
+    <img
+      src="https://infracredit.ng/climate-facility/wp-content/uploads/2022/10/UK-DEVELOPMENT-WHITE.png"
+      alt="UKaid"
+      className="h-6 w-auto object-contain"
+      loading="lazy"
+    />
   ),
-  InfraCredit: <div className="font-bold text-gray-600 text-lg font-sans">InfraCredit</div>,
+  InfraCredit: (
+    <img
+      src="https://infracredit.ng/climate-facility/wp-content/uploads/2022/09/ICAsset-6@4x-8-002-1024x326-1.png"
+      alt="InfraCredit"
+      className="h-6 w-auto object-contain"
+      loading="lazy"
+    />
+  ),
   AIICO: (
-    <div className="flex items-center gap-1 font-bold text-[#002855]">
-      <div className="w-0 h-0 border-l-[6px] border-l-transparent border-b-[10px] border-b-[#C8102E] border-r-[6px] border-r-transparent"></div>
-      <span className="font-sans">AIICO</span>
-    </div>
+    <img
+      src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962991/climate%20facility/about-page/partners-group-3-partner-2-logo.png"
+      alt="AIICO Insurance PLC"
+      className="h-6 w-auto object-contain"
+      loading="lazy"
+    />
   ),
   'LINKAGE ASSURANCE': (
-    <div className="flex flex-col leading-none font-bold text-gray-600 text-xs font-sans">
-      <span>LINKAGE</span>
-      <span>ASSURANCE</span>
-    </div>
+    <img
+      src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962993/climate%20facility/about-page/partners-group-3-partner-4-logo.png"
+      alt="Linkage Assurance"
+      className="h-6 w-auto object-contain"
+      loading="lazy"
+    />
   ),
 };
 

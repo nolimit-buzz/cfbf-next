@@ -216,6 +216,50 @@ const InfraCreditMarqueeLogo = () => (
   </div>
 );
 
+const AIICOMarqueeLogo = () => (
+  <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+    <img
+      src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962991/climate%20facility/about-page/partners-group-3-partner-2-logo.png"
+      alt="AIICO Insurance"
+      className="h-7 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-300"
+      loading="lazy"
+    />
+  </div>
+);
+
+const LinkageMarqueeLogo = () => (
+  <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+    <img
+      src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962993/climate%20facility/about-page/partners-group-3-partner-4-logo.png"
+      alt="Linkage Assurance"
+      className="h-7 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-300"
+      loading="lazy"
+    />
+  </div>
+);
+
+const LeadwayMarqueeLogo = () => (
+  <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+    <img
+      src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962994/climate%20facility/about-page/partners-group-3-partner-5-logo.webp"
+      alt="Leadway Insurance"
+      className="h-7 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-300"
+      loading="lazy"
+    />
+  </div>
+);
+
+const PensionCustodianMarqueeLogo = () => (
+  <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+    <img
+      src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962999/climate%20facility/about-page/partners-group-3-partner-8-logo.png"
+      alt="First Pension Custodian"
+      className="h-7 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-300"
+      loading="lazy"
+    />
+  </div>
+);
+
 const ShellFoundationMarqueeLogo = () => (
   <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
     {/* White version (filtered) */}
@@ -237,10 +281,10 @@ const ShellFoundationMarqueeLogo = () => (
 
 const PartnerMarquee = () => {
   const partners = [
-    { name: "AIICO Insurance", logo: null },
-    { name: "Linkage Assurance", logo: null },
-    { name: "LEADWAY", logo: null },
-    { name: "Pension Custodian", logo: null },
+    { name: "AIICO Insurance", logo: <AIICOMarqueeLogo /> },
+    { name: "Linkage Assurance", logo: <LinkageMarqueeLogo /> },
+    { name: "LEADWAY", logo: <LeadwayMarqueeLogo /> },
+    { name: "Pension Custodian", logo: <PensionCustodianMarqueeLogo /> },
     { name: "United Capital", logo: null },
     { name: "MERISTEM", logo: null },
     { name: "InfraCredit", logo: <InfraCreditMarqueeLogo /> },
