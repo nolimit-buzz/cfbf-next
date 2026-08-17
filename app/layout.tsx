@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import CookieBanner from "@/components/CookieBanner";
 import { getNewsArticles } from "@/lib/cms/news";
 import { getGlobalSettings } from "@/lib/cms/global";
+import { getFooterSettings } from "@/lib/cms/footer";
 import { toNewsSummaries } from "@/lib/cms/news-content";
 
 const outfit = Outfit({
@@ -56,8 +57,11 @@ async function NavbarWithNews() {
 
 /** Same reasoning as `NavbarWithNews`: a slow CMS should delay the footer, not the page. */
 async function FooterWithSettings() {
-  const { socialLinks } = await getGlobalSettings();
-  return <Footer socialLinks={socialLinks} />;
+  const [{ socialLinks }, { partnerLogos }] = await Promise.all([
+    getGlobalSettings(),
+    getFooterSettings(),
+  ]);
+  return <Footer socialLinks={socialLinks} partnerLogos={partnerLogos} />;
 }
 
 export default function RootLayout({

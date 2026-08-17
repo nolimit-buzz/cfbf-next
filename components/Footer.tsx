@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Download, Facebook, Twitter, Linkedin, Instagram, Youtube, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { GLOBAL_DEFAULTS, type SocialLinkItem, type SocialPlatform } from '@/lib/cms/global-defaults';
+import { FOOTER_DEFAULTS, type PartnerLogoItem } from '@/lib/cms/footer-defaults';
 
 const BASE = "https://infracredit.ng/climate-facility/wp-content/uploads";
 
@@ -185,18 +186,23 @@ const PartnersColumn = () => (
   </div>
 );
 
-// ─── Actual Partner Marquee Logos (White-by-default, Colored-on-hover) ──────
-const FCDOMarqueeLogo = () => (
+// ─── Partner Marquee Logos (White-by-default, Colored-on-hover) ─────────────
+// Generic, data-driven mark for any partner whose logo doesn't need special
+// treatment: a single image, dimmed by default and full-opacity on hover.
+const MarqueeLogo = ({ src, alt }: { src: string; alt: string }) => (
   <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
     <img
-      src={`${BASE}/2022/10/UK-DEVELOPMENT-WHITE.png`}
-      alt="FCDO"
+      src={src}
+      alt={alt}
       className="h-7 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-300"
       loading="lazy"
     />
   </div>
 );
 
+// InfraCredit and Shell Foundation need a white/invert default that
+// crossfades to a true-colour version on hover (their marks read poorly at
+// reduced opacity) — kept as bespoke overrides rather than CMS-driven data.
 const InfraCreditMarqueeLogo = () => (
   <div className="relative h-8 w-28 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
     {/* White version default */}
@@ -211,50 +217,6 @@ const InfraCreditMarqueeLogo = () => (
       src={`${BASE}/2022/09/InfraCredit-1.svg`}
       alt="InfraCredit"
       className="h-7 w-auto object-contain absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-      loading="lazy"
-    />
-  </div>
-);
-
-const AIICOMarqueeLogo = () => (
-  <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-    <img
-      src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962991/climate%20facility/about-page/partners-group-3-partner-2-logo.png"
-      alt="AIICO Insurance"
-      className="h-7 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-300"
-      loading="lazy"
-    />
-  </div>
-);
-
-const LinkageMarqueeLogo = () => (
-  <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-    <img
-      src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962993/climate%20facility/about-page/partners-group-3-partner-4-logo.png"
-      alt="Linkage Assurance"
-      className="h-7 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-300"
-      loading="lazy"
-    />
-  </div>
-);
-
-const LeadwayMarqueeLogo = () => (
-  <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-    <img
-      src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962994/climate%20facility/about-page/partners-group-3-partner-5-logo.webp"
-      alt="Leadway Insurance"
-      className="h-7 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-300"
-      loading="lazy"
-    />
-  </div>
-);
-
-const PensionCustodianMarqueeLogo = () => (
-  <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-    <img
-      src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962999/climate%20facility/about-page/partners-group-3-partner-8-logo.png"
-      alt="First Pension Custodian"
-      className="h-7 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-300"
       loading="lazy"
     />
   </div>
@@ -279,21 +241,17 @@ const ShellFoundationMarqueeLogo = () => (
   </div>
 );
 
-const PartnerMarquee = () => {
-  const partners = [
-    { name: "AIICO Insurance", logo: <AIICOMarqueeLogo /> },
-    { name: "Linkage Assurance", logo: <LinkageMarqueeLogo /> },
-    { name: "LEADWAY", logo: <LeadwayMarqueeLogo /> },
-    { name: "Pension Custodian", logo: <PensionCustodianMarqueeLogo /> },
-    { name: "United Capital", logo: null },
-    { name: "MERISTEM", logo: null },
-    { name: "InfraCredit", logo: <InfraCreditMarqueeLogo /> },
-    { name: "FCDO", logo: <FCDOMarqueeLogo /> },
-    { name: "AfDB", logo: null },
-    { name: "USAID", logo: null },
-    { name: "Power Africa", logo: null },
-    { name: "Shell Foundation", logo: <ShellFoundationMarqueeLogo /> }
-  ];
+/** Name -> bespoke override. Any partner not listed here renders via `MarqueeLogo`. */
+const MARQUEE_LOGO_OVERRIDES: Record<string, React.ReactNode> = {
+  InfraCredit: <InfraCreditMarqueeLogo />,
+  'Shell Foundation': <ShellFoundationMarqueeLogo />,
+};
+
+const PartnerMarquee = ({ partnerLogos = FOOTER_DEFAULTS.partnerLogos }: { partnerLogos?: PartnerLogoItem[] }) => {
+  const partners = partnerLogos.map((p) => ({
+    name: p.name,
+    logo: MARQUEE_LOGO_OVERRIDES[p.name] ?? (p.logo ? <MarqueeLogo src={p.logo} alt={p.logo_alt_text || p.name} /> : null),
+  }));
   // Triplicate for seamless loop
   const items = [...partners, ...partners, ...partners];
 
@@ -393,12 +351,17 @@ const SOCIAL_ICONS: Record<SocialPlatform, LucideIcon> = {
 interface FooterProps {
   /** Footer social profiles from the CMS. Entries with a blank url are skipped. */
   socialLinks?: SocialLinkItem[];
+  /** "Domestic Institutional Investors & Partners" marquee logos from the CMS. */
+  partnerLogos?: PartnerLogoItem[];
 }
 
-const Footer = ({ socialLinks = GLOBAL_DEFAULTS.socialLinks }: FooterProps) => (
+const Footer = ({
+  socialLinks = GLOBAL_DEFAULTS.socialLinks,
+  partnerLogos = FOOTER_DEFAULTS.partnerLogos,
+}: FooterProps) => (
   <footer className="bg-[#02100d] text-white pt-0 pb-12 border-t border-white/5 relative z-20 overflow-hidden">
 
-    <PartnerMarquee />
+    <PartnerMarquee partnerLogos={partnerLogos} />
     <CTASection />
 
     <div className="container mx-auto px-6 border-t border-white/10 pt-24 mt-8">
