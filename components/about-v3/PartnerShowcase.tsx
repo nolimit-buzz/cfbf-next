@@ -33,7 +33,7 @@ const WORDMARK_SMALL = 'text-[10px] tracking-wide text-center leading-tight';
 
 const GROUP_STYLES: {
   emptyCells: number;
-  partners: { logoClass?: string; textColour?: string; textClass?: string }[];
+  partners: { logoClass?: string; textColour?: string; textClass?: string; forceColour?: boolean }[];
 }[] = [
   {
     emptyCells: 2,
@@ -51,13 +51,17 @@ const GROUP_STYLES: {
     emptyCells: 0,
     partners: [
       { textColour: 'group-hover:text-[#C8102E]' },
-      { textColour: 'group-hover:text-[#003087]' },
+      // Opaque JPEG background — the white/invert silhouette treatment turns
+      // this into a blank white box, so always render it in colour.
+      { textColour: 'group-hover:text-[#003087]', forceColour: true },
       { textColour: 'group-hover:text-[#0072CE]' },
-      { textColour: 'group-hover:text-[#E31837]' },
+      // White-invert washes out the wordmark's fine detail — keep it in colour.
+      { textColour: 'group-hover:text-[#E31837]', forceColour: true },
       { textColour: 'group-hover:text-[#FF6600]' },
       // Longer acronyms drop a step in size and wrap rather than overflow.
       { textColour: 'group-hover:text-brand-accent', textClass: WORDMARK_SMALL },
-      { textColour: 'group-hover:text-[#003087]', textClass: WORDMARK_SMALL },
+      // Fully opaque PNG (baked-in background) — same white-box issue.
+      { textColour: 'group-hover:text-[#003087]', textClass: WORDMARK_SMALL, forceColour: true },
     ],
   },
 ];
@@ -74,13 +78,29 @@ function LogoImg({
   alt,
   className = "h-8 w-auto",
   colourSrc,
+  forceColour,
 }: {
   src: string;
   alt: string;
   className?: string;
   colourSrc?: string; // if a separate coloured version exists
+  forceColour?: boolean; // skip the white/invert treatment (opaque-background source images)
 }) {
   const colour = colourSrc ?? src;
+
+  if (forceColour) {
+    return (
+      <div className="relative flex items-center justify-center w-full h-full">
+        <img
+          src={colour}
+          alt={alt}
+          className={`object-contain transition-transform duration-500 group-hover:scale-105 ${className}`}
+          loading="lazy"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="relative flex items-center justify-center w-full h-full">
       {/* White version */}
@@ -108,7 +128,7 @@ function PartnerLogo({
   style,
 }: {
   partner: AboutPartner;
-  style?: { logoClass?: string; textColour?: string; textClass?: string };
+  style?: { logoClass?: string; textColour?: string; textClass?: string; forceColour?: boolean };
 }) {
   if (partner.logo) {
     return (
@@ -117,6 +137,7 @@ function PartnerLogo({
         alt={partner.logo_alt_text || partner.name}
         colourSrc={partner.logoColour ?? undefined}
         className={style?.logoClass ?? DEFAULT_LOGO_CLASS}
+        forceColour={style?.forceColour}
       />
     );
   }
@@ -135,7 +156,7 @@ function PartnerLogo({
 }
 
 type GridCell =
-  | { type: 'partner'; partner: AboutPartner; style?: { logoClass?: string; textColour?: string; textClass?: string } }
+  | { type: 'partner'; partner: AboutPartner; style?: { logoClass?: string; textColour?: string; textClass?: string; forceColour?: boolean } }
   | { type: 'cta' }
   | { type: 'empty' };
 
