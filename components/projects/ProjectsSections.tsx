@@ -344,7 +344,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
           <div className="flex gap-8 mt-6 md:mt-0 border-b border-white/10 md:border-b-0 overflow-x-auto no-scrollbar">
             <button
               onClick={() => setActiveTab('pipeline')}
-              className={`text-sm tracking-wide transition-all duration-300 font-sans interactive relative pb-2 flex items-center gap-2 focus:outline-none ${
+              className={`text-sm tracking-wide transition-all duration-300 font-sans interactive relative pb-2 flex items-center gap-2 focus:outline-none whitespace-nowrap shrink-0 ${
                 activeTab === 'pipeline' ? 'text-white font-semibold' : 'text-gray-400 hover:text-gray-300 font-normal'
               }`}
             >
@@ -356,7 +356,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
             </button>
             <button
               onClick={() => setActiveTab('analysis')}
-              className={`text-sm tracking-wide transition-all duration-300 font-sans interactive relative pb-2 flex items-center gap-2 focus:outline-none ${
+              className={`text-sm tracking-wide transition-all duration-300 font-sans interactive relative pb-2 flex items-center gap-2 focus:outline-none whitespace-nowrap shrink-0 ${
                 activeTab === 'analysis' ? 'text-white font-semibold' : 'text-gray-400 hover:text-gray-300 font-normal'
               }`}
             >
@@ -370,7 +370,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
               onClick={() => {
                 document.getElementById('national-footprint')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
               }}
-              className="text-sm tracking-wide transition-all duration-300 font-sans interactive relative pb-2 flex items-center gap-2 focus:outline-none text-gray-400 hover:text-gray-300 font-normal whitespace-nowrap"
+              className="text-sm tracking-wide transition-all duration-300 font-sans interactive relative pb-2 flex items-center gap-2 focus:outline-none text-gray-400 hover:text-gray-300 font-normal whitespace-nowrap shrink-0"
             >
               {TAB_ICONS[2]}
               {tabsCopy.tabs[2]?.label}
@@ -427,8 +427,8 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
                   </a>
                 </div>
 
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                <div className="overflow-x-auto no-scrollbar">
+                  <table className="w-full text-left border-collapse whitespace-nowrap">
                      <thead>
                        <tr className="bg-white/[0.02] border-b border-white/5 text-xs font-bold uppercase tracking-wider text-gray-400 font-mono">
                          {analysisCopy.columnHeads.map((head, idx) => (
