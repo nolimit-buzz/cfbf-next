@@ -142,7 +142,7 @@ export default function Hero({
   }, [isHovered, news.length]);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-[#02100d]">
+    <section className="relative min-h-screen w-full overflow-hidden bg-[#02100d]">
       {/* Background Parallax */}
       <motion.div style={{ y }} className="absolute inset-0 z-0 scale-110">
         <div className="absolute inset-0 bg-black/60 mix-blend-multiply z-10" />
