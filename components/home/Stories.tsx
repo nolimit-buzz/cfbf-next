@@ -2,11 +2,53 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutGrid, List, Play, Clock } from 'lucide-react';
+import { LayoutGrid, List, Clock } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { STORIES_DEFAULTS } from '@/lib/cms/defaults';
 import { withoutEmpty } from '@/lib/cms/content';
 import type { StoriesSection } from '@/lib/cms/types';
+
+/** Turns a youtu.be / youtube.com/watch URL into an embeddable youtube.com/embed URL. Returns null if the URL isn't recognized. */
+function toYoutubeEmbedUrl(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname === 'youtu.be') {
+      return `https://www.youtube.com/embed${parsed.pathname}`;
+    }
+    if (parsed.hostname.endsWith('youtube.com')) {
+      const id = parsed.searchParams.get('v');
+      if (id) return `https://www.youtube.com/embed/${id}`;
+    }
+  } catch {
+    // not a valid URL — fall through to null
+  }
+  return null;
+}
+
+/** Renders a story's media area: the real embedded YouTube player if it has a video, otherwise the fallback image. */
+function StoryMedia({ story }: { story: { image: string; image_alt_text: string | null; title: string; youtubeUrl: string | null } }) {
+  const embedUrl = story.youtubeUrl ? toYoutubeEmbedUrl(story.youtubeUrl) : null;
+
+  if (embedUrl) {
+    return (
+      <iframe
+        src={embedUrl}
+        title={story.title}
+        className="w-full h-full"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    );
+  }
+
+  return (
+    <img
+      src={story.image}
+      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+      alt={story.image_alt_text ?? story.title}
+    />
+  );
+}
 
 /** Accent palette applied to the story cards by position. */
 const STORY_ACCENTS = [
@@ -60,19 +102,9 @@ export default function FeaturedStories({ data }: { data?: StoriesSection }) {
                   <div key={story.id ?? i} className="group cursor-pointer flex flex-col border border-gray-100 rounded-[6px] overflow-hidden bg-white hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.01)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.025)] hover:border-gray-200 text-left">
                     {/* Media area */}
                     <div className="relative aspect-video bg-[#051F1A] overflow-hidden">
-                      <img
-                        src={story.image}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                        alt={story.image_alt_text ?? story.title}
-                      />
-                      {/* Play button – top-right */}
-                      <div className={`absolute top-3 right-3 w-8 h-8 rounded-[4px] flex items-center justify-center ${accent.play} shadow-sm group-hover:scale-105 transition-transform duration-300`}>
-                        <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
-                          <polygon points="3,2 12,7 3,12" fill={accent.glyph} />
-                        </svg>
-                      </div>
+                      <StoryMedia story={story} />
                       {/* Category badge bottom-left */}
-                      <div className="absolute bottom-3 left-3">
+                      <div className="absolute bottom-3 left-3 pointer-events-none">
                         <span className={`backdrop-blur-md text-xs font-bold tracking-wider uppercase px-3 py-0.5 rounded-full font-mono border ${accent.badge}`}>
                           {story.badge}
                         </span>
@@ -118,15 +150,9 @@ export default function FeaturedStories({ data }: { data?: StoriesSection }) {
                   <div key={story.id ?? i} className="group flex flex-col md:flex-row gap-6 bg-white border border-gray-100 p-4 rounded-[8px] shadow-[0_4px_16px_rgba(0,0,0,0.01)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.025)] hover:border-gray-200 transition-all duration-300 cursor-pointer text-left">
                     {/* Media area */}
                     <div className="w-full md:w-48 aspect-video rounded-[6px] overflow-hidden shrink-0 relative bg-[#051F1A]">
-                      <img src={story.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" alt={story.image_alt_text ?? story.title} />
-                      {/* Play button – top-right */}
-                      <div className={`absolute top-2.5 right-2.5 w-7 h-7 rounded-[4px] flex items-center justify-center ${accent.play} shadow-sm group-hover:scale-105 transition-transform duration-300`}>
-                        <svg width="8" height="8" viewBox="0 0 14 14" fill="none">
-                          <polygon points="3,2 12,7 3,12" fill={accent.glyph} />
-                        </svg>
-                      </div>
+                      <StoryMedia story={story} />
                       {/* Category badge bottom-left */}
-                      <div className="absolute bottom-2.5 left-2.5">
+                      <div className="absolute bottom-2.5 left-2.5 pointer-events-none">
                         <span className={`backdrop-blur-md text-xs font-bold tracking-wider uppercase px-3 py-0.5 rounded-full font-mono border ${accent.badge}`}>
                           {story.badge}
                         </span>

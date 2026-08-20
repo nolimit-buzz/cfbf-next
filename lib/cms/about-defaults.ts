@@ -58,7 +58,7 @@ export const ABOUT_HERO_DEFAULTS: AboutContent<AboutHeroSection> = {
   headingPartTwo: " for Nigeria's ",
   headingItalic: 'green energy transition',
   bodyPartOne:
-    'The Climate Finance Blending Facility (CFBF) is capitalised with seed funding by the UK Foreign, Commonwealth & Development Office (FCDO) and co-invested alongside British International Investment (BII).',
+    'The Climate Finance Blending Facility (CFBF) is capitalised with USD 21.3M total concessional funding by the UK Foreign, Commonwealth & Development Office (FCDO) and co-invested alongside British International Investment (BII).',
   bodyPartTwo:
     'Administered by InfraCredit, the facility deploys subordinated debt and AAA guarantees to elevate green assets to investment-grade profiles — unlocking domestic pension capital at institutional scale.',
   backgroundImage:
@@ -368,6 +368,15 @@ export const ABOUT_PARTNERS_DEFAULTS: AboutContent<AboutPartnersSection> = {
           logoColour: null,
           logoColour_alt_text: null,
         },
+        {
+          name: 'KfW',
+          role: 'Technical Assistance Partner',
+          logoText: '',
+          logo: 'https://res.cloudinary.com/diqfojkri/image/upload/v1787232940/climate%20facility/about-page/partners-group-2-partner-3-logo.png',
+          logo_alt_text: 'KfW',
+          logoColour: null,
+          logoColour_alt_text: null,
+        },
       ],
     },
     {
@@ -411,9 +420,9 @@ export const ABOUT_MILESTONES_DEFAULTS: AboutContent<AboutMilestonesSection> = {
     {
       period: 'Q4 2022',
       year: '2022',
-      label: 'Fund seeded & framework certified',
+      label: 'Facility capitalised & framework certified',
       image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=900&auto=format&fit=crop',
-      image_alt_text: 'Fund seeded & framework certified',
+      image_alt_text: 'Facility capitalised & framework certified',
       events: [
         { date: '10.22', text: 'Clean Energy Transition Strategy & Framework formally issued' },
         { date: '11.22', text: 'USD21.3M concessional capital committed by UK FCDO & BII to the Facility' },

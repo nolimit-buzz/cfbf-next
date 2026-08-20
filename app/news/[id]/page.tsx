@@ -69,6 +69,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: article.excerpt,
       images: [article.image],
       type: 'article',
+      url: `/news/${id}`,
     },
     other: {
       'DC.title': article.title,

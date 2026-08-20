@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin, Download, CheckCircle, Send, AlertCircle, ShieldCheck, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -158,7 +158,6 @@ export default function ContactSections({
   downloadCta,
 }: ContactSectionsProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const heroCopy = { ...CONTACT_HERO_DEFAULTS, ...withoutEmpty(hero) };
   const contactsCopy = { ...CONTACT_FACILITY_CONTACTS_DEFAULTS, ...withoutEmpty(facilityContacts) };
@@ -200,10 +199,21 @@ export default function ContactSections({
     downloadCta,
   ]);
 
-  // Read URL search params
-  const readiness = searchParams.get('readiness'); // 'qualified' | 'technical-assistance'
-  const score = searchParams.get('score');
-  const tech = searchParams.get('tech');
+  // Read URL search params from `window.location.search` (not `useSearchParams()`)
+  // so this component never needs a Suspense boundary — wrapping the whole page
+  // in one caused it to be excluded from the static/SSR shell, leaving only the
+  // loading fallback in the served HTML. These are only known after mount, same
+  // as before (the hook version also had no value until hydration on a static page).
+  const [readiness, setReadiness] = useState<string | null>(null); // 'qualified' | 'technical-assistance'
+  const [score, setScore] = useState<string | null>(null);
+  const [tech, setTech] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setReadiness(params.get('readiness'));
+    setScore(params.get('score'));
+    setTech(params.get('tech'));
+  }, []);
 
   const [role, setRole] = useState<Role>('developer');
   const [submitted, setSubmitted] = useState(false);

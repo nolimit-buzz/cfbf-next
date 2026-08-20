@@ -9,6 +9,7 @@
  * colour variants, partner logo artwork, story accent colours, the hero video
  * seek window — live next to the components that use them, not here.
  */
+import { SITE_URL } from '@/lib/site-config';
 import type {
   AboutContent,
   HeroContent,
@@ -405,12 +406,12 @@ export const STORIES_DEFAULTS: StoriesContent = {
       location: 'Rivers State',
       storyType: 'Video Testimonial',
       badge: 'Case Study',
-      image:
-        'https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=800&auto=format&fit=crop',
+      image: 'https://img.youtube.com/vi/kBGxtT3dd0s/hqdefault.jpg',
       image_alt_text: 'Meet Felicia Adindu-End User, Darway Coast',
       excerpt:
         'In Akpoku, Rivers State, Felicia Adindu once struggled with unreliable energy. Now, clean solar power has transformed her daily life and business.',
       duration: '4:32 mins',
+      youtubeUrl: 'https://youtu.be/kBGxtT3dd0s',
     },
     {
       title: 'ACOB Lighting Solar Powered Rural Electrification Project',
@@ -418,12 +419,12 @@ export const STORIES_DEFAULTS: StoriesContent = {
       location: 'Akwa-Ibom & Benue States',
       storyType: 'Video Testimonial',
       badge: 'Tech Showcase',
-      image:
-        'https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800&auto=format&fit=crop',
+      image: 'https://img.youtube.com/vi/E2Dfe3QuZds/hqdefault.jpg',
       image_alt_text: 'ACOB Lighting Solar Powered Rural Electrification Project',
       excerpt:
         'Investing in clean energy means investing in communities. How ACOB Lighting is powering local development in northern regions.',
       duration: '3:15 mins',
+      youtubeUrl: 'https://youtu.be/E2Dfe3QuZds',
     },
     {
       title: 'Prado Power Solar Powered Rural Electrification Project',
@@ -431,12 +432,12 @@ export const STORIES_DEFAULTS: StoriesContent = {
       location: 'Cross River State',
       storyType: 'Video Testimonial',
       badge: 'Milestone Focus',
-      image:
-        'https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?q=80&w=800&auto=format&fit=crop',
+      image: 'https://img.youtube.com/vi/81ULxF30F4A/hqdefault.jpg',
       image_alt_text: 'Prado Power Solar Powered Rural Electrification Project',
       excerpt:
         'The project will construct solar-hybrid mini-grid installations to power households and small businesses in off-grid rural areas.',
       duration: '5:40 mins',
+      youtubeUrl: 'https://youtu.be/81ULxF30F4A',
     },
   ],
 };
@@ -485,8 +486,8 @@ export const NET_ZERO_DEFAULTS: NetZeroContent = {
 
 export const STRUCTURED_DATA_DEFAULTS: StructuredDataContent = {
   organizationName: 'Climate Finance Blending Facility (CFBF)',
-  url: 'https://climatesupportfacility.org',
-  logoUrl: 'https://climatesupportfacility.org/logo.png',
+  url: SITE_URL,
+  logoUrl: `${SITE_URL}/logo.png`,
   logoUrl_alt_text: 'Climate Finance Blending Facility (CFBF)',
   description:
     'A catalytic facility managed by InfraCredit and capitalized with UK FCDO concessional capital and British International Investment (BII) funding to de-risk green investments in local currency.',

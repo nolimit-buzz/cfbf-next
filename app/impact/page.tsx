@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import ImpactSections from '@/components/impact/ImpactSections';
 import { getImpactSections } from '@/lib/cms/impact';
@@ -30,6 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: seo.pageTitle,
     description: seo.metaDescription,
+    openGraph: { url: '/impact' },
   };
 }
 
@@ -38,26 +38,16 @@ export default async function ImpactPage() {
   const seo = await getSeo();
 
   return (
-    // ImpactSections reads `?play=` via useSearchParams, which has to sit inside
-    // a Suspense boundary or the page cannot be prerendered.
-    <Suspense
-      fallback={
-        <div className="bg-[#FAFDFB] text-brand-dark min-h-screen flex items-center justify-center font-mono text-xs uppercase tracking-widest">
-          {seo.loadingLabel}
-        </div>
-      }
-    >
-      <ImpactSections
-        hero={pickSection(sections, 'impact-page.hero-section')}
-        philosophy={pickSection(sections, 'impact-page.philosophy-section')}
-        impactConsole={pickSection(sections, 'impact-page.impact-console-section')}
-        storiesTab={pickSection(sections, 'impact-page.stories-tab-section')}
-        numbersTab={pickSection(sections, 'impact-page.numbers-tab-section')}
-        investmentsTab={pickSection(sections, 'impact-page.investments-tab-section')}
-        assetsTab={pickSection(sections, 'impact-page.assets-tab-section')}
-        nextSteps={pickSection(sections, 'impact-page.next-steps-section')}
-        videoModal={pickSection(sections, 'impact-page.video-modal-section')}
-      />
-    </Suspense>
+    <ImpactSections
+      hero={pickSection(sections, 'impact-page.hero-section')}
+      philosophy={pickSection(sections, 'impact-page.philosophy-section')}
+      impactConsole={pickSection(sections, 'impact-page.impact-console-section')}
+      storiesTab={pickSection(sections, 'impact-page.stories-tab-section')}
+      numbersTab={pickSection(sections, 'impact-page.numbers-tab-section')}
+      investmentsTab={pickSection(sections, 'impact-page.investments-tab-section')}
+      assetsTab={pickSection(sections, 'impact-page.assets-tab-section')}
+      nextSteps={pickSection(sections, 'impact-page.next-steps-section')}
+      videoModal={pickSection(sections, 'impact-page.video-modal-section')}
+    />
   );
 }

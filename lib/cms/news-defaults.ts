@@ -6,6 +6,7 @@
  * editor leaves a field blank.
  */
 import { newsArticles } from '@/lib/newsData';
+import { SITE_URL } from '@/lib/site-config';
 import type {
   NewsArticleDetailSection,
   NewsArticleItem,
@@ -30,7 +31,7 @@ export const NEWS_STRUCTURED_DATA_DEFAULTS: Omit<NewsStructuredDataSection, '__c
   schemaName: 'News & Media | Climate Finance Blending Facility',
   schemaDescription:
     'Stay updated on the green transition, market insights, fund updates, and impact reports from the Climate Finance Blending Facility.',
-  schemaUrl: 'https://climatesupportfacility.org/news',
+  schemaUrl: `${SITE_URL}/news`,
   parentOrganizationName: 'Climate Finance Blending Facility (CFBF)',
 };
 
@@ -111,7 +112,7 @@ export const NEWS_ARTICLE_DETAIL_DEFAULTS: Omit<NewsArticleDetailSection, '__com
   copyLinkAlert: 'Article link copied to clipboard!',
   titleSuffix: ' | News & Insights',
   publisherName: 'Climate Finance Blending Facility (CFBF)',
-  publisherLogoUrl: 'https://climatesupportfacility.org/logo.png',
+  publisherLogoUrl: `${SITE_URL}/logo.png`,
   dcPublisher: 'Climate Finance Blending Facility',
   dcLanguage: 'en',
   dcType: 'News Article',

@@ -252,8 +252,8 @@ const PartnerMarquee = ({ partnerLogos = FOOTER_DEFAULTS.partnerLogos }: { partn
     name: p.name,
     logo: MARQUEE_LOGO_OVERRIDES[p.name] ?? (p.logo ? <MarqueeLogo src={p.logo} alt={p.logo_alt_text || p.name} /> : null),
   }));
-  // Triplicate for seamless loop
-  const items = [...partners, ...partners, ...partners];
+  // Duplicate for seamless loop — matches the marquee-scroll keyframe's -50% shift
+  const items = [...partners, ...partners];
 
   return (
     <div className="pt-20 pb-10 relative z-10">
@@ -402,7 +402,6 @@ const Footer = ({
           <ul className="space-y-3 text-gray-400 text-sm font-sans">
             {[
               { label: 'Projects', href: '/projects' },
-              { label: 'Impact Report', href: '/impact' },
               { label: 'Eligibility Assessment', href: '/eligibility/assessment' },
               { label: 'Nigeria Energy Map', href: '/about#energy-map' },
               { label: 'Facility Architecture', href: '/how-it-works#architecture' },
@@ -464,7 +463,7 @@ const Footer = ({
           <span className="hidden md:inline text-gray-700">•</span>
           <Link href="/terms" className="hover:text-brand-accent transition-colors">Terms of Use</Link>
           <span className="hidden md:inline text-gray-700">•</span>
-          <span>© 2025 Climate Finance Blending Facility</span>
+          <span>© {new Date().getFullYear()} Climate Finance Blending Facility</span>
           <span className="hidden md:inline text-gray-700">|</span>
           <span>
             <a

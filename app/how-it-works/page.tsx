@@ -29,6 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: seo.pageTitle,
     description: seo.metaDescription,
+    openGraph: { url: '/how-it-works' },
     other: {
       'DC.title': seo.dcTitle,
       'DC.creator': seo.dcCreator,

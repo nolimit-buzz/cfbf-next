@@ -182,23 +182,23 @@ export const LGA_PROJECTS: Record<string, LGAProjectEntry[]> = {
     { developer: 'Darway Coast', community: 'Degema Island', state: 'Rivers', lga: 'Degema', projectType: 'Isolated Minigrids', puePotential: 18, enumerators: 4 },
     { developer: 'Darway Coast', community: 'Ke', state: 'Rivers', lga: 'Degema', projectType: 'Solar Hybrid Mini-Grid', puePotential: 12, enumerators: 3 },
   ],
-  // Edo - ACOB Lightning
+  // Edo - ACOB Lighting
   'Egor': [
-    { developer: 'ACOB Lightning Technology', community: 'Egor Township', state: 'Edo', lga: 'Egor', projectType: 'Solar Hybrid Mini-Grid', puePotential: 22, enumerators: 5 },
-    { developer: 'ACOB Lightning Technology', community: 'Ugbowo', state: 'Edo', lga: 'Egor', projectType: 'Solar Hybrid Mini-Grid', puePotential: 18, enumerators: 4 },
+    { developer: 'ACOB Lighting Technology', community: 'Egor Township', state: 'Edo', lga: 'Egor', projectType: 'Solar Hybrid Mini-Grid', puePotential: 22, enumerators: 5 },
+    { developer: 'ACOB Lighting Technology', community: 'Ugbowo', state: 'Edo', lga: 'Egor', projectType: 'Solar Hybrid Mini-Grid', puePotential: 18, enumerators: 4 },
   ],
   'Ovia South West': [
-    { developer: 'ACOB Lightning Technology', community: 'Igueben', state: 'Edo', lga: 'Ovia South West', projectType: 'Solar Hybrid Mini-Grid', puePotential: 15, enumerators: 3 },
-    { developer: 'ACOB Lightning Technology', community: 'Ekpon', state: 'Edo', lga: 'Ovia South West', projectType: 'Isolated Minigrids', puePotential: 10, enumerators: 2 },
+    { developer: 'ACOB Lighting Technology', community: 'Igueben', state: 'Edo', lga: 'Ovia South West', projectType: 'Solar Hybrid Mini-Grid', puePotential: 15, enumerators: 3 },
+    { developer: 'ACOB Lighting Technology', community: 'Ekpon', state: 'Edo', lga: 'Ovia South West', projectType: 'Isolated Minigrids', puePotential: 10, enumerators: 2 },
   ],
   // Ondo - First Electric + ACOB
   'Ondo': [
     { developer: 'First Electric', community: 'Ondo City South', state: 'Ondo', lga: 'Ondo', projectType: 'Solar Hybrid Mini-Grid', puePotential: 28, enumerators: 6 },
-    { developer: 'ACOB Lightning Technology', community: 'Ondo City North', state: 'Ondo', lga: 'Ondo', projectType: 'Isolated Minigrids', puePotential: 20, enumerators: 4 },
+    { developer: 'ACOB Lighting Technology', community: 'Ondo City North', state: 'Ondo', lga: 'Ondo', projectType: 'Isolated Minigrids', puePotential: 20, enumerators: 4 },
   ],
   'Odigbo': [
     { developer: 'First Electric', community: 'Ore', state: 'Ondo', lga: 'Odigbo', projectType: 'Solar Hybrid Mini-Grid', puePotential: 24, enumerators: 5 },
-    { developer: 'ACOB Lightning Technology', community: 'Odigbo Township', state: 'Ondo', lga: 'Odigbo', projectType: 'Solar Hybrid Mini-Grid', puePotential: 16, enumerators: 4 },
+    { developer: 'ACOB Lighting Technology', community: 'Odigbo Township', state: 'Ondo', lga: 'Odigbo', projectType: 'Solar Hybrid Mini-Grid', puePotential: 16, enumerators: 4 },
   ],
   'Irele': [
     { developer: 'First Electric', community: 'Irele Township', state: 'Ondo', lga: 'Irele', projectType: 'Solar Hybrid Mini-Grid', puePotential: 18, enumerators: 4 },

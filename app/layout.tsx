@@ -9,6 +9,7 @@ import { getNewsArticles } from "@/lib/cms/news";
 import { getGlobalSettings } from "@/lib/cms/global";
 import { getFooterSettings } from "@/lib/cms/footer";
 import { toNewsSummaries } from "@/lib/cms/news-content";
+import { SITE_URL } from "@/lib/site-config";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -17,13 +18,16 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Climate finance blending facility | CFBF",
   description: "Mobilising blended finance for sustainable energy access. Capitalised with USD21.3 million concessional funding by the UK Foreign, Commonwealth & Development Office (FCDO) and British International Investment (BII) to de-risk green investments in local currency.",
   keywords: ["Climate Finance", "Blended Finance", "Sustainable Energy", "InfraCredit", "FCDO", "BII", "Nigeria", "Solar Grid", "Green Energy"],
   openGraph: {
     title: "Climate finance blending facility | CFBF",
     description: "Mobilising blended finance for sustainable energy access. Capitalised with USD21.3 million concessional funding by the UK Foreign, Commonwealth & Development Office (FCDO) and British International Investment (BII) to de-risk green investments in local currency.",
-    url: "https://climatesupportfacility.org",
+    // Relative — Next resolves this against `metadataBase`, and any page-level
+    // `generateMetadata` with its own `openGraph.url` overrides it per-route.
+    url: "/",
     siteName: "CFBF Portal",
     images: [
       {

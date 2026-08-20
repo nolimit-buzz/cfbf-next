@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, X, LayoutGrid, List, ArrowRight, ArrowUpRight, Globe, Users, BarChart3, ShieldCheck, FolderClosed, Zap, Leaf, Wifi } from 'lucide-react';
 import GlassHero, { heroRowVariants, heroCardVariants } from '@/components/GlassHero';
@@ -211,20 +210,23 @@ export default function ImpactSections(props: ImpactSectionsProps) {
 
   const stories = storiesCopy.stories;
 
-  const searchParams = useSearchParams();
   const [viewMode, setViewMode] = useState('card');
   const [selectedVideo, setSelectedVideo] = useState<{ url: string; title: string } | null>(null);
   const [visibleStories, setVisibleStories] = useState(3);
   const [activeImpactTab, setActiveImpactTab] = useState(consoleCopy.tabs[0]?.tabId ?? 'stories');
 
-  // Auto-play modal trigger via search param
+  // Auto-play modal trigger via search param. Read from `window.location.search`
+  // (not `useSearchParams()`) so this component never needs a Suspense boundary —
+  // wrapping the whole page in one caused it to be excluded from the static/SSR
+  // shell, leaving only the loading fallback in the served HTML.
   useEffect(() => {
-    const playParam = searchParams.get('play');
+    const playParam = new URLSearchParams(window.location.search).get('play');
     if (playParam) {
       const story = stories[Number(playParam)] || stories[0];
       if (story) setSelectedVideo({ url: story.video, title: story.title });
     }
-  }, [searchParams, stories]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stories]);
 
   // Opt-in diagnostic: shows whether each section rendered from the CMS or from
   // its bundled defaults. Off unless NEXT_PUBLIC_CMS_DEBUG=1, so visitors never

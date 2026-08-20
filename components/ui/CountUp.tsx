@@ -61,7 +61,7 @@ export default function CountUp({ value, to, duration = 1.6, className = '' }: C
     return dec ? `${grouped}.${dec}` : grouped;
   };
 
-  const [display, setDisplay] = useState(() => (parsed ? format(0) : String(source ?? '')));
+  const [display, setDisplay] = useState(() => (parsed ? format(target) : String(source ?? '')));
 
   useEffect(() => {
     if (!parsed || !inView) return;

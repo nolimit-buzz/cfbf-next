@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import ContactSections from '@/components/contact/ContactSections';
 import { getContactSections } from '@/lib/cms/contact';
@@ -30,6 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: seo.pageTitle,
     description: seo.metaDescription,
+    openGraph: { url: '/contact' },
   };
 }
 
@@ -54,26 +54,16 @@ export default async function ContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {/* The enquiry form reads `?readiness=…` via `useSearchParams`, so it stays
-          behind a Suspense boundary even though the copy is now prerendered. */}
-      <Suspense
-        fallback={
-          <div className="bg-[#FAFDFB] text-[#051F1A] min-h-screen flex items-center justify-center font-mono text-sm">
-            {seo.loadingLabel}
-          </div>
-        }
-      >
-        <ContactSections
-          hero={pickSection(sections, 'contact-page.hero-section')}
-          facilityContacts={pickSection(sections, 'contact-page.facility-contacts-section')}
-          eligibilityReminder={pickSection(sections, 'contact-page.eligibility-reminder-section')}
-          funStats={pickSection(sections, 'contact-page.fun-stats-section')}
-          enquiryForm={pickSection(sections, 'contact-page.enquiry-form-section')}
-          submissionSuccess={pickSection(sections, 'contact-page.submission-success-section')}
-          nextSteps={pickSection(sections, 'contact-page.next-steps-section')}
-          downloadCta={pickSection(sections, 'contact-page.download-cta-section')}
-        />
-      </Suspense>
+      <ContactSections
+        hero={pickSection(sections, 'contact-page.hero-section')}
+        facilityContacts={pickSection(sections, 'contact-page.facility-contacts-section')}
+        eligibilityReminder={pickSection(sections, 'contact-page.eligibility-reminder-section')}
+        funStats={pickSection(sections, 'contact-page.fun-stats-section')}
+        enquiryForm={pickSection(sections, 'contact-page.enquiry-form-section')}
+        submissionSuccess={pickSection(sections, 'contact-page.submission-success-section')}
+        nextSteps={pickSection(sections, 'contact-page.next-steps-section')}
+        downloadCta={pickSection(sections, 'contact-page.download-cta-section')}
+      />
     </>
   );
 }

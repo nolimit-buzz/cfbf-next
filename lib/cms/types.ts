@@ -228,6 +228,7 @@ export interface StoryEntry extends ComponentBase {
   image_alt_text: string | null;
   excerpt: string;
   duration: string;
+  youtubeUrl: string | null;
 }
 
 export interface StoriesSection extends ComponentBase {

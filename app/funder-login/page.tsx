@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import {
   Lock, Database, Zap, RefreshCw, ChevronDown, ArrowUpRight, Mail,
-  FileText, Search, Shield, ExternalLink
+  Search, Shield, ExternalLink
 } from 'lucide-react';
 import GlassHero, { heroRowVariants, heroCardVariants } from '@/components/GlassHero';
 import StepCard, { StepTheme } from '@/components/ui/StepCard';
@@ -77,7 +77,6 @@ const FAQS = [
 
 const QUICK_LINKS = [
   { label: 'Enquiries', href: '/contact', icon: Mail },
-  { label: 'Forms & Documentation', href: '/contact', icon: FileText },
   { label: 'Find a Fund', href: '/projects', icon: Search },
 ];
 

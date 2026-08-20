@@ -1,8 +1,7 @@
 "use client";
 
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { useSearchParams } from 'next/navigation';
 import AboutHero from '@/components/about/AboutHero'; // Above fold — keep eager
 import StickyAboutNav from '@/components/ui/StickyAboutNav';
 import type {
@@ -59,21 +58,23 @@ function AboutSectionsContent(props: AboutSectionsProps) {
     capitalStack, partners, milestones, audience, nextSteps, downloadCta,
   } = props;
 
-  const searchParams = useSearchParams();
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [projectSize, setProjectSize] = useState<number>(15);
   const [isSimulatorExpanded, setIsSimulatorExpanded] = useState(false);
 
-  // Deep linking projectSize parameter
+  // Deep linking projectSize parameter. Read from `window.location.search` (not
+  // `useSearchParams()`) so this component never needs a Suspense boundary —
+  // wrapping the whole page in one caused it to be excluded from the static/SSR
+  // shell, leaving only the loading fallback in the served HTML.
   useEffect(() => {
-    const sizeParam = searchParams.get('projectSize');
+    const sizeParam = new URLSearchParams(window.location.search).get('projectSize');
     if (sizeParam) {
       const parsed = parseFloat(sizeParam);
       if (!isNaN(parsed) && parsed >= MIN_PROJECT_SIZE && parsed <= MAX_PROJECT_SIZE) {
         setProjectSize(parsed);
       }
     }
-  }, [searchParams]);
+  }, []);
 
   // Opt-in diagnostic: shows whether each section rendered from the CMS or from
   // its bundled defaults. Off unless NEXT_PUBLIC_CMS_DEBUG=1, so visitors never
@@ -152,20 +153,7 @@ function AboutSectionsContent(props: AboutSectionsProps) {
  * `dynamic(..., { ssr: false })` can only be used from a client component, so
  * the lazy imports live here while the CMS fetch stays in the server page.
  * Every section prop is optional — components fall back to bundled defaults.
- *
- * The Suspense wrapper is required by `useSearchParams`, which backs the
- * `?projectSize=` deep link into the capital-stack simulator.
  */
 export default function AboutSections(props: AboutSectionsProps) {
-  return (
-    <Suspense
-      fallback={
-        <div className="bg-[#FAFDFB] text-brand-dark min-h-screen flex items-center justify-center font-mono text-xs uppercase tracking-widest">
-          {props.loadingLabel}
-        </div>
-      }
-    >
-      <AboutSectionsContent {...props} />
-    </Suspense>
-  );
+  return <AboutSectionsContent {...props} />;
 }

@@ -17,6 +17,7 @@
  * crossing them would silently recolour the key.
  */
 
+import { SITE_URL } from '@/lib/site-config';
 import type {
   ProjectsAnalysisTabSection,
   ProjectsContent,
@@ -90,7 +91,7 @@ export const PROJECTS_STRUCTURED_DATA_DEFAULTS: ProjectsContent<ProjectsStructur
   jsonLdName: 'Projects Portfolio | Climate Finance Blending Facility',
   jsonLdDescription:
     'Directory of active clean energy infrastructure projects de-risked and co-financed by the Climate Finance Blending Facility in Nigeria.',
-  jsonLdUrl: 'https://climatesupportfacility.org/projects',
+  jsonLdUrl: `${SITE_URL}/projects`,
   jsonLdPublisherName: 'Climate Finance Blending Facility (CFBF)',
 };
 
@@ -151,7 +152,7 @@ export const PROJECTS_PORTFOLIO_TABS_DEFAULTS: ProjectsContent<ProjectsPortfolio
   eyebrow: 'Portfolio',
   headingPartOne: 'Our footprint ',
   headingHighlight: 'in Nigeria',
-  body: 'Collectively, renewable energy projects located in 35 states across the six geo-political zones in Nigeria have been approved for co-financing by the Facility.',
+  body: 'Collectively, renewable energy projects located in 36 states across the six geo-political zones in Nigeria have been approved for co-financing by the Facility.',
   tabs: [
     { label: 'Project Pipeline' },
     { label: 'Project Analysis' },
@@ -341,7 +342,7 @@ export const PROJECTS_PIPELINE_TAB_DEFAULTS: ProjectsContent<ProjectsPipelineTab
     },
     {
       projectId: '06',
-      title: 'ACOB Lightning Technology Limited',
+      title: 'ACOB Lighting Technology Limited',
       location: 'Edo & Ondo States',
       year: '2023',
       capital: '₦755m',
@@ -352,7 +353,7 @@ export const PROJECTS_PIPELINE_TAB_DEFAULTS: ProjectsContent<ProjectsPipelineTab
       ghg: '352 Tonnes',
       status: 'Operational',
       image: ACOB_IMAGE,
-      image_alt_text: 'ACOB Lightning Technology Limited',
+      image_alt_text: 'ACOB Lighting Technology Limited',
       desc: 'Off-grid rural electrification for agricultural hubs.',
       problem: 'Energy poverty in rural cocoa-farming communities with zero electricity access.',
       solution: '335kWp solar-hybrid installations with local commercial distribution networks.',
@@ -388,7 +389,7 @@ export const PROJECTS_PIPELINE_TAB_DEFAULTS: ProjectsContent<ProjectsPipelineTab
     },
     {
       stateMapId: 'edo',
-      projectName: 'ACOB Lightning',
+      projectName: 'ACOB Lighting',
       capacity: '165kW (Regional Share)',
       funding: '₦370m',
       sdgs: '7, 8, 13',
@@ -406,7 +407,7 @@ export const PROJECTS_PIPELINE_TAB_DEFAULTS: ProjectsContent<ProjectsPipelineTab
     },
     {
       stateMapId: 'ondo',
-      projectName: 'ACOB Lightning',
+      projectName: 'ACOB Lighting',
       capacity: '170kW (Regional Share)',
       funding: '₦385m',
       sdgs: '7, 8, 13',
