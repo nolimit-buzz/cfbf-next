@@ -109,7 +109,7 @@ export interface ImpactStoryItem extends ComponentBase {
   duration: string;
   image: string;
   image_alt_text: string;
-  video: string;
+  youtubeUrl: string | null;
 }
 
 export interface ImpactStoriesTabSection extends ComponentBase {

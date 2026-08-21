@@ -3,9 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, X, LayoutGrid, List, ArrowRight, ArrowUpRight, Globe, Users, BarChart3, ShieldCheck, FolderClosed, Zap, Leaf, Wifi } from 'lucide-react';
+import { LayoutGrid, List, ArrowRight, ArrowUpRight, Globe, Users, BarChart3, ShieldCheck, FolderClosed, Zap, Leaf, Wifi } from 'lucide-react';
 import GlassHero, { heroRowVariants, heroCardVariants } from '@/components/GlassHero';
 import CountUp from '@/components/ui/CountUp';
+import StoryMedia from '@/components/ui/StoryMedia';
 import { withoutEmpty } from '@/lib/cms/content';
 import {
   IMPACT_ASSETS_TAB_DEFAULTS,
@@ -16,7 +17,6 @@ import {
   IMPACT_NUMBERS_TAB_DEFAULTS,
   IMPACT_PHILOSOPHY_DEFAULTS,
   IMPACT_STORIES_TAB_DEFAULTS,
-  IMPACT_VIDEO_MODAL_DEFAULTS,
 } from '@/lib/cms/impact-defaults';
 import type {
   ImpactAssetsTabSection,
@@ -27,7 +27,6 @@ import type {
   ImpactNumbersTabSection,
   ImpactPhilosophySection,
   ImpactStoriesTabSection,
-  ImpactVideoModalSection,
 } from '@/lib/cms/impact-types';
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
@@ -133,9 +132,9 @@ const SDG_CARD_STYLES = [
 
 /** Story accents rotate every three cards, in both card and list view. */
 const STORY_ACCENTS = [
-  { badge: 'text-[#81C34D] bg-[#81C34D]/10 border-[#81C34D]/25', playBg: 'bg-[#81C34D]', topic: 'text-[#81C34D]', playFill: '#051F1A' },
-  { badge: 'text-[#009FD4] bg-[#009FD4]/10 border-[#009FD4]/25', playBg: 'bg-[#009FD4]', topic: 'text-[#009FD4]', playFill: 'white' },
-  { badge: 'text-[#00A788] bg-[#00A788]/10 border-[#00A788]/25', playBg: 'bg-[#00A788]', topic: 'text-[#00A788]', playFill: 'white' },
+  { badge: 'text-[#81C34D] bg-[#81C34D]/10 border-[#81C34D]/25', topic: 'text-[#81C34D]' },
+  { badge: 'text-[#009FD4] bg-[#009FD4]/10 border-[#009FD4]/25', topic: 'text-[#009FD4]' },
+  { badge: 'text-[#00A788] bg-[#00A788]/10 border-[#00A788]/25', topic: 'text-[#00A788]' },
 ];
 
 // Icon Stat Box Component
@@ -189,13 +188,12 @@ export interface ImpactSectionsProps {
   investmentsTab?: ImpactInvestmentsTabSection;
   assetsTab?: ImpactAssetsTabSection;
   nextSteps?: ImpactNextStepsSection;
-  videoModal?: ImpactVideoModalSection;
 }
 
 export default function ImpactSections(props: ImpactSectionsProps) {
   const {
     hero, philosophy, impactConsole, storiesTab, numbersTab,
-    investmentsTab, assetsTab, nextSteps, videoModal,
+    investmentsTab, assetsTab, nextSteps,
   } = props;
 
   const heroCopy = { ...IMPACT_HERO_DEFAULTS, ...withoutEmpty(hero) };
@@ -206,27 +204,12 @@ export default function ImpactSections(props: ImpactSectionsProps) {
   const investmentsCopy = { ...IMPACT_INVESTMENTS_TAB_DEFAULTS, ...withoutEmpty(investmentsTab) };
   const assetsCopy = { ...IMPACT_ASSETS_TAB_DEFAULTS, ...withoutEmpty(assetsTab) };
   const nextStepsCopy = { ...IMPACT_NEXT_STEPS_DEFAULTS, ...withoutEmpty(nextSteps) };
-  const videoModalCopy = { ...IMPACT_VIDEO_MODAL_DEFAULTS, ...withoutEmpty(videoModal) };
 
   const stories = storiesCopy.stories;
 
   const [viewMode, setViewMode] = useState('card');
-  const [selectedVideo, setSelectedVideo] = useState<{ url: string; title: string } | null>(null);
   const [visibleStories, setVisibleStories] = useState(3);
   const [activeImpactTab, setActiveImpactTab] = useState(consoleCopy.tabs[0]?.tabId ?? 'stories');
-
-  // Auto-play modal trigger via search param. Read from `window.location.search`
-  // (not `useSearchParams()`) so this component never needs a Suspense boundary —
-  // wrapping the whole page in one caused it to be excluded from the static/SSR
-  // shell, leaving only the loading fallback in the served HTML.
-  useEffect(() => {
-    const playParam = new URLSearchParams(window.location.search).get('play');
-    if (playParam) {
-      const story = stories[Number(playParam)] || stories[0];
-      if (story) setSelectedVideo({ url: story.video, title: story.title });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stories]);
 
   // Opt-in diagnostic: shows whether each section rendered from the CMS or from
   // its bundled defaults. Off unless NEXT_PUBLIC_CMS_DEBUG=1, so visitors never
@@ -236,14 +219,14 @@ export default function ImpactSections(props: ImpactSectionsProps) {
 
     const sections = {
       hero, philosophy, impactConsole, storiesTab, numbersTab,
-      investmentsTab, assetsTab, nextSteps, videoModal,
+      investmentsTab, assetsTab, nextSteps,
     };
     const source = Object.fromEntries(
       Object.entries(sections).map(([name, value]) => [name, value ? 'cms' : 'default'])
     );
 
     console.log('[cms] impact sections', source, sections);
-  }, [hero, philosophy, impactConsole, storiesTab, numbersTab, investmentsTab, assetsTab, nextSteps, videoModal]);
+  }, [hero, philosophy, impactConsole, storiesTab, numbersTab, investmentsTab, assetsTab, nextSteps]);
 
   return (
     <div className="bg-[#FAFDFB] text-brand-dark min-h-screen relative font-sans antialiased text-left selection:bg-brand-accent selection:text-brand-dark">
@@ -448,22 +431,13 @@ export default function ImpactSections(props: ImpactSectionsProps) {
                           return (
                             <div
                               key={i}
-                              onClick={() => setSelectedVideo({ url: story.video, title: story.title })}
-                              className="group cursor-pointer flex flex-col border border-white/10 rounded-[6px] overflow-hidden bg-white/[0.02] hover:-translate-y-0.5 transition-all duration-300 hover:border-white/20 text-left"
+                              className="group flex flex-col border border-white/10 rounded-[6px] overflow-hidden bg-white/[0.02] hover:-translate-y-0.5 transition-all duration-300 hover:border-white/20 text-left"
                             >
                               {/* Media area */}
                               <div className="relative aspect-video bg-[#051F1A] overflow-hidden">
-                                <img
-                                  src={story.image}
-                                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                                  alt={story.image_alt_text || story.title}
-                                />
-                                {/* Play button */}
-                                <div className={`absolute top-4 right-4 w-10 h-10 rounded-[6px] flex items-center justify-center ${accent.playBg} group-hover:scale-105 transition-transform duration-300`}>
-                                  <Play size={14} fill={accent.playFill} stroke="none" className="ml-0.5" />
-                                </div>
+                                <StoryMedia story={story} />
                                 {/* Category badge */}
-                                <div className="absolute bottom-3 left-3">
+                                <div className="absolute bottom-3 left-3 pointer-events-none">
                                   <span className={`backdrop-blur-md text-[9px] font-bold tracking-widest uppercase px-3 py-1 rounded-full font-mono border ${accent.badge}`}>
                                     {story.badge}
                                   </span>
@@ -512,18 +486,13 @@ export default function ImpactSections(props: ImpactSectionsProps) {
                           return (
                             <div
                               key={i}
-                              onClick={() => setSelectedVideo({ url: story.video, title: story.title })}
-                              className="group flex flex-col md:flex-row gap-6 bg-white/[0.02] border border-white/10 p-4 rounded-[8px] hover:border-white/20 transition-all duration-300 cursor-pointer text-left"
+                              className="group flex flex-col md:flex-row gap-6 bg-white/[0.02] border border-white/10 p-4 rounded-[8px] hover:border-white/20 transition-all duration-300 text-left"
                             >
                               {/* Media area */}
                               <div className="w-full md:w-48 aspect-video rounded-[6px] overflow-hidden shrink-0 relative bg-[#051F1A]">
-                                <img src={story.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" alt={story.image_alt_text || story.title} />
-                                {/* Play button */}
-                                <div className="absolute top-3 right-3 w-8 h-8 rounded-[4px] flex items-center justify-center bg-white/20 group-hover:scale-105 transition-transform duration-300">
-                                  <Play size={12} fill="white" stroke="none" className="ml-0.5" />
-                                </div>
+                                <StoryMedia story={story} />
                                 {/* Category badge */}
-                                <div className="absolute bottom-2.5 left-2.5">
+                                <div className="absolute bottom-2.5 left-2.5 pointer-events-none">
                                   <span className={`backdrop-blur-md text-[8px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full font-mono border ${accent.badge}`}>
                                     {story.badge}
                                   </span>
@@ -852,55 +821,6 @@ export default function ImpactSections(props: ImpactSectionsProps) {
         </div>
         </motion.div>
       </section>
-
-      {/* ── VIDEO PLAYER MODAL OVERLAY ────── */}
-      <AnimatePresence>
-        {selectedVideo && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedVideo(null)}
-              className="absolute inset-0 bg-brand-dark/90 backdrop-blur-md"
-            />
-
-            {/* Modal Card */}
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-[#051F1A] border border-white/10 rounded-[12px] shadow-2xl w-full max-w-4xl overflow-hidden relative z-10 flex flex-col text-left"
-            >
-              {/* Close Button */}
-              <button
-                onClick={() => setSelectedVideo(null)}
-                className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white hover:text-brand-accent p-2 rounded-full border border-white/5 transition-colors cursor-pointer z-50 focus:outline-none"
-                aria-label="Close"
-              >
-                <X className="size-5" />
-              </button>
-
-              {/* Responsive Video Container */}
-              <div className="relative aspect-video w-full bg-black">
-                <video
-                  src={selectedVideo.url}
-                  autoPlay
-                  controls
-                  className="w-full h-full object-contain"
-                />
-              </div>
-
-              {/* Title Strip */}
-              <div className="p-5 border-t border-white/5 bg-[#02100d] text-white">
-                <span className="text-[10px] font-mono text-brand-accent uppercase tracking-widest block mb-1">{videoModalCopy.nowPlayingLabel}</span>
-                <h4 className="text-sm font-bold font-sans line-clamp-1">{selectedVideo.title}</h4>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
