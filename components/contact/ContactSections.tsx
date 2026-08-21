@@ -8,6 +8,7 @@ import Link from 'next/link';
 import GlassHero, { heroRowVariants, heroCardVariants } from '@/components/GlassHero';
 import StepCard, { StepTheme } from '@/components/ui/StepCard';
 import { withoutEmpty } from '@/lib/cms/content';
+import { downloadFile } from '@/lib/downloadFile';
 import {
   CONTACT_DOWNLOAD_CTA_DEFAULTS,
   CONTACT_ELIGIBILITY_REMINDER_DEFAULTS,
@@ -769,18 +770,15 @@ export default function ContactSections({
             <p className="text-white/75 font-sans text-sm md:text-base leading-relaxed mb-8 max-w-xl">
               {ctaCopy.description}
             </p>
-            <motion.a
-              href={ctaCopy.fileHref}
-              download={ctaCopy.downloadFileName}
-              target="_blank"
-              rel="noopener noreferrer"
+            <motion.button
+              onClick={() => downloadFile(ctaCopy.fileHref, ctaCopy.downloadFileName)}
               whileHover={{ scale: 1.05, backgroundColor: '#ffffff', color: '#051F1A' }}
               whileTap={{ scale: 0.97 }}
               className="bg-brand-accent text-brand-dark px-8 py-4 rounded-[6px] flex items-center gap-3 font-bold uppercase tracking-wider text-xs shadow-lg shadow-brand-accent/25 transition-all duration-300 font-sans cursor-pointer focus:outline-none"
             >
               <Download size={16} />
               {ctaCopy.ctaLabel}
-            </motion.a>
+            </motion.button>
           </motion.div>
         </div>
       </div>

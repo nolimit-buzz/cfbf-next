@@ -21,6 +21,7 @@ import Link from 'next/link';
 import CountUp from '@/components/ui/CountUp';
 import { IMPACT_DEFAULTS } from '@/lib/cms/defaults';
 import { withoutEmpty } from '@/lib/cms/content';
+import { downloadFile } from '@/lib/downloadFile';
 import type { ImpactSection } from '@/lib/cms/types';
 
 /**
@@ -444,17 +445,14 @@ export default function HowWeDriveImpact({ data }: { data?: ImpactSection }) {
                   </div>
 
                   <div className="flex justify-center mt-20">
-                    <a
-                      href={content.reportFileHref}
-                      download={content.reportFileName}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 bg-brand-dark text-white px-8 py-4 rounded-full font-bold hover:bg-brand-primary transition-all shadow-xl hover:shadow-brand-primary/20 group font-sans interactive"
+                    <button
+                      onClick={() => downloadFile(content.reportFileHref, content.reportFileName)}
+                      className="flex items-center gap-3 bg-brand-dark text-white px-8 py-4 rounded-full font-bold hover:bg-brand-primary transition-all shadow-xl hover:shadow-brand-primary/20 group font-sans interactive focus:outline-none"
                     >
                       <Download size={20} />
                       {content.reportCtaLabel}
                       <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>

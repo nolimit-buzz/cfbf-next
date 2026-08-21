@@ -6,6 +6,7 @@ import { Download, Facebook, Twitter, Linkedin, Instagram, Youtube, type LucideI
 import Link from 'next/link';
 import { GLOBAL_DEFAULTS, type SocialLinkItem, type SocialPlatform } from '@/lib/cms/global-defaults';
 import { FOOTER_DEFAULTS, type PartnerLogoItem } from '@/lib/cms/footer-defaults';
+import { downloadFile } from '@/lib/downloadFile';
 
 const BASE = "https://infracredit.ng/climate-facility/wp-content/uploads";
 
@@ -329,18 +330,18 @@ const CTASection = () => {
             <p className="text-gray-300 text-lg font-light mb-8 leading-relaxed font-sans max-w-lg">
               Access comprehensive data on our sustainable energy portfolio, financial performance, and environmental metrics.
             </p>
-            <a
-              href="https://res.cloudinary.com/diqfojkri/raw/upload/v1787333672/climate%20facility/documents/cfbf-impact-report-2025.pdf"
-              download="CFBF_Impact_Report_2025.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-brand-dark px-8 py-3 rounded-full flex items-center w-fit gap-4 font-bold uppercase tracking-wider text-xs transition-all duration-300 hover:bg-brand-accent hover:shadow-[0_0_30px_rgba(72,192,163,0.4)] interactive group/btn"
+            <button
+              onClick={() => downloadFile(
+                'https://res.cloudinary.com/diqfojkri/raw/upload/v1787333672/climate%20facility/documents/cfbf-impact-report-2025.pdf',
+                'CFBF_Impact_Report_2025.pdf'
+              )}
+              className="bg-white text-brand-dark px-8 py-3 rounded-full flex items-center w-fit gap-4 font-bold uppercase tracking-wider text-xs transition-all duration-300 hover:bg-brand-accent hover:shadow-[0_0_30px_rgba(72,192,163,0.4)] interactive group/btn focus:outline-none"
             >
               <span>Download PDF</span>
               <div className="w-8 h-8 bg-brand-dark text-white rounded-full flex items-center justify-center transition-transform duration-300 group-hover/btn:scale-110">
                 <Download size={14} className="group-hover/btn:translate-y-0.5 transition-transform duration-300" />
               </div>
-            </a>
+            </button>
           </div>
         </div>
       </div>

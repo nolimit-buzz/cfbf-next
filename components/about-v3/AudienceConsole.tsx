@@ -6,6 +6,7 @@ import { ShieldCheck, Zap, Globe, ArrowRight, Download, FileText, ChevronDown } 
 import { useRouter } from 'next/navigation';
 import { ABOUT_AUDIENCE_DEFAULTS } from '@/lib/cms/about-defaults';
 import { withoutEmpty } from '@/lib/cms/content';
+import { downloadFile } from '@/lib/downloadFile';
 import type { AboutAudienceSection } from '@/lib/cms/about-types';
 
 /**
@@ -49,7 +50,7 @@ export default function AudienceConsole({
 
   const handleCta = (href: string) => {
     if (isDownloadHref(href)) {
-      window.open(href, '_blank');
+      downloadFile(href, href.split('/').pop() || 'download.pdf');
     } else {
       router.push(href);
     }

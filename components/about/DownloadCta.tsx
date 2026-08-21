@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Download } from 'lucide-react';
 import { ABOUT_DOWNLOAD_CTA_DEFAULTS } from '@/lib/cms/about-defaults';
 import { withoutEmpty } from '@/lib/cms/content';
+import { downloadFile } from '@/lib/downloadFile';
 import type { AboutDownloadCtaSection } from '@/lib/cms/about-types';
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
@@ -33,18 +34,15 @@ export default function DownloadCta({ data }: { data?: AboutDownloadCtaSection }
           <p className="text-white/75 font-sans text-sm md:text-base leading-relaxed mb-8 max-w-xl">
             {c.body}
           </p>
-          <motion.a
-            href={c.buttonHref}
-            download={c.downloadFileName}
-            target="_blank"
-            rel="noopener noreferrer"
+          <motion.button
+            onClick={() => downloadFile(c.buttonHref, c.downloadFileName)}
             whileHover={{ scale: 1.05, backgroundColor: '#ffffff', color: '#051F1A' }}
             whileTap={{ scale: 0.97 }}
-            className="bg-brand-accent text-brand-dark px-8 py-4 rounded-[6px] flex items-center gap-3 font-bold uppercase tracking-wider text-xs shadow-lg shadow-brand-accent/25 transition-all duration-300 font-sans cursor-pointer"
+            className="bg-brand-accent text-brand-dark px-8 py-4 rounded-[6px] flex items-center gap-3 font-bold uppercase tracking-wider text-xs shadow-lg shadow-brand-accent/25 transition-all duration-300 font-sans cursor-pointer focus:outline-none"
           >
             <Download size={16} />
             {c.buttonLabel}
-          </motion.a>
+          </motion.button>
         </motion.div>
       </div>
     </div>

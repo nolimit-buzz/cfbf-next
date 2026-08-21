@@ -12,6 +12,7 @@ import CountUp from '@/components/ui/CountUp';
 import { ALL_STATES } from '@/lib/mapData';
 import { withoutEmpty } from '@/lib/cms/content';
 import { groupStateProjects, parseSdgs } from '@/lib/cms/projects-content';
+import { downloadFile } from '@/lib/downloadFile';
 import {
   PROJECTS_ANALYSIS_TAB_DEFAULTS,
   PROJECTS_ELIGIBILITY_CTA_DEFAULTS,
@@ -418,15 +419,12 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
               >
                 <div className="p-6 border-b border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                   <h3 className="font-bold text-lg font-sans text-white">{analysisCopy.tableHeading}</h3>
-                  <a
-                    href={analysisCopy.downloadHref}
-                    download
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-xs font-bold text-brand-accent uppercase tracking-wider hover:text-white transition-colors interactive font-sans"
+                  <button
+                    onClick={() => downloadFile(analysisCopy.downloadHref, 'CFBF_Impact_Report_2025.pdf')}
+                    className="flex items-center gap-2 text-xs font-bold text-brand-accent uppercase tracking-wider hover:text-white transition-colors interactive font-sans focus:outline-none"
                   >
                     <Download size={14} /> {analysisCopy.downloadLabel}
-                  </a>
+                  </button>
                 </div>
 
                 <div className="overflow-x-auto no-scrollbar">
