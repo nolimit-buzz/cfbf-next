@@ -96,6 +96,10 @@ export async function POST(request: Request) {
     return Response.json({ error: 'A valid email address is required' }, { status: 400 });
   }
 
+  if (role === 'developer' && !(Number(values.capacity) >= 0)) {
+    return Response.json({ error: 'Capacity must be a valid number' }, { status: 400 });
+  }
+
   const message = field(body.message, MAX_MESSAGE);
   if (!message) {
     return Response.json({ error: 'Message is required' }, { status: 400 });

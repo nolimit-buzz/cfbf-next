@@ -582,6 +582,8 @@ export default function EligibilitySections({
               <a
                 href={ctaCopy.downloadCtaHref}
                 download={ctaCopy.downloadFileName}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/5 border border-white/10 hover:border-[#81C34D] hover:bg-[#81C34D] hover:text-[#051F1A] text-white px-8 py-3.5 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans shrink-0 focus:outline-none"
               >
                 <Download size={14} /> {ctaCopy.downloadCtaLabel}

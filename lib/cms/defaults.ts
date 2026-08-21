@@ -74,7 +74,7 @@ export const IMPACT_DEFAULTS: ImpactContent = {
   numbersCtaLabel: 'Visit Capacity Building Page',
   reportCtaLabel: 'Download Impact & Sustainability Report',
   reportFileName: 'CFBF_Impact_Report_2025.pdf',
-  reportFileHref: '/download.pdf',
+  reportFileHref: 'https://res.cloudinary.com/diqfojkri/raw/upload/v1787333672/climate%20facility/documents/cfbf-impact-report-2025.pdf',
   capacityCtaLabel: 'Visit Knowledge Hub',
   statsCardEyebrow: 'Impact Metrics',
   galleryCtaLabel: 'View Gallery',

@@ -486,7 +486,7 @@ export const ABOUT_AUDIENCE_DEFAULTS: AboutContent<AboutAudienceSection> = {
       intro:
         'CFBF bridges the gap between infrastructure need and institutional safety. By blending concessional seed capital with AAA-credit wraps, we deliver institutional-grade green debt structures tailored for Pension Fund Administrators, Asset Managers, and Insurance providers.',
       ctaLabel: 'Download Prospectus & Factsheet',
-      ctaHref: '/download.pdf',
+      ctaHref: 'https://res.cloudinary.com/diqfojkri/raw/upload/v1787333669/climate%20facility/documents/cfbf-factsheet.pdf',
       questions: [
         {
           question: 'Is the investment principal secured?',
@@ -594,6 +594,6 @@ export const ABOUT_DOWNLOAD_CTA_DEFAULTS: AboutContent<AboutDownloadCtaSection> 
     'https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1400&auto=format&fit=crop',
   backgroundImage_alt_text: 'CFBF Factsheet & Prospectus Background',
   buttonLabel: 'Download Factsheet',
-  buttonHref: '/download.pdf',
+  buttonHref: 'https://res.cloudinary.com/diqfojkri/raw/upload/v1787333669/climate%20facility/documents/cfbf-factsheet.pdf',
   downloadFileName: 'CFBF_Factsheet.pdf',
 };

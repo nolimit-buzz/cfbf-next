@@ -100,6 +100,8 @@ export interface NewsArticleItem extends ComponentBase {
   date: string;
   readTime: string;
   title: string;
+  /** Short title for `<title>`/search results; falls back to a truncated `title`. */
+  seoTitle?: string | null;
   excerpt: string;
   author: string;
   authorAvatar: string;

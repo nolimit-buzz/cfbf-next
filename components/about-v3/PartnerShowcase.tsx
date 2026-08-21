@@ -165,9 +165,9 @@ export default function PartnerShowcase({ data }: { data?: AboutPartnersSection 
   const PARTNER_GROUPS = c.groups ?? [];
 
   return (
-    <section className="py-10 bg-[#010908] text-white relative overflow-hidden flex items-center min-h-[90vh] lg:min-h-0 lg:h-[95vh]">
+    <section className="py-10 bg-[#010908] text-white relative flex items-center min-h-[90vh] lg:min-h-[95vh]">
       {/* Background grid lines */}
-      <div className="absolute inset-0 opacity-[0.012] pointer-events-none" style={{
+      <div className="absolute inset-0 opacity-[0.012] pointer-events-none overflow-hidden" style={{
         backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
         backgroundSize: '40px 40px',
       }} />

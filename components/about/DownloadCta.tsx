@@ -36,6 +36,8 @@ export default function DownloadCta({ data }: { data?: AboutDownloadCtaSection }
           <motion.a
             href={c.buttonHref}
             download={c.downloadFileName}
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ scale: 1.05, backgroundColor: '#ffffff', color: '#051F1A' }}
             whileTap={{ scale: 0.97 }}
             className="bg-brand-accent text-brand-dark px-8 py-4 rounded-[6px] flex items-center gap-3 font-bold uppercase tracking-wider text-xs shadow-lg shadow-brand-accent/25 transition-all duration-300 font-sans cursor-pointer"

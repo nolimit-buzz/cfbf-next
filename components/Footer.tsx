@@ -9,6 +9,13 @@ import { FOOTER_DEFAULTS, type PartnerLogoItem } from '@/lib/cms/footer-defaults
 
 const BASE = "https://infracredit.ng/climate-facility/wp-content/uploads";
 
+/**
+ * Copyright year, updated at each deploy. Calling `new Date()` during render
+ * trips Next's PPR "current time in a Client Component" prerender check, so
+ * this stays a plain constant instead of being computed on the fly.
+ */
+const COPYRIGHT_YEAR = 2026;
+
 // Anchor funders — confirmed white PNG logos from live site
 const ANCHOR_FUNDERS = [
   {
@@ -323,8 +330,10 @@ const CTASection = () => {
               Access comprehensive data on our sustainable energy portfolio, financial performance, and environmental metrics.
             </p>
             <a
-              href="/download.pdf"
+              href="https://res.cloudinary.com/diqfojkri/raw/upload/v1787333672/climate%20facility/documents/cfbf-impact-report-2025.pdf"
               download="CFBF_Impact_Report_2025.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-white text-brand-dark px-8 py-3 rounded-full flex items-center w-fit gap-4 font-bold uppercase tracking-wider text-xs transition-all duration-300 hover:bg-brand-accent hover:shadow-[0_0_30px_rgba(72,192,163,0.4)] interactive group/btn"
             >
               <span>Download PDF</span>
@@ -463,7 +472,7 @@ const Footer = ({
           <span className="hidden md:inline text-gray-700">•</span>
           <Link href="/terms" className="hover:text-brand-accent transition-colors">Terms of Use</Link>
           <span className="hidden md:inline text-gray-700">•</span>
-          <span>© {new Date().getFullYear()} Climate Finance Blending Facility</span>
+          <span>© {COPYRIGHT_YEAR} Climate Finance Blending Facility</span>
           <span className="hidden md:inline text-gray-700">|</span>
           <span>
             <a

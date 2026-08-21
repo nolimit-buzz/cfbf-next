@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, use } from 'react';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, 
@@ -172,9 +173,12 @@ interface PageProps {
 
 export default function ProjectDetailPage({ params }: PageProps) {
   const resolvedParams = use(params);
-  const projectId = resolvedParams.id || '01';
+  const projectId = resolvedParams.id;
 
-  const project = projects[projectId] || projects["01"];
+  const project = projects[projectId];
+  if (!project) {
+    notFound();
+  }
 
   const projectIds = ["01", "02", "03", "04", "05", "06"];
   const currentIndex = projectIds.indexOf(projectId);
