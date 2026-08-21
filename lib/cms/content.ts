@@ -39,3 +39,14 @@ export function withoutEmpty<T extends object>(data: T | undefined): Partial<T> 
   }
   return out as Partial<T>;
 }
+
+/**
+ * Trims text to `max` characters on a word boundary, appending an ellipsis.
+ * Used for `<title>` fallbacks where the CMS didn't supply a short SEO title.
+ */
+export function truncate(text: string, max: number): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${(lastSpace > 0 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`;
+}

@@ -47,7 +47,6 @@ export default async function ImpactPage() {
       investmentsTab={pickSection(sections, 'impact-page.investments-tab-section')}
       assetsTab={pickSection(sections, 'impact-page.assets-tab-section')}
       nextSteps={pickSection(sections, 'impact-page.next-steps-section')}
-      videoModal={pickSection(sections, 'impact-page.video-modal-section')}
     />
   );
 }

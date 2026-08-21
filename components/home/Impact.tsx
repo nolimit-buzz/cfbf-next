@@ -447,6 +447,8 @@ export default function HowWeDriveImpact({ data }: { data?: ImpactSection }) {
                     <a
                       href={content.reportFileHref}
                       download={content.reportFileName}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex items-center gap-3 bg-brand-dark text-white px-8 py-4 rounded-full font-bold hover:bg-brand-primary transition-all shadow-xl hover:shadow-brand-primary/20 group font-sans interactive"
                     >
                       <Download size={20} />

@@ -421,6 +421,8 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
                   <a
                     href={analysisCopy.downloadHref}
                     download
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-2 text-xs font-bold text-brand-accent uppercase tracking-wider hover:text-white transition-colors interactive font-sans"
                   >
                     <Download size={14} /> {analysisCopy.downloadLabel}

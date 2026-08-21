@@ -553,7 +553,10 @@ export default function ContactSections({
                       <div className="relative mt-2">
                         <input
                           required
-                          type="text"
+                          type="number"
+                          min="0"
+                          step="any"
+                          inputMode="numeric"
                           id="capacity"
                           value={capacity}
                           onChange={(e) => setCapacity(e.target.value)}
@@ -769,6 +772,8 @@ export default function ContactSections({
             <motion.a
               href={ctaCopy.fileHref}
               download={ctaCopy.downloadFileName}
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.05, backgroundColor: '#ffffff', color: '#051F1A' }}
               whileTap={{ scale: 0.97 }}
               className="bg-brand-accent text-brand-dark px-8 py-4 rounded-[6px] flex items-center gap-3 font-bold uppercase tracking-wider text-xs shadow-lg shadow-brand-accent/25 transition-all duration-300 font-sans cursor-pointer focus:outline-none"

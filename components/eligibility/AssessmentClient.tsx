@@ -121,10 +121,16 @@ export default function AssessmentClient({
 
   /** Renders the shared `LABEL *` line above a question's options. */
   const questionLabel = (idx: number) => (
-    <label className="text-xs font-semibold text-gray-300 block uppercase tracking-wider">
+    <label id={`q-${idx}-label`} className="text-xs font-semibold text-gray-300 block uppercase tracking-wider">
       {q(idx).label} <span className="text-[#81C34D] font-bold">{q(idx).requiredMarker}</span>
     </label>
   );
+
+  /** `role`/`aria-labelledby` for the options container of question `idx`. */
+  const radioGroupProps = (idx: number) => ({
+    role: 'radiogroup' as const,
+    'aria-labelledby': `q-${idx}-label`,
+  });
 
   const logRowAt = (idx: number) =>
     resultCopy.logRows[idx] ?? ELIGIBILITY_ASSESSMENT_RESULT_DEFAULTS.logRows[idx];
@@ -342,8 +348,10 @@ export default function AssessmentClient({
               {/* Q1: Nigeria Base */}
               <div className="space-y-3">
                 {questionLabel(0)}
-                <div className="grid grid-cols-2 gap-4">
+                <div {...radioGroupProps(0)} className="grid grid-cols-2 gap-4">
                   <button
+                    role="radio"
+                    aria-checked={answers.nigeriaBase === true}
                     onClick={() => handleSelect('nigeriaBase', true)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.nigeriaBase === true
@@ -354,6 +362,8 @@ export default function AssessmentClient({
                     {opt(0, 0)}
                   </button>
                   <button
+                    role="radio"
+                    aria-checked={answers.nigeriaBase === false}
                     onClick={() => handleSelect('nigeriaBase', false)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.nigeriaBase === false
@@ -372,8 +382,10 @@ export default function AssessmentClient({
               {/* Q2: PENCOM Compliance */}
               <div className="space-y-3 pt-2">
                 {questionLabel(1)}
-                <div className="grid grid-cols-2 gap-4">
+                <div {...radioGroupProps(1)} className="grid grid-cols-2 gap-4">
                   <button
+                    role="radio"
+                    aria-checked={answers.pencomCompliant === true}
                     onClick={() => handleSelect('pencomCompliant', true)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.pencomCompliant === true
@@ -384,6 +396,8 @@ export default function AssessmentClient({
                     {opt(1, 0)}
                   </button>
                   <button
+                    role="radio"
+                    aria-checked={answers.pencomCompliant === false}
                     onClick={() => handleSelect('pencomCompliant', false)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.pencomCompliant === false
@@ -402,10 +416,12 @@ export default function AssessmentClient({
               {/* Q3: Experience Years */}
               <div className="space-y-3 pt-2">
                 {questionLabel(2)}
-                <div className="grid grid-cols-3 gap-3">
+                <div {...radioGroupProps(2)} className="grid grid-cols-3 gap-3">
                   {q(2).options.map(option => (
                     <button
                       key={option.value}
+                      role="radio"
+                      aria-checked={answers.experienceYears === option.value}
                       onClick={() => handleSelect('experienceYears', option.value)}
                       className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                         answers.experienceYears === option.value
@@ -440,10 +456,12 @@ export default function AssessmentClient({
               {/* Q4: Tech Sector */}
               <div className="space-y-3">
                 {questionLabel(3)}
-                <div className="grid grid-cols-2 gap-3">
+                <div {...radioGroupProps(3)} className="grid grid-cols-2 gap-3">
                   {q(3).options.map(tech => (
                     <button
                       key={tech.value}
+                      role="radio"
+                      aria-checked={answers.techType === tech.value}
                       onClick={() => handleSelect('techType', tech.value)}
                       className={`py-3 px-2 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                         answers.techType === tech.value
@@ -462,8 +480,10 @@ export default function AssessmentClient({
               {/* Q5: Human Rights */}
               <div className="space-y-3 pt-2">
                 {questionLabel(4)}
-                <div className="grid grid-cols-2 gap-4">
+                <div {...radioGroupProps(4)} className="grid grid-cols-2 gap-4">
                   <button
+                    role="radio"
+                    aria-checked={answers.humanRights === true}
                     onClick={() => handleSelect('humanRights', true)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.humanRights === true
@@ -474,6 +494,8 @@ export default function AssessmentClient({
                     {opt(4, 0)}
                   </button>
                   <button
+                    role="radio"
+                    aria-checked={answers.humanRights === false}
                     onClick={() => handleSelect('humanRights', false)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.humanRights === false
@@ -489,8 +511,10 @@ export default function AssessmentClient({
               {/* Q6: IFC ESG Compliance */}
               <div className="space-y-3 pt-2">
                 {questionLabel(5)}
-                <div className="grid grid-cols-2 gap-4">
+                <div {...radioGroupProps(5)} className="grid grid-cols-2 gap-4">
                   <button
+                    role="radio"
+                    aria-checked={answers.ifcCompliance === true}
                     onClick={() => handleSelect('ifcCompliance', true)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.ifcCompliance === true
@@ -501,6 +525,8 @@ export default function AssessmentClient({
                     {opt(5, 0)}
                   </button>
                   <button
+                    role="radio"
+                    aria-checked={answers.ifcCompliance === false}
                     onClick={() => handleSelect('ifcCompliance', false)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.ifcCompliance === false
@@ -534,8 +560,10 @@ export default function AssessmentClient({
               {/* Q7: Capacity check */}
               <div className="space-y-3">
                 {questionLabel(6)}
-                <div className="grid grid-cols-2 gap-4">
+                <div {...radioGroupProps(6)} className="grid grid-cols-2 gap-4">
                   <button
+                    role="radio"
+                    aria-checked={answers.capacityCheck === true}
                     onClick={() => handleSelect('capacityCheck', true)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.capacityCheck === true
@@ -546,6 +574,8 @@ export default function AssessmentClient({
                     {opt(6, 0)}
                   </button>
                   <button
+                    role="radio"
+                    aria-checked={answers.capacityCheck === false}
                     onClick={() => handleSelect('capacityCheck', false)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.capacityCheck === false
@@ -561,12 +591,14 @@ export default function AssessmentClient({
               {/* Q8: Active Sites */}
               <div className="space-y-3 pt-2">
                 {questionLabel(7)}
-                <div className="grid grid-cols-3 gap-3">
+                <div {...radioGroupProps(7)} className="grid grid-cols-3 gap-3">
                   {q(7).options.map(option => {
                     const val = Number(option.value);
                     return (
                       <button
                         key={option.value}
+                        role="radio"
+                        aria-checked={answers.activeSites === val}
                         onClick={() => handleSelect('activeSites', val)}
                         className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                           answers.activeSites === val
@@ -586,8 +618,10 @@ export default function AssessmentClient({
               {/* Q9: Paying Customers */}
               <div className="space-y-3 pt-2">
                 {questionLabel(8)}
-                <div className="grid grid-cols-2 gap-4">
+                <div {...radioGroupProps(8)} className="grid grid-cols-2 gap-4">
                   <button
+                    role="radio"
+                    aria-checked={answers.payingCustomers === true}
                     onClick={() => handleSelect('payingCustomers', true)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.payingCustomers === true
@@ -598,6 +632,8 @@ export default function AssessmentClient({
                     {opt(8, 0)}
                   </button>
                   <button
+                    role="radio"
+                    aria-checked={answers.payingCustomers === false}
                     onClick={() => handleSelect('payingCustomers', false)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.payingCustomers === false
@@ -613,8 +649,10 @@ export default function AssessmentClient({
               {/* Q10: Scalable model */}
               <div className="space-y-3 pt-2">
                 {questionLabel(9)}
-                <div className="grid grid-cols-2 gap-4">
+                <div {...radioGroupProps(9)} className="grid grid-cols-2 gap-4">
                   <button
+                    role="radio"
+                    aria-checked={answers.scalableModel === true}
                     onClick={() => handleSelect('scalableModel', true)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.scalableModel === true
@@ -625,6 +663,8 @@ export default function AssessmentClient({
                     {opt(9, 0)}
                   </button>
                   <button
+                    role="radio"
+                    aria-checked={answers.scalableModel === false}
                     onClick={() => handleSelect('scalableModel', false)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.scalableModel === false
@@ -658,8 +698,10 @@ export default function AssessmentClient({
               {/* Q11: Naira Denominated */}
               <div className="space-y-3">
                 {questionLabel(10)}
-                <div className="grid grid-cols-2 gap-4">
+                <div {...radioGroupProps(10)} className="grid grid-cols-2 gap-4">
                   <button
+                    role="radio"
+                    aria-checked={answers.nairaDenominated === true}
                     onClick={() => handleSelect('nairaDenominated', true)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.nairaDenominated === true
@@ -670,6 +712,8 @@ export default function AssessmentClient({
                     {opt(10, 0)}
                   </button>
                   <button
+                    role="radio"
+                    aria-checked={answers.nairaDenominated === false}
                     onClick={() => handleSelect('nairaDenominated', false)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.nairaDenominated === false
@@ -685,8 +729,10 @@ export default function AssessmentClient({
               {/* Q12: Funding type */}
               <div className="space-y-3 pt-2">
                 {questionLabel(11)}
-                <div className="grid grid-cols-2 gap-4">
+                <div {...radioGroupProps(11)} className="grid grid-cols-2 gap-4">
                   <button
+                    role="radio"
+                    aria-checked={answers.fundingStructure === 'debt'}
                     onClick={() => handleSelect('fundingStructure', 'debt')}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.fundingStructure === 'debt'
@@ -697,6 +743,8 @@ export default function AssessmentClient({
                     {opt(11, 0)}
                   </button>
                   <button
+                    role="radio"
+                    aria-checked={answers.fundingStructure === 'equity-only'}
                     onClick={() => handleSelect('fundingStructure', 'equity-only')}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.fundingStructure === 'equity-only'
@@ -712,8 +760,10 @@ export default function AssessmentClient({
               {/* Q13: Tenor limit */}
               <div className="space-y-3 pt-2">
                 {questionLabel(12)}
-                <div className="grid grid-cols-2 gap-4">
+                <div {...radioGroupProps(12)} className="grid grid-cols-2 gap-4">
                   <button
+                    role="radio"
+                    aria-checked={answers.tenorLimit === true}
                     onClick={() => handleSelect('tenorLimit', true)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.tenorLimit === true
@@ -724,6 +774,8 @@ export default function AssessmentClient({
                     {opt(12, 0)}
                   </button>
                   <button
+                    role="radio"
+                    aria-checked={answers.tenorLimit === false}
                     onClick={() => handleSelect('tenorLimit', false)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.tenorLimit === false
@@ -739,8 +791,10 @@ export default function AssessmentClient({
               {/* Q14: Security Package */}
               <div className="space-y-3 pt-2">
                 {questionLabel(13)}
-                <div className="grid grid-cols-2 gap-4">
+                <div {...radioGroupProps(13)} className="grid grid-cols-2 gap-4">
                   <button
+                    role="radio"
+                    aria-checked={answers.securityPackage === true}
                     onClick={() => handleSelect('securityPackage', true)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.securityPackage === true
@@ -751,6 +805,8 @@ export default function AssessmentClient({
                     {opt(13, 0)}
                   </button>
                   <button
+                    role="radio"
+                    aria-checked={answers.securityPackage === false}
                     onClick={() => handleSelect('securityPackage', false)}
                     className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
                       answers.securityPackage === false

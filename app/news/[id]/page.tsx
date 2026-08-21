@@ -6,7 +6,7 @@ import {
   NEWS_ARTICLES_DEFAULTS,
   NEWS_ARTICLE_DETAIL_DEFAULTS,
 } from '@/lib/cms/news-defaults';
-import { pickSection, withoutEmpty } from '@/lib/cms/content';
+import { pickSection, truncate, withoutEmpty } from '@/lib/cms/content';
 
 export const unstable_instant = {
   prefetch: 'static',
@@ -61,8 +61,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const themes = article.themes.map((t) => t.label).join(', ');
   const publishedDate = new Date(article.date).toISOString().split('T')[0];
 
+  const seoTitle = article.seoTitle || truncate(article.title, 60);
+
   return {
-    title: `${article.title}${labels.titleSuffix}`,
+    title: `${seoTitle}${labels.titleSuffix}`,
     description: article.excerpt,
     openGraph: {
       title: article.title,

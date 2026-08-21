@@ -247,7 +247,7 @@ export const CONTACT_DOWNLOAD_CTA_DEFAULTS: ContactContent<ContactDownloadCtaSec
   description:
     'Download our comprehensive brochure outlining fund structure, eligibility guidelines, co-financing terms, and regional deployment targets.',
   ctaLabel: 'Download Brochure PDF',
-  fileHref: '/download.pdf',
+  fileHref: 'https://res.cloudinary.com/diqfojkri/raw/upload/v1787333669/climate%20facility/documents/cfbf-factsheet.pdf',
   downloadFileName: 'CFBF_Brochure.pdf',
   backgroundImage: BROCHURE_IMAGE,
   backgroundImage_alt_text: 'CFBF Brochure Background',

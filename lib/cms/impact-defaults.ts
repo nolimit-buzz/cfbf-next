@@ -54,11 +54,6 @@ const SDG8_IMAGE = `${CLOUDINARY}/image/upload/v1785838126/${FOLDER}/investments
 const SDG9_IMAGE = `${CLOUDINARY}/image/upload/v1785838127/${FOLDER}/investments-sdg-3-image.jpg`;
 const SDG13_IMAGE = `${CLOUDINARY}/image/upload/v1785838128/${FOLDER}/investments-sdg-4-image.jpg`;
 
-/** Three files back the six stories, so two stories share each URL. */
-const SOLAR_VIDEO = `${CLOUDINARY}/video/upload/v1785838111/${FOLDER}/stories-story-video-solar-panels.mp4`;
-const WIND_VIDEO = `${CLOUDINARY}/video/upload/v1785838118/${FOLDER}/stories-story-video-wind-turbines.mp4`;
-const HOTSPOT_VIDEO = `${CLOUDINARY}/video/upload/v1785838124/${FOLDER}/stories-story-video-infracredit-hotspot.mp4`;
-
 /**
  * The four strategic pillars, rendered both in the philosophy section and under
  * the "What we invest in" tab. Seeded twice so an editor can change them
@@ -199,7 +194,7 @@ export const IMPACT_STORIES_TAB_DEFAULTS: ImpactContent<ImpactStoriesTabSection>
       duration: '4:32 mins',
       image: FELICIA_IMAGE,
       image_alt_text: 'Meet Felicia Adindu-End User, Darway Coast',
-      video: SOLAR_VIDEO,
+      youtubeUrl: 'https://youtu.be/kBGxtT3dd0s',
     },
     {
       title: 'ACOB Lighting Solar Powered Rural Electrification Project',
@@ -212,7 +207,7 @@ export const IMPACT_STORIES_TAB_DEFAULTS: ImpactContent<ImpactStoriesTabSection>
       duration: '3:15 mins',
       image: ACOB_IMAGE,
       image_alt_text: 'ACOB Lighting Solar Powered Rural Electrification Project',
-      video: WIND_VIDEO,
+      youtubeUrl: 'https://youtu.be/E2Dfe3QuZds',
     },
     {
       title: 'Prado Power Solar Powered Rural Electrification Project',
@@ -225,47 +220,49 @@ export const IMPACT_STORIES_TAB_DEFAULTS: ImpactContent<ImpactStoriesTabSection>
       duration: '5:40 mins',
       image: PRADO_IMAGE,
       image_alt_text: 'Prado Power Solar Powered Rural Electrification Project',
-      video: HOTSPOT_VIDEO,
+      youtubeUrl: 'https://youtu.be/81ULxF30F4A',
     },
-    {
-      title: 'Mesh Grid Networks Powering Agriculture - First Electric',
-      role: 'Developer',
-      location: 'Gombe & Nasarawa States',
-      type: 'Video Case Study',
-      badge: 'Infrastructure',
-      excerpt:
-        'Mesh grid networks connect rural households and small agricultural processors in Gombe State, facilitating cold storage and local commerce.',
-      duration: '3:45 mins',
-      image: FIRST_ELECTRIC_IMAGE,
-      image_alt_text: 'Mesh Grid Networks Powering Agriculture - First Electric',
-      video: SOLAR_VIDEO,
-    },
-    {
-      title: 'Unlocking Local Capital for Off-Grid Power - CEESOLAR',
-      role: 'Project Lead',
-      location: 'Cross River State',
-      type: 'Project Update',
-      badge: 'Clean Finance',
-      excerpt:
-        'CEESOLAR Energy utilizes concessional funding to build high-capacity solar-hybrid grids, powering rural communities in the Niger Delta region.',
-      duration: '4:15 mins',
-      image: CEESOLAR_IMAGE,
-      image_alt_text: 'Unlocking Local Capital for Off-Grid Power - CEESOLAR',
-      video: WIND_VIDEO,
-    },
-    {
-      title: 'Solarizing Rural Telecom Infrastructure - Hotspot Network',
-      role: 'Community Partner',
-      location: 'Kano & Kaduna States',
-      type: 'Field Documentary',
-      badge: 'Digital Impact',
-      excerpt:
-        'Replacing diesel generators with high-efficiency solar hybrid arrays across 120 base stations, bringing continuous clean connectivity to rural Nigeria.',
-      duration: '5:10 mins',
-      image: HOTSPOT_IMAGE,
-      image_alt_text: 'Solarizing Rural Telecom Infrastructure - Hotspot Network',
-      video: HOTSPOT_VIDEO,
-    },
+    // TODO: re-enable once real testimonial video is sourced (no video exists
+    // yet on the reference site or YouTube for these three).
+    // {
+    //   title: 'Mesh Grid Networks Powering Agriculture - First Electric',
+    //   role: 'Developer',
+    //   location: 'Gombe & Nasarawa States',
+    //   type: 'Video Case Study',
+    //   badge: 'Infrastructure',
+    //   excerpt:
+    //     'Mesh grid networks connect rural households and small agricultural processors in Gombe State, facilitating cold storage and local commerce.',
+    //   duration: '3:45 mins',
+    //   image: FIRST_ELECTRIC_IMAGE,
+    //   image_alt_text: 'Mesh Grid Networks Powering Agriculture - First Electric',
+    //   youtubeUrl: null,
+    // },
+    // {
+    //   title: 'Unlocking Local Capital for Off-Grid Power - CEESOLAR',
+    //   role: 'Project Lead',
+    //   location: 'Cross River State',
+    //   type: 'Project Update',
+    //   badge: 'Clean Finance',
+    //   excerpt:
+    //     'CEESOLAR Energy utilizes concessional funding to build high-capacity solar-hybrid grids, powering rural communities in the Niger Delta region.',
+    //   duration: '4:15 mins',
+    //   image: CEESOLAR_IMAGE,
+    //   image_alt_text: 'Unlocking Local Capital for Off-Grid Power - CEESOLAR',
+    //   youtubeUrl: null,
+    // },
+    // {
+    //   title: 'Solarizing Rural Telecom Infrastructure - Hotspot Network',
+    //   role: 'Community Partner',
+    //   location: 'Kano & Kaduna States',
+    //   type: 'Field Documentary',
+    //   badge: 'Digital Impact',
+    //   excerpt:
+    //     'Replacing diesel generators with high-efficiency solar hybrid arrays across 120 base stations, bringing continuous clean connectivity to rural Nigeria.',
+    //   duration: '5:10 mins',
+    //   image: HOTSPOT_IMAGE,
+    //   image_alt_text: 'Solarizing Rural Telecom Infrastructure - Hotspot Network',
+    //   youtubeUrl: null,
+    // },
   ],
 };
 

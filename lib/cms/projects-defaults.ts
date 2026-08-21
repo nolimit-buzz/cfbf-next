@@ -165,7 +165,7 @@ export const PROJECTS_PORTFOLIO_TABS_DEFAULTS: ProjectsContent<ProjectsPortfolio
 export const PROJECTS_ANALYSIS_TAB_DEFAULTS: ProjectsContent<ProjectsAnalysisTabSection> = {
   tableHeading: 'Portfolio Transactions Performance',
   downloadLabel: 'Download Impact Report',
-  downloadHref: '/download.pdf',
+  downloadHref: 'https://res.cloudinary.com/diqfojkri/raw/upload/v1787333672/climate%20facility/documents/cfbf-impact-report-2025.pdf',
   totalsRowLabel: 'Total Portfolio',
   totalsConnectionsSuffix: '+ 120 Sites',
   capacityUnit: 'kW',

@@ -274,7 +274,7 @@ export const ELIGIBILITY_FINAL_CTA_DEFAULTS: EligibilityContent<EligibilityFinal
   primaryCtaLabel: 'Start the process',
   primaryCtaHref: '/eligibility/assessment',
   downloadCtaLabel: 'Download factsheet',
-  downloadCtaHref: '/download.pdf',
+  downloadCtaHref: 'https://res.cloudinary.com/diqfojkri/raw/upload/v1787333669/climate%20facility/documents/cfbf-factsheet.pdf',
   downloadFileName: 'CFBF_Factsheet.pdf',
 };
 
