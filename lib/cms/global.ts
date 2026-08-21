@@ -1,13 +1,10 @@
 // Server-only: `next/cache` cannot be imported from a client component.
 import { cacheLife, cacheTag } from 'next/cache';
+import { CMS_BASE_URL } from './config';
 import { CMS_TIMEOUT_MS } from './fetchPage';
 import { GLOBAL_DEFAULTS, type GlobalSettings, type SocialLinkItem } from './global-defaults';
 
 export const GLOBAL_CACHE_TAG = 'global';
-
-/** Same resolution order and rationale as `fetchPage.ts`. */
-const CMS_URL = (process.env.STRAPI_URL?.trim() || process.env.NEXT_PUBLIC_STRAPI_URL?.trim())
-  ?.replace(/\/+$/, '');
 
 /**
  * `Global` is a single type with plain fields, not a `sections` dynamic zone,
@@ -44,12 +41,7 @@ export async function getGlobalSettings(): Promise<GlobalSettings> {
   cacheLife('hours');
   cacheTag(GLOBAL_CACHE_TAG);
 
-  const url = `${CMS_URL ?? '(unset)'}/api/global?${GLOBAL_QUERY}`;
-
-  if (!CMS_URL) {
-    reportFallback('neither STRAPI_URL nor NEXT_PUBLIC_STRAPI_URL is set', url);
-    return GLOBAL_DEFAULTS;
-  }
+  const url = `${CMS_BASE_URL}/api/global?${GLOBAL_QUERY}`;
 
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(CMS_TIMEOUT_MS) });

@@ -202,7 +202,7 @@ export const IMPACT_DEFAULTS: ImpactContent = {
       subtitle: 'CLEAN ENERGY ACCESS',
       title: 'Clean Energy Access',
       description:
-        'Unlock affordable financing for private sector enterprises providing off-grid energy solutions such as solar mini grids, solar home systems, solar lanterns, fridges, pumps, driers and clean cooking products.',
+        'Unlock affordable financing for private sector enterprises providing renewable energy solutions such as solar mini grids, solar home systems, solar lanterns, fridges, pumps, driers and clean cooking products, small medium enterprise coolhubs for unserved and underserved markets.',
       image:
         'https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=800&auto=format&fit=crop',
       image_alt_text: 'Clean Energy Access',
@@ -215,7 +215,7 @@ export const IMPACT_DEFAULTS: ImpactContent = {
       subtitle: 'DOMESTIC INSTITUTIONAL INVESTORS',
       title: 'Domestic Institutional Investors',
       description:
-        'Catalyse green investments in local currency from domestic private institutional investors such as insurance companies, local pension funds, and asset managers.',
+        'Catalyse green investments in local currency from domestic private institutional investors such as insurance companies, local pension funds, and other asset managers including low carbon energy focused funds from the domestic debt capital markets.',
       image: null,
       image_alt_text: null,
       link: '/impact',
@@ -227,7 +227,7 @@ export const IMPACT_DEFAULTS: ImpactContent = {
       subtitle: 'DEVELOPMENT ASSISTANCE',
       title: 'Development Assistance',
       description:
-        'Innovative blended finance approach for donors and concessional financiers, to make smart use of impact-seeking capital to de-risk and mobilise private sector financing.',
+        "Innovative blended finance approach for donors and concessional financiers, to make smart use of impact-seeking capital to de-risk, reduce the capital cost and mobilise private sector financing towards increasing clean energy access in Nigeria in line with Nigeria's Nationally Determined Contributions.",
       image:
         'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800&auto=format&fit=crop',
       image_alt_text: 'Development Assistance',
@@ -240,7 +240,7 @@ export const IMPACT_DEFAULTS: ImpactContent = {
       subtitle: 'GREEN ECONOMY',
       title: 'Green Economy',
       description:
-        'Promote green growth and climate resilient development by enhancing access to renewable energy for productive uses and boosting agricultural development.',
+        'Promote green growth and climate resilient development by enhancing access to renewable energy for productive uses and boosting agricultural development whilst transitioning to a low-carbon economy that will create jobs, reduce poverty, promote gender diversity and stimulate local economic growth.',
       image: null,
       image_alt_text: null,
       link: '/impact',

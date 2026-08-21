@@ -1,13 +1,10 @@
 // Server-only: `next/cache` cannot be imported from a client component.
 import { cacheLife, cacheTag } from 'next/cache';
+import { CMS_BASE_URL } from './config';
 import { CMS_TIMEOUT_MS } from './fetchPage';
 import { FOOTER_DEFAULTS, type FooterSettings, type PartnerLogoItem } from './footer-defaults';
 
 export const FOOTER_CACHE_TAG = 'footer';
-
-/** Same resolution order and rationale as `fetchPage.ts` / `global.ts`. */
-const CMS_URL = (process.env.STRAPI_URL?.trim() || process.env.NEXT_PUBLIC_STRAPI_URL?.trim())
-  ?.replace(/\/+$/, '');
 
 /**
  * `footer` is a single type with a flat `partnerLogos` component list, not a
@@ -44,12 +41,7 @@ export async function getFooterSettings(): Promise<FooterSettings> {
   cacheLife('hours');
   cacheTag(FOOTER_CACHE_TAG);
 
-  const url = `${CMS_URL ?? '(unset)'}/api/footer?${FOOTER_QUERY}`;
-
-  if (!CMS_URL) {
-    reportFallback('neither STRAPI_URL nor NEXT_PUBLIC_STRAPI_URL is set', url);
-    return FOOTER_DEFAULTS;
-  }
+  const url = `${CMS_BASE_URL}/api/footer?${FOOTER_QUERY}`;
 
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(CMS_TIMEOUT_MS) });

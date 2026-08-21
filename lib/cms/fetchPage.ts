@@ -1,20 +1,6 @@
 // Server-only: `next/cache` cannot be imported from a client component. Pure
 // helpers that client components need live in `./content` instead.
-/**
- * Base URL of the Strapi instance.
- *
- * Prefer the server-only `STRAPI_URL`: this fetch never runs in the browser, so
- * the value has no business being inlined into the client bundle. `NEXT_PUBLIC_`
- * vars are substituted at build time, which also means they cannot be corrected
- * without a full rebuild. `NEXT_PUBLIC_STRAPI_URL` stays as a fallback so
- * existing deployments keep working until their env is migrated.
- *
- * `||` rather than `??` on purpose: a key created in a hosting dashboard with a
- * blank value arrives as `""`, which would otherwise shadow a perfectly good
- * legacy value instead of falling through to it.
- */
-const CMS_URL = (process.env.STRAPI_URL?.trim() || process.env.NEXT_PUBLIC_STRAPI_URL?.trim())
-  ?.replace(/\/+$/, '');
+import { CMS_BASE_URL } from './config';
 
 /**
  * Reads every component in the zone, two levels deep.
@@ -107,12 +93,7 @@ export async function fetchPageSections<S>(
   label: string,
   query: string = SECTIONS_QUERY
 ): Promise<S[]> {
-  const url = `${CMS_URL ?? '(unset)'}${path}?${query}`;
-
-  if (!CMS_URL) {
-    reportFallback(label, url, 'neither STRAPI_URL nor NEXT_PUBLIC_STRAPI_URL is set');
-    return [];
-  }
+  const url = `${CMS_BASE_URL}${path}?${query}`;
 
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(CMS_TIMEOUT_MS) });
