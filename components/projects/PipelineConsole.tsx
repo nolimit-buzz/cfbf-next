@@ -7,9 +7,11 @@ import { withoutEmpty } from '@/lib/cms/content';
 import { parseSdgs } from '@/lib/cms/projects-content';
 import { PROJECTS_PIPELINE_CONSOLE_DEFAULTS } from '@/lib/cms/projects-defaults';
 import type { ProjectsPipelineConsoleSection } from '@/lib/cms/projects-types';
-// Type-only: `lib/api/pipelineTotals.ts` imports `next/cache`, so only its
-// types may cross into this client component — never a runtime import.
+// Type-only: `lib/api/pipelineTotals.ts`/`businessModels.ts` import
+// `next/cache`, so only their types may cross into this client component —
+// never a runtime import.
 import type { ProjectPipelineOverride } from '@/lib/api/pipelineTotals';
+import type { BusinessModelFooter } from '@/lib/api/businessModels';
 
 // Data types
 interface MetricData {
@@ -251,12 +253,14 @@ interface PipelineConsoleProps {
   mandatedDeals?: TableRow[];
   data?: ProjectsPipelineConsoleSection;
   /**
-   * Live totals for the "Project Pipeline" stage from the InfraCredit
-   * Summary API — see `lib/api/pipelineTotals.ts`. Only that one stage's
-   * `usdVal`/`ngnVal`/`metrics` are overridden; every other stage (Business
-   * Models, Credit Approved, Closed) stays exactly as the CMS/defaults supply.
+   * Live totals from the InfraCredit Summary API, keyed by stage id — see
+   * `lib/api/pipelineTotals.ts`. Only a stage with a matching entry has its
+   * `usdVal`/`ngnVal`/`metrics` overridden; every other stage stays exactly
+   * as the CMS/defaults supply.
    */
-  pipelineOverride?: ProjectPipelineOverride | null;
+  stageOverrides?: Record<string, ProjectPipelineOverride> | null;
+  /** Live "Business Models" table footer totals — see `lib/api/businessModels.ts`. */
+  businessModelFooter?: BusinessModelFooter | null;
 }
 
 export default function PipelineConsole({
@@ -264,7 +268,8 @@ export default function PipelineConsole({
   totalSectorPipeline,
   mandatedDeals,
   data,
-  pipelineOverride,
+  stageOverrides,
+  businessModelFooter,
 }: PipelineConsoleProps) {
   const copy = { ...PROJECTS_PIPELINE_CONSOLE_DEFAULTS, ...withoutEmpty(data) };
 
@@ -287,13 +292,14 @@ export default function PipelineConsole({
       metrics: hasAnyMetric(stage.metrics) ? stage.metrics : undefined,
     };
 
-    if (stage.stageId !== 'project-pipeline' || !pipelineOverride) return base;
+    const override = stageOverrides?.[stage.stageId];
+    if (!override) return base;
 
     return {
       ...base,
-      usdVal: pipelineOverride.usdVal,
-      ngnVal: pipelineOverride.ngnVal,
-      metrics: { ...base.metrics, ...pipelineOverride.metrics },
+      usdVal: override.usdVal,
+      ngnVal: override.ngnVal,
+      metrics: { ...base.metrics, ...override.metrics },
     };
   });
 
@@ -306,7 +312,7 @@ export default function PipelineConsole({
   // Prefer the canonical opening stage, but fall back to whatever the CMS
   // actually supplies rather than a hardcoded id that an editor can rename.
   const defaultStageId =
-    resolvedStages.find((s) => s.id === "project-pipeline")?.id ?? resolvedStages[0]?.id ?? "";
+    resolvedStages.find((s) => s.id === "business-models")?.id ?? resolvedStages[0]?.id ?? "";
   const [activeStageId, setActiveStageId] = useState<string>(defaultStageId);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [businessModelView, setBusinessModelView] = useState<'total-pipeline' | 'mandated-deals'>('total-pipeline');
@@ -698,9 +704,11 @@ export default function PipelineConsole({
                                 <tfoot className="border-t border-white/10 bg-[#02100d] text-[10px] font-mono font-bold text-white uppercase tracking-wider sticky bottom-0 z-20">
                                   <tr>
                                     <td className="py-3 px-5">{copy.footerLabel}</td>
-                                    <td className="py-3 px-5 text-center">{copy.footerProjects}</td>
+                                    <td className="py-3 px-5 text-center">{businessModelFooter?.projects ?? copy.footerProjects}</td>
                                     <td className="py-3 px-5 text-right text-[#81C34D]">
-                                      {businessModelView === 'total-pipeline' ? copy.footerTotalPipeline : copy.footerTotalMandated}
+                                      {businessModelView === 'total-pipeline'
+                                        ? businessModelFooter?.totalPipeline ?? copy.footerTotalPipeline
+                                        : businessModelFooter?.totalMandated ?? copy.footerTotalMandated}
                                     </td>
                                     <td className="py-3 px-5 text-right">{copy.footerPercent}</td>
                                   </tr>

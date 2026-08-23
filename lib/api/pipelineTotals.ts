@@ -23,13 +23,13 @@ interface TotalsApiResponse {
   message: string;
 }
 
-function reportFallback(reason: string, detail?: string) {
+function reportFallback(stageLabel: string, url: string, reason: string, detail?: string) {
   console.error(
     [
       '',
-      '!!! [pipeline-totals] PROJECT PIPELINE STAGE FELL BACK TO CMS/BUNDLED NUMBERS !!!',
+      `!!! [pipeline-totals] ${stageLabel} STAGE FELL BACK TO CMS/BUNDLED NUMBERS !!!`,
       `    reason: ${reason}`,
-      `    url:    ${TOTALS_API_URL}`,
+      `    url:    ${url}`,
       ...(detail ? [`    detail: ${detail}`] : []),
       '',
     ].join('\n')
@@ -37,25 +37,30 @@ function reportFallback(reason: string, detail?: string) {
 }
 
 /**
- * Fetches the live pipeline totals used by the "Project Pipeline" stage's
- * metric cards and top figure.
+ * Fetches the live totals for one pipeline stage's metric cards and top
+ * figure. Omit `dealStage` for the unscoped "Project Pipeline" totals, or
+ * pass the deal-stage id the API expects (e.g. `3` for Credit Approved) to
+ * scope it to another stage.
  *
  * Never throws — a fetch failure, missing API key, or malformed/unsuccessful
  * response returns `null` so the caller keeps the CMS/bundled stage numbers,
  * which are already a complete, coherent stage on their own.
  */
-export async function getPipelineTotals(): Promise<RawPipelineTotals | null> {
+export async function getPipelineTotals(dealStage?: number): Promise<RawPipelineTotals | null> {
   'use cache';
   cacheLife('hours');
 
+  const url = dealStage === undefined ? TOTALS_API_URL : `${TOTALS_API_URL}?DealStage=${dealStage}`;
+  const stageLabel = dealStage === undefined ? 'PROJECT PIPELINE' : `DEAL STAGE ${dealStage}`;
+
   const apiKey = process.env['X-API-KEY'];
   if (!apiKey) {
-    reportFallback('X-API-KEY is not configured');
+    reportFallback(stageLabel, url, 'X-API-KEY is not configured');
     return null;
   }
 
   try {
-    const res = await fetch(TOTALS_API_URL, {
+    const res = await fetch(url, {
       headers: { 'X-API-KEY': apiKey },
       signal: AbortSignal.timeout(TOTALS_TIMEOUT_MS),
     });
@@ -63,6 +68,8 @@ export async function getPipelineTotals(): Promise<RawPipelineTotals | null> {
     if (!res.ok) {
       const body = await res.text().catch(() => '<unreadable body>');
       reportFallback(
+        stageLabel,
+        url,
         `HTTP ${res.status} ${res.statusText}`,
         `${body.slice(0, 300).replace(/\s+/g, ' ').trim()}${body.length > 300 ? '…' : ''}`
       );
@@ -72,7 +79,7 @@ export async function getPipelineTotals(): Promise<RawPipelineTotals | null> {
     const json = (await res.json()) as TotalsApiResponse;
 
     if (!json.isSuccessful || !json.data) {
-      reportFallback('API responded 200 but isSuccessful was false', json.message);
+      reportFallback(stageLabel, url, 'API responded 200 but isSuccessful was false', json.message);
       return null;
     }
 
@@ -80,6 +87,8 @@ export async function getPipelineTotals(): Promise<RawPipelineTotals | null> {
   } catch (err) {
     const timedOut = err instanceof Error && err.name === 'TimeoutError';
     reportFallback(
+      stageLabel,
+      url,
       timedOut ? `no response within ${TOTALS_TIMEOUT_MS}ms` : 'request failed',
       err instanceof Error ? err.message : String(err)
     );
@@ -106,7 +115,7 @@ function formatFixedDecimal(n: number, decimals: number): string {
 }
 
 const formatConnections = (t: RawPipelineTotals) => formatInt(t.totalConnections);
-const formatCapacity = (t: RawPipelineTotals) => `${formatFixedDecimal(t.totalProjectedCapacity, 2)} MWp`;
+const formatCapacity = (t: RawPipelineTotals, unit: string) => `${formatFixedDecimal(t.totalProjectedCapacity, 2)} ${unit}`;
 const formatCommunities = (t: RawPipelineTotals) => formatInt(t.totalCommunities);
 const formatJobs = (t: RawPipelineTotals) => formatTrimmedDecimal(t.totalJobsCreated, 1);
 const formatGhg = (t: RawPipelineTotals) => formatFixedDecimal(t.totalGHGEmissions, 2);
@@ -117,9 +126,9 @@ const formatSizeUsd = (t: RawPipelineTotals) => formatTrimmedDecimal(t.totalSize
 const formatSizeNgn = (t: RawPipelineTotals) => `${formatFixedDecimal(t.totalSize, 2)}B NGN EQUIV`;
 
 /**
- * Display-ready override for the "Project Pipeline" stage — plain strings,
- * shaped exactly like that stage's `usdVal`/`ngnVal`/`metrics` fields, so it
- * can be spread straight over the CMS-resolved stage client-side.
+ * Display-ready override for one pipeline stage — plain strings, shaped
+ * exactly like a stage's `usdVal`/`ngnVal`/`metrics` fields, so it can be
+ * spread straight over the CMS-resolved stage client-side.
  */
 export interface ProjectPipelineOverride {
   usdVal: string;
@@ -135,13 +144,21 @@ export interface ProjectPipelineOverride {
   };
 }
 
-export function buildProjectPipelineOverride(totals: RawPipelineTotals): ProjectPipelineOverride {
+/**
+ * `capacityUnit` matters because the bundled stage data isn't consistent:
+ * Project Pipeline and Closed Projects both show "MWp", but Credit Approved
+ * Pipeline shows plain "MW" — see `projects-defaults.ts:581,601,621`.
+ */
+export function buildStageOverride(
+  totals: RawPipelineTotals,
+  opts: { capacityUnit: string }
+): ProjectPipelineOverride {
   return {
     usdVal: formatSizeUsd(totals),
     ngnVal: formatSizeNgn(totals),
     metrics: {
       connections: formatConnections(totals),
-      capacity: formatCapacity(totals),
+      capacity: formatCapacity(totals, opts.capacityUnit),
       communities: formatCommunities(totals),
       jobs: formatJobs(totals),
       ghg: formatGhg(totals),

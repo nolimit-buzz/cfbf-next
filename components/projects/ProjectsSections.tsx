@@ -7,6 +7,7 @@ import { ArrowUpRight, BarChart3, LayoutGrid, Download, Plus, Minus, MapPin, Zap
 import FootprintMap from '@/components/projects/FootprintMap';
 import type { FootprintData } from '@/lib/api/pue';
 import type { ProjectPipelineOverride } from '@/lib/api/pipelineTotals';
+import type { BusinessModelRow, BusinessModelFooter } from '@/lib/api/businessModels';
 import PipelineConsole from '@/components/projects/PipelineConsole';
 
 import GlassHero, { heroRowVariants, heroCardVariants } from '@/components/GlassHero';
@@ -157,15 +158,19 @@ export interface ProjectsSectionsProps {
   nextSteps?: ProjectsNextStepsSection;
   /** LGA/community project data from the live InfraCredit PUE API — see `lib/api/pue.ts`. */
   footprintData?: FootprintData;
-  /** Live-totals override for the "Project Pipeline" stage — see `lib/api/pipelineTotals.ts`. */
-  pipelineOverride?: ProjectPipelineOverride | null;
+  /** Live-totals overrides per pipeline stage, keyed by stage id — see `lib/api/pipelineTotals.ts`. */
+  stageOverrides?: Record<string, ProjectPipelineOverride> | null;
+  /** Live "Business Models" stage table rows/footer — see `lib/api/businessModels.ts`. */
+  totalSectorPipeline?: BusinessModelRow[];
+  mandatedDeals?: BusinessModelRow[];
+  businessModelFooter?: BusinessModelFooter | null;
 }
 
 export default function ProjectsSections(props: ProjectsSectionsProps) {
   const {
     hero, portfolioTabs, analysisTab, pipelineTab,
     pipelineConsole, eligibilityCta, footprintMap, lgaModal, nextSteps, footprintData,
-    pipelineOverride,
+    stageOverrides, totalSectorPipeline, mandatedDeals, businessModelFooter,
   } = props;
 
   const heroCopy = { ...PROJECTS_HERO_DEFAULTS, ...withoutEmpty(hero) };
@@ -668,7 +673,13 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
         </AnimatePresence>
       </div>
 
-      <PipelineConsole data={pipelineConsole} pipelineOverride={pipelineOverride} />
+      <PipelineConsole
+        data={pipelineConsole}
+        stageOverrides={stageOverrides}
+        totalSectorPipeline={totalSectorPipeline}
+        mandatedDeals={mandatedDeals}
+        businessModelFooter={businessModelFooter}
+      />
 
       <div className="container mx-auto px-6 pt-0 pb-0 relative z-10 text-left">
         {/* Contextual Eligibility CTA Banner */}
