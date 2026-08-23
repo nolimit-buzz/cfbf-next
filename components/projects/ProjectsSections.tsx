@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, BarChart3, LayoutGrid, Download, Plus, Minus, MapPin, Zap, Leaf, Users, Wifi, ShieldCheck, ArrowRight } from 'lucide-react';
 import FootprintMap from '@/components/projects/FootprintMap';
+import type { FootprintData } from '@/lib/api/pue';
 import PipelineConsole from '@/components/projects/PipelineConsole';
 
 import GlassHero, { heroRowVariants, heroCardVariants } from '@/components/GlassHero';
@@ -153,12 +154,14 @@ export interface ProjectsSectionsProps {
   footprintMap?: ProjectsFootprintMapCopy;
   lgaModal?: ProjectsLgaModalSection;
   nextSteps?: ProjectsNextStepsSection;
+  /** LGA/community project data from the live InfraCredit PUE API — see `lib/api/pue.ts`. */
+  footprintData?: FootprintData;
 }
 
 export default function ProjectsSections(props: ProjectsSectionsProps) {
   const {
     hero, portfolioTabs, analysisTab, pipelineTab,
-    pipelineConsole, eligibilityCta, footprintMap, lgaModal, nextSteps,
+    pipelineConsole, eligibilityCta, footprintMap, lgaModal, nextSteps, footprintData,
   } = props;
 
   const heroCopy = { ...PROJECTS_HERO_DEFAULTS, ...withoutEmpty(hero) };
@@ -716,7 +719,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="mt-24 border-t border-white/10 pt-16 scroll-mt-24"
         >
-          <FootprintMap data={footprintMap} modalData={lgaModal} />
+          <FootprintMap data={footprintMap} modalData={lgaModal} footprintData={footprintData} />
         </motion.section>
       </div>
 

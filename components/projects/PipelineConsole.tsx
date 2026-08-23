@@ -205,45 +205,6 @@ const PIPELINE_STAGES: StageInfo[] = [
       capital: "₦11.4B",
       capitalSub: "USD 8.3 Mln"
     }
-  },
-  {
-    id: "urban-pipeline",
-    label: "Urban Pipeline Projects",
-    title: "URBAN PIPELINE PROJECTS",
-    usdVal: "54.6",
-    ngnVal: "84.40B NGN EQUIV",
-    desc: "The 7 Urban Pipeline Projects address energy reliability in municipalities, focusing on commercial utility scaling and private capital integration.",
-    sdgs: [7, 8, 9, 11, 13, 17],
-    metrics: {
-      connections: "3,350",
-      capacity: "27.68 MW",
-      communities: "0",
-      communitiesLabel: "Communities Impacted",
-      jobs: "1,820",
-      ghg: "251.89",
-      capital: "₦0.0B",
-      capitalSub: "USD 0.0 Mln"
-    }
-  },
-  {
-    id: "urban-credit-approved",
-    label: "Urban Credit Approved Pipeline",
-    title: "URBAN CREDIT APPROVED",
-    usdVal: "5.95",
-    ngnVal: "3.80B NGN EQUIV",
-    desc: "The 2 Urban Credit Approved Projects focus on commercial microgrid integrations within dense population hubs and local government area clusters.",
-    sdgs: [7, 8, 9, 11, 13, 17],
-    metrics: {
-      connections: "1,213",
-      connectionsLabel: "Households & Businesses",
-      capacity: "9.90 MW",
-      communities: "12",
-      communitiesLabel: "Local Gov Areas",
-      jobs: "1,115",
-      ghg: "90.09",
-      capital: "₦0.0B",
-      capitalSub: "USD 0.0 Mln"
-    }
   }
 ];
 
