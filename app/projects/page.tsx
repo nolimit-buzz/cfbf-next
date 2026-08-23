@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import ProjectsSections from '@/components/projects/ProjectsSections';
 import { getProjectsSections } from '@/lib/cms/projects';
 import { getFootprintData } from '@/lib/api/pue';
+import { getPipelineTotals, buildProjectPipelineOverride } from '@/lib/api/pipelineTotals';
 import {
   PROJECTS_PIPELINE_TAB_DEFAULTS,
   PROJECTS_STRUCTURED_DATA_DEFAULTS,
@@ -51,6 +52,8 @@ export default async function ProjectsPage() {
   const sections = await getProjectsSections();
   const seo = await getSeo();
   const footprintData = await getFootprintData();
+  const pipelineTotals = await getPipelineTotals();
+  const pipelineOverride = pipelineTotals ? buildProjectPipelineOverride(pipelineTotals) : null;
 
   const pipelineTab = pickSection(sections, 'projects-page.pipeline-tab-section');
 
@@ -106,6 +109,7 @@ export default async function ProjectsPage() {
         lgaModal={pickSection(sections, 'projects-page.lga-modal-section')}
         nextSteps={pickSection(sections, 'projects-page.next-steps-section')}
         footprintData={footprintData}
+        pipelineOverride={pipelineOverride}
       />
     </>
   );

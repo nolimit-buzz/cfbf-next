@@ -7,6 +7,9 @@ import { withoutEmpty } from '@/lib/cms/content';
 import { parseSdgs } from '@/lib/cms/projects-content';
 import { PROJECTS_PIPELINE_CONSOLE_DEFAULTS } from '@/lib/cms/projects-defaults';
 import type { ProjectsPipelineConsoleSection } from '@/lib/cms/projects-types';
+// Type-only: `lib/api/pipelineTotals.ts` imports `next/cache`, so only its
+// types may cross into this client component — never a runtime import.
+import type { ProjectPipelineOverride } from '@/lib/api/pipelineTotals';
 
 // Data types
 interface MetricData {
@@ -247,33 +250,52 @@ interface PipelineConsoleProps {
   totalSectorPipeline?: TableRow[];
   mandatedDeals?: TableRow[];
   data?: ProjectsPipelineConsoleSection;
+  /**
+   * Live totals for the "Project Pipeline" stage from the InfraCredit
+   * Summary API — see `lib/api/pipelineTotals.ts`. Only that one stage's
+   * `usdVal`/`ngnVal`/`metrics` are overridden; every other stage (Business
+   * Models, Credit Approved, Closed) stays exactly as the CMS/defaults supply.
+   */
+  pipelineOverride?: ProjectPipelineOverride | null;
 }
 
 export default function PipelineConsole({
   stages,
   totalSectorPipeline,
   mandatedDeals,
-  data
+  data,
+  pipelineOverride,
 }: PipelineConsoleProps) {
   const copy = { ...PROJECTS_PIPELINE_CONSOLE_DEFAULTS, ...withoutEmpty(data) };
 
   // Explicit props still win — they are how a caller overrides the CMS — but the
   // fallback chain now runs through the CMS before reaching the bundled arrays.
-  const resolvedStages: StageInfo[] = stages ?? copy.stages.map((stage) => ({
-    id: stage.stageId,
-    label: stage.label,
-    title: stage.title,
-    usdVal: stage.usdVal,
-    ngnVal: stage.ngnVal,
-    desc: stage.desc,
-    sdgs: parseSdgs(stage.sdgs),
-    // A stage with no metrics at all is a table stage, not a metrics stage.
-    // `metrics: undefined` is what switches the right column to the sector table.
-    // Gate on "has any figure" rather than on `connections` alone: one blank
-    // field in the CMS should not collapse the whole Expected Impact Metrics
-    // panel to the table.
-    metrics: hasAnyMetric(stage.metrics) ? stage.metrics : undefined,
-  }));
+  const resolvedStages: StageInfo[] = stages ?? copy.stages.map((stage) => {
+    const base = {
+      id: stage.stageId,
+      label: stage.label,
+      title: stage.title,
+      usdVal: stage.usdVal,
+      ngnVal: stage.ngnVal,
+      desc: stage.desc,
+      sdgs: parseSdgs(stage.sdgs),
+      // A stage with no metrics at all is a table stage, not a metrics stage.
+      // `metrics: undefined` is what switches the right column to the sector table.
+      // Gate on "has any figure" rather than on `connections` alone: one blank
+      // field in the CMS should not collapse the whole Expected Impact Metrics
+      // panel to the table.
+      metrics: hasAnyMetric(stage.metrics) ? stage.metrics : undefined,
+    };
+
+    if (stage.stageId !== 'project-pipeline' || !pipelineOverride) return base;
+
+    return {
+      ...base,
+      usdVal: pipelineOverride.usdVal,
+      ngnVal: pipelineOverride.ngnVal,
+      metrics: { ...base.metrics, ...pipelineOverride.metrics },
+    };
+  });
 
   const resolvedTotalPipeline = totalSectorPipeline ?? copy.totalPipelineRows;
   const resolvedMandatedDeals = mandatedDeals ?? copy.mandatedDealRows;
