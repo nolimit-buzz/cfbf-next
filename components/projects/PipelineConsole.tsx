@@ -7,6 +7,11 @@ import { withoutEmpty } from '@/lib/cms/content';
 import { parseSdgs } from '@/lib/cms/projects-content';
 import { PROJECTS_PIPELINE_CONSOLE_DEFAULTS } from '@/lib/cms/projects-defaults';
 import type { ProjectsPipelineConsoleSection } from '@/lib/cms/projects-types';
+// Type-only: `lib/api/pipelineTotals.ts`/`businessModels.ts` import
+// `next/cache`, so only their types may cross into this client component —
+// never a runtime import.
+import type { ProjectPipelineOverride } from '@/lib/api/pipelineTotals';
+import type { BusinessModelFooter } from '@/lib/api/businessModels';
 
 // Data types
 interface MetricData {
@@ -205,45 +210,6 @@ const PIPELINE_STAGES: StageInfo[] = [
       capital: "₦11.4B",
       capitalSub: "USD 8.3 Mln"
     }
-  },
-  {
-    id: "urban-pipeline",
-    label: "Urban Pipeline Projects",
-    title: "URBAN PIPELINE PROJECTS",
-    usdVal: "54.6",
-    ngnVal: "84.40B NGN EQUIV",
-    desc: "The 7 Urban Pipeline Projects address energy reliability in municipalities, focusing on commercial utility scaling and private capital integration.",
-    sdgs: [7, 8, 9, 11, 13, 17],
-    metrics: {
-      connections: "3,350",
-      capacity: "27.68 MW",
-      communities: "0",
-      communitiesLabel: "Communities Impacted",
-      jobs: "1,820",
-      ghg: "251.89",
-      capital: "₦0.0B",
-      capitalSub: "USD 0.0 Mln"
-    }
-  },
-  {
-    id: "urban-credit-approved",
-    label: "Urban Credit Approved Pipeline",
-    title: "URBAN CREDIT APPROVED",
-    usdVal: "5.95",
-    ngnVal: "3.80B NGN EQUIV",
-    desc: "The 2 Urban Credit Approved Projects focus on commercial microgrid integrations within dense population hubs and local government area clusters.",
-    sdgs: [7, 8, 9, 11, 13, 17],
-    metrics: {
-      connections: "1,213",
-      connectionsLabel: "Households & Businesses",
-      capacity: "9.90 MW",
-      communities: "12",
-      communitiesLabel: "Local Gov Areas",
-      jobs: "1,115",
-      ghg: "90.09",
-      capital: "₦0.0B",
-      capitalSub: "USD 0.0 Mln"
-    }
   }
 ];
 
@@ -286,33 +252,56 @@ interface PipelineConsoleProps {
   totalSectorPipeline?: TableRow[];
   mandatedDeals?: TableRow[];
   data?: ProjectsPipelineConsoleSection;
+  /**
+   * Live totals from the InfraCredit Summary API, keyed by stage id — see
+   * `lib/api/pipelineTotals.ts`. Only a stage with a matching entry has its
+   * `usdVal`/`ngnVal`/`metrics` overridden; every other stage stays exactly
+   * as the CMS/defaults supply.
+   */
+  stageOverrides?: Record<string, ProjectPipelineOverride> | null;
+  /** Live "Business Models" table footer totals — see `lib/api/businessModels.ts`. */
+  businessModelFooter?: BusinessModelFooter | null;
 }
 
 export default function PipelineConsole({
   stages,
   totalSectorPipeline,
   mandatedDeals,
-  data
+  data,
+  stageOverrides,
+  businessModelFooter,
 }: PipelineConsoleProps) {
   const copy = { ...PROJECTS_PIPELINE_CONSOLE_DEFAULTS, ...withoutEmpty(data) };
 
   // Explicit props still win — they are how a caller overrides the CMS — but the
   // fallback chain now runs through the CMS before reaching the bundled arrays.
-  const resolvedStages: StageInfo[] = stages ?? copy.stages.map((stage) => ({
-    id: stage.stageId,
-    label: stage.label,
-    title: stage.title,
-    usdVal: stage.usdVal,
-    ngnVal: stage.ngnVal,
-    desc: stage.desc,
-    sdgs: parseSdgs(stage.sdgs),
-    // A stage with no metrics at all is a table stage, not a metrics stage.
-    // `metrics: undefined` is what switches the right column to the sector table.
-    // Gate on "has any figure" rather than on `connections` alone: one blank
-    // field in the CMS should not collapse the whole Expected Impact Metrics
-    // panel to the table.
-    metrics: hasAnyMetric(stage.metrics) ? stage.metrics : undefined,
-  }));
+  const resolvedStages: StageInfo[] = stages ?? copy.stages.map((stage) => {
+    const base = {
+      id: stage.stageId,
+      label: stage.label,
+      title: stage.title,
+      usdVal: stage.usdVal,
+      ngnVal: stage.ngnVal,
+      desc: stage.desc,
+      sdgs: parseSdgs(stage.sdgs),
+      // A stage with no metrics at all is a table stage, not a metrics stage.
+      // `metrics: undefined` is what switches the right column to the sector table.
+      // Gate on "has any figure" rather than on `connections` alone: one blank
+      // field in the CMS should not collapse the whole Expected Impact Metrics
+      // panel to the table.
+      metrics: hasAnyMetric(stage.metrics) ? stage.metrics : undefined,
+    };
+
+    const override = stageOverrides?.[stage.stageId];
+    if (!override) return base;
+
+    return {
+      ...base,
+      usdVal: override.usdVal,
+      ngnVal: override.ngnVal,
+      metrics: { ...base.metrics, ...override.metrics },
+    };
+  });
 
   const resolvedTotalPipeline = totalSectorPipeline ?? copy.totalPipelineRows;
   const resolvedMandatedDeals = mandatedDeals ?? copy.mandatedDealRows;
@@ -323,7 +312,7 @@ export default function PipelineConsole({
   // Prefer the canonical opening stage, but fall back to whatever the CMS
   // actually supplies rather than a hardcoded id that an editor can rename.
   const defaultStageId =
-    resolvedStages.find((s) => s.id === "project-pipeline")?.id ?? resolvedStages[0]?.id ?? "";
+    resolvedStages.find((s) => s.id === "business-models")?.id ?? resolvedStages[0]?.id ?? "";
   const [activeStageId, setActiveStageId] = useState<string>(defaultStageId);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [businessModelView, setBusinessModelView] = useState<'total-pipeline' | 'mandated-deals'>('total-pipeline');
@@ -715,9 +704,11 @@ export default function PipelineConsole({
                                 <tfoot className="border-t border-white/10 bg-[#02100d] text-[10px] font-mono font-bold text-white uppercase tracking-wider sticky bottom-0 z-20">
                                   <tr>
                                     <td className="py-3 px-5">{copy.footerLabel}</td>
-                                    <td className="py-3 px-5 text-center">{copy.footerProjects}</td>
+                                    <td className="py-3 px-5 text-center">{businessModelFooter?.projects ?? copy.footerProjects}</td>
                                     <td className="py-3 px-5 text-right text-[#81C34D]">
-                                      {businessModelView === 'total-pipeline' ? copy.footerTotalPipeline : copy.footerTotalMandated}
+                                      {businessModelView === 'total-pipeline'
+                                        ? businessModelFooter?.totalPipeline ?? copy.footerTotalPipeline
+                                        : businessModelFooter?.totalMandated ?? copy.footerTotalMandated}
                                     </td>
                                     <td className="py-3 px-5 text-right">{copy.footerPercent}</td>
                                   </tr>

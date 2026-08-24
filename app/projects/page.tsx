@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import ProjectsSections from '@/components/projects/ProjectsSections';
 import { getProjectsSections } from '@/lib/cms/projects';
+import { getFootprintData } from '@/lib/api/pue';
+import { getPipelineTotals, buildStageOverride } from '@/lib/api/pipelineTotals';
+import type { ProjectPipelineOverride } from '@/lib/api/pipelineTotals';
+import { getBusinessModelTotals, buildBusinessModelTables } from '@/lib/api/businessModels';
 import {
   PROJECTS_PIPELINE_TAB_DEFAULTS,
   PROJECTS_STRUCTURED_DATA_DEFAULTS,
@@ -49,6 +53,33 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ProjectsPage() {
   const sections = await getProjectsSections();
   const seo = await getSeo();
+  const footprintData = await getFootprintData();
+
+  // Project Pipeline is the unscoped totals call; Credit Approved Pipeline and
+  // Closed Projects scope the same endpoint via `?DealStage=3`/`?DealStage=4`.
+  // Each stage's capacity unit must match its bundled default ("MWp" vs plain
+  // "MW") — see `buildStageOverride`'s doc comment.
+  const [projectPipelineTotals, creditApprovedTotals, closedTotals, businessModelData] = await Promise.all([
+    getPipelineTotals(),
+    getPipelineTotals(3),
+    getPipelineTotals(4),
+    getBusinessModelTotals(),
+  ]);
+
+  const stageOverrides: Record<string, ProjectPipelineOverride> = {};
+  if (projectPipelineTotals) {
+    stageOverrides['project-pipeline'] = buildStageOverride(projectPipelineTotals, { capacityUnit: 'MWp' });
+  }
+  if (creditApprovedTotals) {
+    stageOverrides['credit-approved'] = buildStageOverride(creditApprovedTotals, { capacityUnit: 'MW' });
+  }
+  if (closedTotals) {
+    stageOverrides['closed'] = buildStageOverride(closedTotals, { capacityUnit: 'MWp' });
+  }
+
+  // Feeds the "Business Models" stage's table — both the Total Pipeline and
+  // Mandated Deals tabs come from this one call.
+  const businessModelTables = businessModelData ? buildBusinessModelTables(businessModelData) : null;
 
   const pipelineTab = pickSection(sections, 'projects-page.pipeline-tab-section');
 
@@ -103,6 +134,11 @@ export default async function ProjectsPage() {
         )}
         lgaModal={pickSection(sections, 'projects-page.lga-modal-section')}
         nextSteps={pickSection(sections, 'projects-page.next-steps-section')}
+        footprintData={footprintData}
+        stageOverrides={stageOverrides}
+        totalSectorPipeline={businessModelTables?.totalPipelineRows}
+        mandatedDeals={businessModelTables?.mandatedDealRows}
+        businessModelFooter={businessModelTables?.footer}
       />
     </>
   );

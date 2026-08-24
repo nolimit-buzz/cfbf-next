@@ -9,18 +9,18 @@ import nigeriaMapData from '@svg-maps/nigeria';
 import {
   ALL_STATES,
   STATE_LGAS,
-  LGA_PROJECTS,
+  LGA_PROJECTS_BY_STATE,
   PROJECT_TYPE_LEGEND,
   StateInfo,
   LGAProjectEntry,
   getProjectTypeColor,
   getStateByMapId,
-  getLGAsForState,
 } from '@/lib/mapData';
 import LGAModal from './LGAModal';
 import { withoutEmpty } from '@/lib/cms/content';
 import { PROJECTS_FOOTPRINT_MAP_DEFAULTS } from '@/lib/cms/projects-defaults';
 import type { ProjectsFootprintMapCopy, ProjectsLgaModalSection } from '@/lib/cms/projects-types';
+import type { FootprintData } from '@/lib/api/pue';
 
 interface NigeriaStateLocation {
   id: string;
@@ -82,10 +82,19 @@ export interface FootprintMapProps {
    */
   data?: ProjectsFootprintMapCopy;
   modalData?: ProjectsLgaModalSection;
+  /**
+   * LGA/community project data from the live InfraCredit PUE API. Falls back
+   * to the bundled static `STATE_LGAS`/`LGA_PROJECTS` when omitted (e.g. the
+   * API was unreachable server-side, or the component renders standalone).
+   * `ALL_STATES` (map coloring) is unaffected — it stays static regardless.
+   */
+  footprintData?: FootprintData;
 }
 
-export default function FootprintMap({ data, modalData }: FootprintMapProps = {}) {
+export default function FootprintMap({ data, modalData, footprintData }: FootprintMapProps = {}) {
   const copy = { ...PROJECTS_FOOTPRINT_MAP_DEFAULTS, ...withoutEmpty(data) };
+  const stateLgas = footprintData?.stateLgas ?? STATE_LGAS;
+  const lgaProjects = footprintData?.lgaProjects ?? LGA_PROJECTS_BY_STATE;
 
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [hoveredState, setHoveredState] = useState<string | null>(null);
@@ -99,13 +108,13 @@ export default function FootprintMap({ data, modalData }: FootprintMapProps = {}
   );
 
   const currentLGAs = useMemo(
-    () => (selectedState ? getLGAsForState(selectedState) : []),
-    [selectedState]
+    () => (selectedState ? stateLgas[selectedState] ?? [] : []),
+    [selectedState, stateLgas]
   );
 
   const modalProjects: LGAProjectEntry[] = useMemo(
-    () => (selectedLGA ? LGA_PROJECTS[selectedLGA] ?? [] : []),
-    [selectedLGA]
+    () => (selectedState && selectedLGA ? lgaProjects[`${selectedState}::${selectedLGA}`] ?? [] : []),
+    [selectedState, selectedLGA, lgaProjects]
   );
 
   const filteredStates = useMemo(() => {
@@ -154,7 +163,7 @@ export default function FootprintMap({ data, modalData }: FootprintMapProps = {}
   };
 
   const totalStates = ALL_STATES.filter(s => s.hasProjects && s.mapId !== 'fct').length;
-  const totalCommunities = Object.values(LGA_PROJECTS).reduce((sum, arr) => sum + arr.length, 0);
+  const totalCommunities = Object.values(lgaProjects).reduce((sum, arr) => sum + arr.length, 0);
 
   return (
     <>
@@ -395,7 +404,8 @@ export default function FootprintMap({ data, modalData }: FootprintMapProps = {}
                   {currentLGAs.length > 0 ? (
                     <ul className="divide-y divide-white/[0.04]">
                       {currentLGAs.map((lga, idx) => {
-                        const hasData = Boolean(LGA_PROJECTS[lga] && LGA_PROJECTS[lga].length > 0);
+                        const key = `${selectedState}::${lga}`;
+                        const hasData = Boolean(lgaProjects[key] && lgaProjects[key].length > 0);
                         return (
                           <li key={idx}>
                             <button

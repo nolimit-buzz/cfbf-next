@@ -1,10 +1,10 @@
 /**
  * CFBF National Footprint Map Data
  *
- * Architecture note: This file is structured for easy migration to a live data source.
- * The `fetchLGAProjects(lga, state)` adapter at the bottom is where you'll plug in:
- *   - WordPress Custom Post Types via REST API (/wp-json/wp/v2/cfbf_project?lga=Karu)
- *   - External data API (e.g., InfraCredit data feed)
+ * `ALL_STATES` (per-state map coloring) is static and stays that way by design.
+ * `STATE_LGAS`/`LGA_PROJECTS` below are the fallback data used when the live
+ * InfraCredit PUE API (`lib/api/pue.ts` → `getFootprintData`) is unreachable —
+ * see that file for the live source.
  *
  * All interfaces are exported so they can be reused in API response types.
  */
@@ -314,23 +314,10 @@ export const PROJECT_TYPE_LEGEND = [
   { label: 'Rural Electrification & PUE',          color: '#f4845f', type: 'rural-elec-pue' },
 ] as const;
 
-// ─── API Adapter ─────────────────────────────────────────────────────────────
-// TODO: Replace the static return with a fetch call when ready.
-// Example WP CPT endpoint: /wp-json/wp/v2/cfbf_project?lga={lga}&state={state}&per_page=100
-// Example external API: process.env.NEXT_PUBLIC_CFBF_API_URL + `/projects?lga=${lga}`
-
-export async function fetchLGAProjects(
-  lga: string,
-  _state: string
-): Promise<LGAProjectEntry[]> {
-  // Static data fallback — replace with:
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_CFBF_API_URL}/projects?lga=${encodeURIComponent(lga)}&state=${encodeURIComponent(_state)}`);
-  // const data = await res.json();
-  // return data as LGAProjectEntry[];
-  return LGA_PROJECTS[lga] ?? [];
-}
-
 // ─── Helpers ─────────────────────────────────────────────────────────────────
+// Live LGA/community data now comes from `lib/api/pue.ts` (`getFootprintData`),
+// fetched server-side and passed down as props. `STATE_LGAS`/`LGA_PROJECTS`
+// above are its fallback when that API is unreachable.
 
 export function getStateByMapId(mapId: string): StateInfo | undefined {
   return ALL_STATES.find(s => s.mapId === mapId);
@@ -350,3 +337,48 @@ export function getProjectTypeColor(type: StateInfo['projectType']): string {
     default:                      return 'rgba(45, 106, 79, 0.75)';
   }
 }
+
+function normalizeStateName(name: string): string {
+  return name.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+/**
+ * Strips noise the live API's state names carry that `ALL_STATES`' canonical
+ * names don't — a parenthetical aside (`"Kaduna (FCT)"`) or a trailing
+ * "State" (`"Niger State"`) — before normalizing for lookup.
+ */
+function stripStateNoise(name: string): string {
+  return name.replace(/\([^)]*\)/g, ' ').replace(/\bstate\b/gi, ' ').trim();
+}
+
+const STATE_NAME_TO_ID: Record<string, string> = ALL_STATES.reduce((acc, s) => {
+  acc[normalizeStateName(s.name)] = s.mapId;
+  return acc;
+}, {} as Record<string, string>);
+
+/** Short codes/abbreviations that don't normalize to any `ALL_STATES` name. */
+const STATE_ALIASES: Record<string, string> = {
+  fct: 'fct',
+};
+
+/** Resolves a free-form state name (any case/spacing/aside) to its `@svg-maps/nigeria` id. */
+export function resolveStateId(name: string): string | undefined {
+  const key = normalizeStateName(stripStateNoise(name));
+  return STATE_NAME_TO_ID[key] ?? STATE_ALIASES[key];
+}
+
+/**
+ * `LGA_PROJECTS` re-keyed as `${mapId}::${lgaName}`, matching the composite
+ * keying the live API data uses (LGA names can repeat across states — see
+ * `lib/api/pue.ts`). This is the actual fallback consumers should read.
+ */
+export const LGA_PROJECTS_BY_STATE: Record<string, LGAProjectEntry[]> = Object.entries(
+  LGA_PROJECTS
+).reduce((acc, [lgaName, entries]) => {
+  for (const entry of entries) {
+    const mapId = resolveStateId(entry.state) ?? normalizeStateName(entry.state);
+    const key = `${mapId}::${lgaName}`;
+    acc[key] = [...(acc[key] ?? []), entry];
+  }
+  return acc;
+}, {} as Record<string, LGAProjectEntry[]>);

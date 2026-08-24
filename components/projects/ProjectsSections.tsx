@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, BarChart3, LayoutGrid, Download, Plus, Minus, MapPin, Zap, Leaf, Users, Wifi, ShieldCheck, ArrowRight } from 'lucide-react';
 import FootprintMap from '@/components/projects/FootprintMap';
+import type { FootprintData } from '@/lib/api/pue';
+import type { ProjectPipelineOverride } from '@/lib/api/pipelineTotals';
+import type { BusinessModelRow, BusinessModelFooter } from '@/lib/api/businessModels';
 import PipelineConsole from '@/components/projects/PipelineConsole';
 
 import GlassHero, { heroRowVariants, heroCardVariants } from '@/components/GlassHero';
@@ -153,12 +156,21 @@ export interface ProjectsSectionsProps {
   footprintMap?: ProjectsFootprintMapCopy;
   lgaModal?: ProjectsLgaModalSection;
   nextSteps?: ProjectsNextStepsSection;
+  /** LGA/community project data from the live InfraCredit PUE API — see `lib/api/pue.ts`. */
+  footprintData?: FootprintData;
+  /** Live-totals overrides per pipeline stage, keyed by stage id — see `lib/api/pipelineTotals.ts`. */
+  stageOverrides?: Record<string, ProjectPipelineOverride> | null;
+  /** Live "Business Models" stage table rows/footer — see `lib/api/businessModels.ts`. */
+  totalSectorPipeline?: BusinessModelRow[];
+  mandatedDeals?: BusinessModelRow[];
+  businessModelFooter?: BusinessModelFooter | null;
 }
 
 export default function ProjectsSections(props: ProjectsSectionsProps) {
   const {
     hero, portfolioTabs, analysisTab, pipelineTab,
-    pipelineConsole, eligibilityCta, footprintMap, lgaModal, nextSteps,
+    pipelineConsole, eligibilityCta, footprintMap, lgaModal, nextSteps, footprintData,
+    stageOverrides, totalSectorPipeline, mandatedDeals, businessModelFooter,
   } = props;
 
   const heroCopy = { ...PROJECTS_HERO_DEFAULTS, ...withoutEmpty(hero) };
@@ -661,7 +673,13 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
         </AnimatePresence>
       </div>
 
-      <PipelineConsole data={pipelineConsole} />
+      <PipelineConsole
+        data={pipelineConsole}
+        stageOverrides={stageOverrides}
+        totalSectorPipeline={totalSectorPipeline}
+        mandatedDeals={mandatedDeals}
+        businessModelFooter={businessModelFooter}
+      />
 
       <div className="container mx-auto px-6 pt-0 pb-0 relative z-10 text-left">
         {/* Contextual Eligibility CTA Banner */}
@@ -716,7 +734,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="mt-24 border-t border-white/10 pt-16 scroll-mt-24"
         >
-          <FootprintMap data={footprintMap} modalData={lgaModal} />
+          <FootprintMap data={footprintMap} modalData={lgaModal} footprintData={footprintData} />
         </motion.section>
       </div>
 
