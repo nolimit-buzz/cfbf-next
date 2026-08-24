@@ -51,15 +51,15 @@ export async function getBusinessModelTotals(): Promise<RawBusinessModelTotals |
   'use cache';
   cacheLife('hours');
 
-  const apiKey = process.env['X-API-KEY'];
+  const apiKey = process.env['X_API_KEY'];
   if (!apiKey) {
-    reportFallback('X-API-KEY is not configured');
+    reportFallback('X_API_KEY is not configured');
     return null;
   }
 
   try {
     const res = await fetch(BUSINESS_MODELS_API_URL, {
-      headers: { 'X-API-KEY': apiKey },
+      headers: { 'X_API_KEY': apiKey },
       signal: AbortSignal.timeout(BUSINESS_MODELS_TIMEOUT_MS),
     });
 

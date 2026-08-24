@@ -53,15 +53,15 @@ export async function getPipelineTotals(dealStage?: number): Promise<RawPipeline
   const url = dealStage === undefined ? TOTALS_API_URL : `${TOTALS_API_URL}?DealStage=${dealStage}`;
   const stageLabel = dealStage === undefined ? 'PROJECT PIPELINE' : `DEAL STAGE ${dealStage}`;
 
-  const apiKey = process.env['X-API-KEY'];
+  const apiKey = process.env['X_API_KEY'];
   if (!apiKey) {
-    reportFallback(stageLabel, url, 'X-API-KEY is not configured');
+    reportFallback(stageLabel, url, 'X_API_KEY is not configured');
     return null;
   }
 
   try {
     const res = await fetch(url, {
-      headers: { 'X-API-KEY': apiKey },
+      headers: { 'X_API_KEY': apiKey },
       signal: AbortSignal.timeout(TOTALS_TIMEOUT_MS),
     });
 
