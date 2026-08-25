@@ -162,7 +162,10 @@ export default function FootprintMap({ data, modalData, footprintData }: Footpri
     return { fill: 'rgba(255,255,255,0.03)', stroke: 'rgba(255,255,255,0.10)', strokeWidth: 0.7 };
   };
 
-  const totalStates = ALL_STATES.filter(s => s.hasProjects && s.mapId !== 'fct').length;
+  // Hardcoded to match the homepage's National Footprint stat (`MAP_DEFAULTS.statValue`
+  // in lib/cms/defaults.ts) — not derived from `ALL_STATES` so no state needs to be
+  // disabled/removed to change this display number.
+  const totalStates = 35;
   const totalCommunities = Object.values(lgaProjects).reduce((sum, arr) => sum + arr.length, 0);
 
   return (

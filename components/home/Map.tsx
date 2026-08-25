@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import NigeriaMap from '../NigeriaMap';
@@ -10,9 +10,11 @@ import type { MapSectionData } from '@/lib/cms/types';
 
 export default function MapSection({ data }: { data?: MapSectionData }) {
   const c = { ...MAP_DEFAULTS, ...withoutEmpty(data) };
-  const [filter, setFilter] = useState('All');
+  // Category filter buttons are commented out below — they weren't wired to
+  // any per-state category data, so they didn't actually filter the map.
+  // const [filter, setFilter] = useState('All');
+  // const categories = c.categories.map(cat => cat.label);
 
-  const categories = c.categories.map(cat => cat.label);
   const activeStates = c.activeStates.map(state => state.stateId);
   const hotspots = c.markers.map(marker => ({
     name: marker.name,
@@ -47,7 +49,8 @@ export default function MapSection({ data }: { data?: MapSectionData }) {
               </motion.h2>
            </div>
 
-           {/* Filter Controls - Fixed scrollbar */}
+           {/* Filter Controls - not wired to per-state category data, so
+               commented out for now rather than shown non-functional.
            <div className="mt-8 md:mt-0 w-full md:w-auto overflow-hidden">
              <div className="flex gap-2 overflow-x-auto pb-0 px-1 no-scrollbar [-ms-overflow-style:'none'] [scrollbar-width:'none'] [&::-webkit-scrollbar]:hidden">
                {categories.map(cat => (
@@ -55,8 +58,8 @@ export default function MapSection({ data }: { data?: MapSectionData }) {
                    key={cat}
                    onClick={() => setFilter(cat)}
                    className={`px-6 py-2 rounded-full border text-xs tracking-wide transition-all duration-300 font-sans whitespace-nowrap focus:outline-none ${
-                     filter === cat 
-                       ? 'bg-brand-primary text-white border-brand-primary font-medium shadow-md shadow-brand-primary/20' 
+                     filter === cat
+                       ? 'bg-brand-primary text-white border-brand-primary font-medium shadow-md shadow-brand-primary/20'
                        : 'bg-transparent text-gray-500 border-gray-200 hover:border-brand-primary hover:text-brand-primary font-light'
                    }`}
                  >
@@ -65,6 +68,7 @@ export default function MapSection({ data }: { data?: MapSectionData }) {
                ))}
              </div>
            </div>
+           */}
         </div>
 
         {/* 2-Column Content Layout */}

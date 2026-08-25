@@ -1,7 +1,8 @@
 "use client";
 
+import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Play } from 'lucide-react';
+import { Play, Pause } from 'lucide-react';
 import { ABOUT_MANDATE_DEFAULTS } from '@/lib/cms/about-defaults';
 import { withoutEmpty } from '@/lib/cms/content';
 import type { AboutMandateSection as AboutMandateSectionData } from '@/lib/cms/about-types';
@@ -17,10 +18,8 @@ const fadeUp = (delay = 0) => ({
 
 export default function MandateSection({
   data,
-  onPlayVideo,
 }: {
   data?: AboutMandateSectionData;
-  onPlayVideo?: () => void;
 }) {
   const c = { ...ABOUT_MANDATE_DEFAULTS, ...withoutEmpty(data) };
 
@@ -28,6 +27,23 @@ export default function MandateSection({
   // and two stacked images on the right. Captions map onto it positionally, so
   // the tiles are read out by index rather than looped over.
   const [videoCaption, topCaption, bottomCaption] = c.captions ?? [];
+
+  // The button pauses/resumes the same looping muted background clip in
+  // place — no modal, no sound, no size change.
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const togglePlayback = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play();
+      setIsPlaying(true);
+    } else {
+      video.pause();
+      setIsPlaying(false);
+    }
+  };
 
   return (
     <section
@@ -90,6 +106,7 @@ export default function MandateSection({
               {/* Left tall card - looping video player */}
               <div className="relative rounded-[12px] overflow-hidden border border-gray-100/70 shadow-sm h-full flex flex-col justify-end group">
                 <video
+                  ref={videoRef}
                   src={c.bentoVideo}
                   autoPlay
                   loop
@@ -104,11 +121,15 @@ export default function MandateSection({
                   <motion.button
                     whileHover={{ scale: 1.15 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={onPlayVideo}
+                    onClick={togglePlayback}
                     className="w-14 h-14 bg-brand-accent hover:bg-white text-brand-dark rounded-full flex items-center justify-center shadow-lg transition-colors cursor-pointer focus:outline-none"
-                    aria-label="Play Video"
+                    aria-label={isPlaying ? 'Pause video' : 'Play video'}
                   >
-                    <Play size={18} fill="currentColor" className="ml-0.5" />
+                    {isPlaying ? (
+                      <Pause size={18} fill="currentColor" />
+                    ) : (
+                      <Play size={18} fill="currentColor" className="ml-0.5" />
+                    )}
                   </motion.button>
                 </div>
 

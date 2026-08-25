@@ -58,7 +58,6 @@ function AboutSectionsContent(props: AboutSectionsProps) {
     capitalStack, partners, milestones, audience, nextSteps, downloadCta,
   } = props;
 
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [projectSize, setProjectSize] = useState<number>(15);
   const [isSimulatorExpanded, setIsSimulatorExpanded] = useState(false);
 
@@ -103,7 +102,7 @@ function AboutSectionsContent(props: AboutSectionsProps) {
       <StickyAboutNav data={stickyNav} />
 
       {/* ── 2. INSTITUTIONAL MANDATE ────── */}
-      <MandateSection data={mandate} onPlayVideo={() => setIsVideoOpen(true)} />
+      <MandateSection data={mandate} />
 
       {/* ── 3. MARKET OPPORTUNITY ────── */}
       <MarketSection data={market} />
