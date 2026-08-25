@@ -1,6 +1,6 @@
 // Server-only: `next/cache` cannot be imported from a client component.
 import { cacheLife } from 'next/cache';
-import { X_API_KEY } from '@/lib/server-config';
+import { XKEY } from '@/lib/server-config';
 
 const BUSINESS_MODELS_API_URL =
   'https://icgcapionpremiseggstrms-infracredit.msappproxy.net/api/Summary/filterDealsV2?IndustryId=17&TransactionType=4';
@@ -52,14 +52,16 @@ export async function getBusinessModelTotals(): Promise<RawBusinessModelTotals |
   'use cache';
   cacheLife('hours');
 
-  if (!X_API_KEY) {
-    reportFallback('X-API-KEY is not configured');
+  console.log(`[business-models] fetching from ${BUSINESS_MODELS_API_URL}`);
+
+  if (!XKEY) {
+    reportFallback('XKEY is not configured');
     return null;
   }
 
   try {
     const res = await fetch(BUSINESS_MODELS_API_URL, {
-      headers: { 'X-API-KEY': X_API_KEY },
+      headers: { 'X-API-KEY': XKEY },
       signal: AbortSignal.timeout(BUSINESS_MODELS_TIMEOUT_MS),
     });
 
@@ -79,6 +81,7 @@ export async function getBusinessModelTotals(): Promise<RawBusinessModelTotals |
       return null;
     }
 
+    console.log('[business-models] loaded live data');
     return json.data;
   } catch (err) {
     const timedOut = err instanceof Error && err.name === 'TimeoutError';

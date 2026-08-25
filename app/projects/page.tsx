@@ -81,6 +81,15 @@ export default async function ProjectsPage() {
   // Mandated Deals tabs come from this one call.
   const businessModelTables = businessModelData ? buildBusinessModelTables(businessModelData) : null;
 
+  // Live-vs-fallback status for the browser console (see ProjectsSections' apiDebug log).
+  const apiDebug: Record<string, 'live' | 'fallback'> = {
+    footprint: footprintData.source,
+    projectPipeline: projectPipelineTotals ? 'live' : 'fallback',
+    creditApproved: creditApprovedTotals ? 'live' : 'fallback',
+    closed: closedTotals ? 'live' : 'fallback',
+    businessModels: businessModelData ? 'live' : 'fallback',
+  };
+
   const pipelineTab = pickSection(sections, 'projects-page.pipeline-tab-section');
 
   // The ItemList is built from whichever project set actually renders, so the
@@ -139,6 +148,7 @@ export default async function ProjectsPage() {
         totalSectorPipeline={businessModelTables?.totalPipelineRows}
         mandatedDeals={businessModelTables?.mandatedDealRows}
         businessModelFooter={businessModelTables?.footer}
+        apiDebug={apiDebug}
       />
     </>
   );

@@ -164,13 +164,15 @@ export interface ProjectsSectionsProps {
   totalSectorPipeline?: BusinessModelRow[];
   mandatedDeals?: BusinessModelRow[];
   businessModelFooter?: BusinessModelFooter | null;
+  /** Live-vs-fallback status per external API call, for the browser debug log below. */
+  apiDebug?: Record<string, 'live' | 'fallback'>;
 }
 
 export default function ProjectsSections(props: ProjectsSectionsProps) {
   const {
     hero, portfolioTabs, analysisTab, pipelineTab,
     pipelineConsole, eligibilityCta, footprintMap, lgaModal, nextSteps, footprintData,
-    stageOverrides, totalSectorPipeline, mandatedDeals, businessModelFooter,
+    stageOverrides, totalSectorPipeline, mandatedDeals, businessModelFooter, apiDebug,
   } = props;
 
   const heroCopy = { ...PROJECTS_HERO_DEFAULTS, ...withoutEmpty(hero) };
@@ -208,6 +210,13 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
 
     console.log('[cms] projects sections', source, sections);
   }, [hero, portfolioTabs, analysisTab, pipelineTab, pipelineConsole, eligibilityCta, footprintMap, lgaModal, nextSteps]);
+
+  // Live-vs-fallback status for the three external APIs (PUE map, pipeline
+  // totals, business models) — logged unconditionally so it's visible in the
+  // browser console without setting NEXT_PUBLIC_CMS_DEBUG.
+  useEffect(() => {
+    console.log('[projects-api-debug]', apiDebug);
+  }, [apiDebug]);
 
   const handleStateSelect = (stateId: string | null) => {
     setSelectedState(stateId);

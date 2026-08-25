@@ -1,6 +1,6 @@
 // Server-only: `next/cache` cannot be imported from a client component.
 import { cacheLife } from 'next/cache';
-import { X_API_KEY } from '@/lib/server-config';
+import { XKEY } from '@/lib/server-config';
 
 const TOTALS_API_URL = 'https://icgcapionpremiseggstrms-infracredit.msappproxy.net/api/Summary/get-totals';
 const TOTALS_TIMEOUT_MS = 8_000;
@@ -54,14 +54,16 @@ export async function getPipelineTotals(dealStage?: number): Promise<RawPipeline
   const url = dealStage === undefined ? TOTALS_API_URL : `${TOTALS_API_URL}?DealStage=${dealStage}`;
   const stageLabel = dealStage === undefined ? 'PROJECT PIPELINE' : `DEAL STAGE ${dealStage}`;
 
-  if (!X_API_KEY) {
-    reportFallback(stageLabel, url, 'X-API-KEY is not configured');
+  console.log(`[pipeline-totals] fetching ${stageLabel} from ${url}`);
+
+  if (!XKEY) {
+    reportFallback(stageLabel, url, 'XKEY is not configured');
     return null;
   }
 
   try {
     const res = await fetch(url, {
-      headers: { 'X-API-KEY': X_API_KEY },
+      headers: { 'X-API-KEY': XKEY },
       signal: AbortSignal.timeout(TOTALS_TIMEOUT_MS),
     });
 
@@ -83,6 +85,7 @@ export async function getPipelineTotals(dealStage?: number): Promise<RawPipeline
       return null;
     }
 
+    console.log(`[pipeline-totals] ${stageLabel} loaded live data`);
     return json.data;
   } catch (err) {
     const timedOut = err instanceof Error && err.name === 'TimeoutError';

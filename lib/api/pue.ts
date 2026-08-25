@@ -24,10 +24,12 @@ export interface FootprintData {
   stateLgas: Record<string, string[]>;
   /** Project rows keyed by `${mapId}::${lgaName}` — composite to avoid LGA-name collisions across states. */
   lgaProjects: Record<string, LGAProjectEntry[]>;
+  /** Whether this came from the live API or the bundled fallback — for the page's apiDebug log. */
+  source: 'live' | 'fallback';
 }
 
 function fallbackData(): FootprintData {
-  return { stateLgas: STATE_LGAS, lgaProjects: LGA_PROJECTS_BY_STATE };
+  return { stateLgas: STATE_LGAS, lgaProjects: LGA_PROJECTS_BY_STATE, source: 'fallback' };
 }
 
 function reportFallback(reason: string, detail?: string) {
@@ -47,7 +49,7 @@ function isEntryArray(value: PueApiEntry[] | string): value is PueApiEntry[] {
   return Array.isArray(value);
 }
 
-function normalize(raw: PueApiResponse): FootprintData {
+function normalize(raw: PueApiResponse): Omit<FootprintData, 'source'> {
   const stateLgas: Record<string, string[]> = {};
   const lgaProjects: Record<string, LGAProjectEntry[]> = {};
 
@@ -103,6 +105,8 @@ export async function getFootprintData(): Promise<FootprintData> {
   'use cache';
   cacheLife('hours');
 
+  console.log(`[pue-api] fetching from ${PUE_API_URL}`);
+
   try {
     // A bare fetch() with no User-Agent is a common trigger for WordPress
     // WAF/bot-protection plugins to block the request — this can silently
@@ -135,7 +139,8 @@ export async function getFootprintData(): Promise<FootprintData> {
       return fallbackData();
     }
 
-    return normalized;
+    console.log('[pue-api] loaded live data');
+    return { ...normalized, source: 'live' };
   } catch (err) {
     const timedOut = err instanceof Error && err.name === 'TimeoutError';
     reportFallback(
