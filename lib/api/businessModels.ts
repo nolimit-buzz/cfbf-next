@@ -26,6 +26,12 @@ interface BusinessModelsApiResponse {
   message: string;
 }
 
+export interface BusinessModelTotalsResult {
+  data: RawBusinessModelTotals | null;
+  /** Why it fell back, when `data` is null — same text as the terminal `reportFallback` log. */
+  reason?: string;
+}
+
 function reportFallback(reason: string, detail?: string) {
   console.error(
     [
@@ -48,15 +54,16 @@ function reportFallback(reason: string, detail?: string) {
  * response returns `null` so the caller keeps the CMS/bundled rows, which are
  * already a complete, coherent table on their own.
  */
-export async function getBusinessModelTotals(): Promise<RawBusinessModelTotals | null> {
+export async function getBusinessModelTotals(): Promise<BusinessModelTotalsResult> {
   'use cache';
   cacheLife('hours');
 
   console.log(`[business-models] fetching from ${BUSINESS_MODELS_API_URL}`);
 
   if (!XKEY) {
-    reportFallback('XKEY is not configured');
-    return null;
+    const reason = 'XKEY is not configured';
+    reportFallback(reason);
+    return { data: null, reason };
   }
 
   try {
@@ -67,29 +74,29 @@ export async function getBusinessModelTotals(): Promise<RawBusinessModelTotals |
 
     if (!res.ok) {
       const body = await res.text().catch(() => '<unreadable body>');
+      const reason = `HTTP ${res.status} ${res.statusText}`;
       reportFallback(
-        `HTTP ${res.status} ${res.statusText}`,
+        reason,
         `${body.slice(0, 300).replace(/\s+/g, ' ').trim()}${body.length > 300 ? '…' : ''}`
       );
-      return null;
+      return { data: null, reason };
     }
 
     const json = (await res.json()) as BusinessModelsApiResponse;
 
     if (!json.isSuccessful || !json.data) {
-      reportFallback('API responded 200 but isSuccessful was false', json.message);
-      return null;
+      const reason = 'API responded 200 but isSuccessful was false';
+      reportFallback(reason, json.message);
+      return { data: null, reason };
     }
 
     console.log('[business-models] loaded live data');
-    return json.data;
+    return { data: json.data };
   } catch (err) {
     const timedOut = err instanceof Error && err.name === 'TimeoutError';
-    reportFallback(
-      timedOut ? `no response within ${BUSINESS_MODELS_TIMEOUT_MS}ms` : 'request failed',
-      err instanceof Error ? err.message : String(err)
-    );
-    return null;
+    const reason = timedOut ? `no response within ${BUSINESS_MODELS_TIMEOUT_MS}ms` : 'request failed';
+    reportFallback(reason, err instanceof Error ? err.message : String(err));
+    return { data: null, reason };
   }
 }
 

@@ -24,6 +24,12 @@ interface TotalsApiResponse {
   message: string;
 }
 
+export interface PipelineTotalsResult {
+  data: RawPipelineTotals | null;
+  /** Why it fell back, when `data` is null — same text as the terminal `reportFallback` log. */
+  reason?: string;
+}
+
 function reportFallback(stageLabel: string, url: string, reason: string, detail?: string) {
   console.error(
     [
@@ -47,7 +53,7 @@ function reportFallback(stageLabel: string, url: string, reason: string, detail?
  * response returns `null` so the caller keeps the CMS/bundled stage numbers,
  * which are already a complete, coherent stage on their own.
  */
-export async function getPipelineTotals(dealStage?: number): Promise<RawPipelineTotals | null> {
+export async function getPipelineTotals(dealStage?: number): Promise<PipelineTotalsResult> {
   'use cache';
   cacheLife('hours');
 
@@ -57,8 +63,9 @@ export async function getPipelineTotals(dealStage?: number): Promise<RawPipeline
   console.log(`[pipeline-totals] fetching ${stageLabel} from ${url}`);
 
   if (!XKEY) {
-    reportFallback(stageLabel, url, 'XKEY is not configured');
-    return null;
+    const reason = 'XKEY is not configured';
+    reportFallback(stageLabel, url, reason);
+    return { data: null, reason };
   }
 
   try {
@@ -69,33 +76,31 @@ export async function getPipelineTotals(dealStage?: number): Promise<RawPipeline
 
     if (!res.ok) {
       const body = await res.text().catch(() => '<unreadable body>');
+      const reason = `HTTP ${res.status} ${res.statusText}`;
       reportFallback(
         stageLabel,
         url,
-        `HTTP ${res.status} ${res.statusText}`,
+        reason,
         `${body.slice(0, 300).replace(/\s+/g, ' ').trim()}${body.length > 300 ? '…' : ''}`
       );
-      return null;
+      return { data: null, reason };
     }
 
     const json = (await res.json()) as TotalsApiResponse;
 
     if (!json.isSuccessful || !json.data) {
-      reportFallback(stageLabel, url, 'API responded 200 but isSuccessful was false', json.message);
-      return null;
+      const reason = 'API responded 200 but isSuccessful was false';
+      reportFallback(stageLabel, url, reason, json.message);
+      return { data: null, reason };
     }
 
     console.log(`[pipeline-totals] ${stageLabel} loaded live data`);
-    return json.data;
+    return { data: json.data };
   } catch (err) {
     const timedOut = err instanceof Error && err.name === 'TimeoutError';
-    reportFallback(
-      stageLabel,
-      url,
-      timedOut ? `no response within ${TOTALS_TIMEOUT_MS}ms` : 'request failed',
-      err instanceof Error ? err.message : String(err)
-    );
-    return null;
+    const reason = timedOut ? `no response within ${TOTALS_TIMEOUT_MS}ms` : 'request failed';
+    reportFallback(stageLabel, url, reason, err instanceof Error ? err.message : String(err));
+    return { data: null, reason };
   }
 }
 

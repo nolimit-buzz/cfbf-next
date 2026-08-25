@@ -164,8 +164,8 @@ export interface ProjectsSectionsProps {
   totalSectorPipeline?: BusinessModelRow[];
   mandatedDeals?: BusinessModelRow[];
   businessModelFooter?: BusinessModelFooter | null;
-  /** Live-vs-fallback status per external API call, for the browser debug log below. */
-  apiDebug?: Record<string, 'live' | 'fallback'>;
+  /** Live-vs-fallback status (with reason, when it fell back) per external API call, for the browser debug log below. */
+  apiDebug?: Record<string, { status: 'live' | 'fallback'; reason?: string }>;
 }
 
 export default function ProjectsSections(props: ProjectsSectionsProps) {

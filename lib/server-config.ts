@@ -4,8 +4,10 @@
 
 /**
  * InfraCredit Summary API key — see lib/api/pipelineTotals.ts, lib/api/businessModels.ts.
- * Env var is `XKEY` (per .env.local); the HTTP header the API itself expects
- * is `X-API-KEY` (hyphen) — the two names are independent, don't conflate
- * them when touching either file.
+ * Hardcoded (not read from `process.env`): the production deployment has no
+ * way to configure platform env vars, so an env-var lookup here is silently
+ * dead there regardless of what it's named. The HTTP header the API itself
+ * expects is `X-API-KEY` (hyphen) — an unrelated name, don't conflate it with
+ * this constant when touching either this file or the files above.
  */
-export const XKEY = process.env.XKEY;
+export const XKEY = '3ae3911c-87da-451f-9b25-21d01c60ec1b';

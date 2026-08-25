@@ -59,7 +59,7 @@ export default async function ProjectsPage() {
   // Closed Projects scope the same endpoint via `?DealStage=3`/`?DealStage=4`.
   // Each stage's capacity unit must match its bundled default ("MWp" vs plain
   // "MW") — see `buildStageOverride`'s doc comment.
-  const [projectPipelineTotals, creditApprovedTotals, closedTotals, businessModelData] = await Promise.all([
+  const [projectPipeline, creditApproved, closed, businessModels] = await Promise.all([
     getPipelineTotals(),
     getPipelineTotals(3),
     getPipelineTotals(4),
@@ -67,27 +67,28 @@ export default async function ProjectsPage() {
   ]);
 
   const stageOverrides: Record<string, ProjectPipelineOverride> = {};
-  if (projectPipelineTotals) {
-    stageOverrides['project-pipeline'] = buildStageOverride(projectPipelineTotals, { capacityUnit: 'MWp' });
+  if (projectPipeline.data) {
+    stageOverrides['project-pipeline'] = buildStageOverride(projectPipeline.data, { capacityUnit: 'MWp' });
   }
-  if (creditApprovedTotals) {
-    stageOverrides['credit-approved'] = buildStageOverride(creditApprovedTotals, { capacityUnit: 'MW' });
+  if (creditApproved.data) {
+    stageOverrides['credit-approved'] = buildStageOverride(creditApproved.data, { capacityUnit: 'MW' });
   }
-  if (closedTotals) {
-    stageOverrides['closed'] = buildStageOverride(closedTotals, { capacityUnit: 'MWp' });
+  if (closed.data) {
+    stageOverrides['closed'] = buildStageOverride(closed.data, { capacityUnit: 'MWp' });
   }
 
   // Feeds the "Business Models" stage's table — both the Total Pipeline and
   // Mandated Deals tabs come from this one call.
-  const businessModelTables = businessModelData ? buildBusinessModelTables(businessModelData) : null;
+  const businessModelTables = businessModels.data ? buildBusinessModelTables(businessModels.data) : null;
 
-  // Live-vs-fallback status for the browser console (see ProjectsSections' apiDebug log).
-  const apiDebug: Record<string, 'live' | 'fallback'> = {
-    footprint: footprintData.source,
-    projectPipeline: projectPipelineTotals ? 'live' : 'fallback',
-    creditApproved: creditApprovedTotals ? 'live' : 'fallback',
-    closed: closedTotals ? 'live' : 'fallback',
-    businessModels: businessModelData ? 'live' : 'fallback',
+  // Live-vs-fallback status (with reason, when it fell back) for the browser
+  // console — see ProjectsSections' apiDebug log.
+  const apiDebug: Record<string, { status: 'live' | 'fallback'; reason?: string }> = {
+    footprint: footprintData.source === 'live' ? { status: 'live' } : { status: 'fallback', reason: footprintData.reason },
+    projectPipeline: projectPipeline.data ? { status: 'live' } : { status: 'fallback', reason: projectPipeline.reason },
+    creditApproved: creditApproved.data ? { status: 'live' } : { status: 'fallback', reason: creditApproved.reason },
+    closed: closed.data ? { status: 'live' } : { status: 'fallback', reason: closed.reason },
+    businessModels: businessModels.data ? { status: 'live' } : { status: 'fallback', reason: businessModels.reason },
   };
 
   const pipelineTab = pickSection(sections, 'projects-page.pipeline-tab-section');

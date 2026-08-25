@@ -26,10 +26,12 @@ export interface FootprintData {
   lgaProjects: Record<string, LGAProjectEntry[]>;
   /** Whether this came from the live API or the bundled fallback — for the page's apiDebug log. */
   source: 'live' | 'fallback';
+  /** Why it fell back, when `source === 'fallback'` — same text as the terminal `reportFallback` log. */
+  reason?: string;
 }
 
-function fallbackData(): FootprintData {
-  return { stateLgas: STATE_LGAS, lgaProjects: LGA_PROJECTS_BY_STATE, source: 'fallback' };
+function fallbackData(reason?: string): FootprintData {
+  return { stateLgas: STATE_LGAS, lgaProjects: LGA_PROJECTS_BY_STATE, source: 'fallback', reason };
 }
 
 function reportFallback(reason: string, detail?: string) {
@@ -124,29 +126,29 @@ export async function getFootprintData(): Promise<FootprintData> {
 
     if (!res.ok) {
       const body = await res.text().catch(() => '<unreadable body>');
+      const reason = `HTTP ${res.status} ${res.statusText}`;
       reportFallback(
-        `HTTP ${res.status} ${res.statusText}`,
+        reason,
         `${body.slice(0, 300).replace(/\s+/g, ' ').trim()}${body.length > 300 ? '…' : ''}`
       );
-      return fallbackData();
+      return fallbackData(reason);
     }
 
     const json = (await res.json()) as PueApiResponse;
     const normalized = normalize(json);
 
     if (Object.keys(normalized.stateLgas).length === 0) {
-      reportFallback('API responded 200 but no state data could be resolved');
-      return fallbackData();
+      const reason = 'API responded 200 but no state data could be resolved';
+      reportFallback(reason);
+      return fallbackData(reason);
     }
 
     console.log('[pue-api] loaded live data');
     return { ...normalized, source: 'live' };
   } catch (err) {
     const timedOut = err instanceof Error && err.name === 'TimeoutError';
-    reportFallback(
-      timedOut ? `no response within ${PUE_TIMEOUT_MS}ms` : 'request failed',
-      err instanceof Error ? err.message : String(err)
-    );
-    return fallbackData();
+    const reason = timedOut ? `no response within ${PUE_TIMEOUT_MS}ms` : 'request failed';
+    reportFallback(reason, err instanceof Error ? err.message : String(err));
+    return fallbackData(reason);
   }
 }
