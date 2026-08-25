@@ -104,7 +104,19 @@ export async function getFootprintData(): Promise<FootprintData> {
   cacheLife('hours');
 
   try {
-    const res = await fetch(PUE_API_URL, { signal: AbortSignal.timeout(PUE_TIMEOUT_MS) });
+    // A bare fetch() with no User-Agent is a common trigger for WordPress
+    // WAF/bot-protection plugins to block the request — this can silently
+    // succeed from a local dev machine's IP while failing from a cloud
+    // provider's shared serverless IP ranges. A browser-like header here
+    // costs nothing if that's not the actual cause.
+    const res = await fetch(PUE_API_URL, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        Accept: 'application/json',
+      },
+      signal: AbortSignal.timeout(PUE_TIMEOUT_MS),
+    });
 
     if (!res.ok) {
       const body = await res.text().catch(() => '<unreadable body>');
