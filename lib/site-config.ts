@@ -4,3 +4,6 @@
  * from the domain the site is actually deployed on.
  */
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://climatefacility.vercel.app';
+
+
+

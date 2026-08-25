@@ -1,5 +1,6 @@
 // Server-only: `next/cache` cannot be imported from a client component.
 import { cacheLife } from 'next/cache';
+import { X_API_KEY } from '@/lib/server-config';
 
 const TOTALS_API_URL = 'https://icgcapionpremiseggstrms-infracredit.msappproxy.net/api/Summary/get-totals';
 const TOTALS_TIMEOUT_MS = 8_000;
@@ -53,15 +54,14 @@ export async function getPipelineTotals(dealStage?: number): Promise<RawPipeline
   const url = dealStage === undefined ? TOTALS_API_URL : `${TOTALS_API_URL}?DealStage=${dealStage}`;
   const stageLabel = dealStage === undefined ? 'PROJECT PIPELINE' : `DEAL STAGE ${dealStage}`;
 
-  const apiKey = process.env['X_API_KEY'];
-  if (!apiKey) {
-    reportFallback(stageLabel, url, 'X_API_KEY is not configured');
+  if (!X_API_KEY) {
+    reportFallback(stageLabel, url, 'X-API-KEY is not configured');
     return null;
   }
 
   try {
     const res = await fetch(url, {
-      headers: { 'X_API_KEY': apiKey },
+      headers: { 'X-API-KEY': X_API_KEY },
       signal: AbortSignal.timeout(TOTALS_TIMEOUT_MS),
     });
 
