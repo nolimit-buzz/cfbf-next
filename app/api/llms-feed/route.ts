@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
-import { projects } from '@/lib/projectsData';
+import { getAllProjects } from '@/lib/cms/project';
 import { getNewsArticles } from '@/lib/cms/news';
 
 export async function GET() {
-  const newsArticles = await getNewsArticles();
+  const [projects, newsArticles] = await Promise.all([getAllProjects(), getNewsArticles()]);
 
   const feed = {
-    projects: Object.values(projects).map((p) => ({
-      id: p.id,
+    projects: projects.map((p) => ({
+      id: p.projectId,
       title: p.title,
       location: p.location,
       year: p.year,

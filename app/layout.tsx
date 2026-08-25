@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CookieBanner from "@/components/CookieBanner";
 import { getNewsArticles } from "@/lib/cms/news";
+import { getAllProjects } from "@/lib/cms/project";
 import { getGlobalSettings } from "@/lib/cms/global";
 import { getFooterSettings } from "@/lib/cms/footer";
 import { toNewsSummaries } from "@/lib/cms/news-content";
@@ -51,12 +52,13 @@ export const metadata: Metadata = {
 };
 
 /**
- * Awaits the article list inside the existing `<Suspense>` boundary rather than
- * in `RootLayout` itself, so a slow CMS delays only the navbar and not every
- * page's first byte.
+ * Awaits the article/project lists inside the existing `<Suspense>` boundary
+ * rather than in `RootLayout` itself, so a slow CMS delays only the navbar and
+ * not every page's first byte.
  */
 async function NavbarWithNews() {
-  return <Navbar news={toNewsSummaries(await getNewsArticles())} />;
+  const [articles, projects] = await Promise.all([getNewsArticles(), getAllProjects()]);
+  return <Navbar news={toNewsSummaries(articles)} projects={projects} />;
 }
 
 /** Same reasoning as `NavbarWithNews`: a slow CMS should delay the footer, not the page. */

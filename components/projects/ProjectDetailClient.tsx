@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ArrowLeft, 
-  ArrowRight, 
-  MapPin, 
-  CheckCircle, 
-  ChevronLeft, 
+import {
+  ArrowLeft,
+  ArrowRight,
+  MapPin,
+  CheckCircle,
+  ChevronLeft,
   ChevronRight,
   Zap,
   Users,
@@ -23,7 +22,6 @@ import StickyProjectNav from '@/components/ui/StickyProjectNav';
 import { FSDAfricaLogo, GCRRatingsLogo, AgustoCoLogo } from '@/components/ui/MapLogos';
 // @ts-ignore
 import nigeriaMapData from '@svg-maps/nigeria';
-import { projects, Project } from '@/lib/projectsData';
 
 interface StateLocation {
   id: string;
@@ -41,26 +39,40 @@ const SDG_INFO = {
   17: { name: 'Partnerships for the Goals', color: '#19486A', textClass: 'text-[#19486A] border-[#19486A]/25 bg-[#19486A]/5' }
 };
 
-const getProjectSDGs = (id: string): number[] => {
-  switch (id) {
-    case '01': return [7, 13];
-    case '02': return [7, 13];
-    case '03': return [7, 8, 9];
-    case '04': return [9, 13];
-    case '05': return [7, 13];
-    case '06': return [7, 8, 13];
-    default: return [7];
-  }
-};
-
-const PROJECT_STATES: Record<string, string[]> = {
-  "01": ["gombe", "nasarawa", "ondo"],
-  "02": ["cross-river"],
-  "03": ["akwa-ibom", "benue"],
-  "04": ["kano", "fct", "lagos", "rivers", "bauchi", "kaduna", "cross-river", "ondo", "gombe", "nasarawa", "edo", "akwa-ibom", "benue", "abia", "katsina", "jigawa", "sokoto", "zamfara", "kebbi", "kogi", "kwara", "taraba", "adamawa", "borno", "yobe", "plateau", "niger", "ekiti", "osun", "ogun"],
-  "05": ["rivers", "abia"],
-  "06": ["edo", "ondo"]
-};
+/**
+ * Data shape rendered here — resolved server-side in `app/projects/[id]/page.tsx`
+ * from the CMS `project` collection (falling back to `lib/projectsData.ts` if
+ * the CMS is unreachable), not fetched or looked up in this component.
+ * `sdgs`/`states` used to be id-keyed lookup tables inline in this file
+ * (`getProjectSDGs`/`PROJECT_STATES`) — now genuine CMS fields.
+ */
+export interface ClientProject {
+  id: string;
+  title: string;
+  location: string;
+  year: string;
+  capital: string;
+  capacity: string;
+  category: string;
+  connections: string;
+  jobs: string;
+  ghg: string;
+  status: string;
+  image: string;
+  problem: string;
+  solution: string;
+  impact: string;
+  desc: string;
+  financing: string;
+  impact_desc: string;
+  financingInstrument: string;
+  intro: { title: string };
+  sdgs: number[];
+  states: string[];
+  structureVideoUrl: string;
+  gallery: { image: string; caption: string }[];
+  videos?: { id: string; title: string; category: string; youtubeId: string }[];
+}
 
 // INTERACTIVE NIGERIA MAP
 const InteractiveNigeriaMap = ({ projectId, activeStates, selectedState, setSelectedState }: {
@@ -167,32 +179,25 @@ const getExpectedImpactText = (p: { id: string; connections: string; jobs: strin
 The ${p.id === '02' ? '4 hybrid-solar mini-grids' : p.id === '04' ? '120 solar telephony sites' : 'solar-hybrid mini-grids'} will have environmental benefits of climate change mitigation, energy savings and greenhouse gas reduction and simultaneously have a positive direct contribution to the United Nations Sustainable Development Goals (SDGs) 7, 8, 9, 11, 13 and 17 as identified in the Green Bond Framework.`;
 };
 
-interface PageProps {
-  params: Promise<{ id: string }>;
+interface ProjectDetailClientProps {
+  project: ClientProject;
+  prevProject: { id: string; title: string };
+  nextProject: { id: string; title: string };
+  relatedProjects: ClientProject[];
 }
 
-export default function ProjectDetailPage({ params }: PageProps) {
-  const resolvedParams = use(params);
-  const projectId = resolvedParams.id;
+export default function ProjectDetailPage({ project, prevProject, nextProject, relatedProjects }: ProjectDetailClientProps) {
+  const projectId = project.id;
+  const prevId = prevProject.id;
+  const nextId = nextProject.id;
 
-  const project = projects[projectId];
-  if (!project) {
-    notFound();
-  }
-
-  const projectIds = ["01", "02", "03", "04", "05", "06"];
-  const currentIndex = projectIds.indexOf(projectId);
-  const prevId = projectIds[(currentIndex - 1 + projectIds.length) % projectIds.length];
-  const nextId = projectIds[(currentIndex + 1) % projectIds.length];
-
-  const filteredRelated = Object.values(projects).filter(p => p.id !== project.id);
+  const filteredRelated = relatedProjects;
   const [hoveredGalleryIndex, setHoveredGalleryIndex] = useState<number>(1);
-  const activeStates = PROJECT_STATES[project.id] || [];
+  const activeStates = project.states;
   const [selectedState, setSelectedState] = useState<string | null>(null);
 
   useEffect(() => {
-    const states = PROJECT_STATES[projectId] || [];
-    setSelectedState(states.length > 0 ? states[0] : null);
+    setSelectedState(activeStates.length > 0 ? activeStates[0] : null);
   }, [projectId]);
 
   // V20 Related Projects Scroller State
@@ -508,7 +513,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
               <div className="border-t border-gray-200 pt-6">
                 <span className="text-[9px] font-bold text-gray-400 block mb-3 uppercase tracking-wider font-mono">Aligned SDG Goals</span>
                 <div className="flex flex-wrap gap-2.5">
-                  {getProjectSDGs(project.id).map(sdgNum => {
+                  {project.sdgs.map(sdgNum => {
                     const sdg = SDG_INFO[sdgNum as keyof typeof SDG_INFO];
                     if (!sdg) return null;
                     return (
@@ -570,7 +575,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
                   <div className="space-y-3 text-xs">
                     <div className="flex justify-between border-b border-gray-200/50 pb-2">
                       <span className="text-gray-500 font-mono">Instrument Type</span>
-                      <span className="text-[#051F1A] font-bold text-right ml-2">{project.category === 'Telecoms' ? 'Infrastructure Bond' : project.id === '03' ? 'Sukuk Lease Sukuk' : 'Co-financing / Bond'}</span>
+                      <span className="text-[#051F1A] font-bold text-right ml-2">{project.financingInstrument}</span>
                     </div>
                     <div className="flex justify-between border-b border-gray-200/50 pb-2">
                       <span className="text-gray-500 font-mono">Credit Rating</span>
@@ -613,7 +618,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
             space up front and fetch metadata eagerly. */}
         <div className="w-full overflow-hidden bg-white aspect-[16/9]">
           <video
-            src="https://infracredit.ng/climate-facility/wp-content/uploads/2023/08/Hotspot-schematic-graphs6-2.mp4"
+            src={project.structureVideoUrl}
             className="w-full h-full object-contain bg-white pointer-events-none"
             preload="metadata"
             autoPlay
@@ -937,7 +942,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
             </div>
             <div className="hidden md:block leading-tight text-left">
               <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400 block font-mono">Previous Project</span>
-              <span className="font-extrabold text-xs line-clamp-1">{projects[prevId]?.title}</span>
+              <span className="font-extrabold text-xs line-clamp-1">{prevProject.title}</span>
             </div>
           </Link>
 
@@ -947,7 +952,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
           >
             <div className="hidden md:block leading-tight text-right">
               <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400 block font-mono">Next Project</span>
-              <span className="font-extrabold text-xs line-clamp-1">{projects[nextId]?.title}</span>
+              <span className="font-extrabold text-xs line-clamp-1">{nextProject.title}</span>
             </div>
             <div className="w-10 h-10 rounded-full border border-gray-200 hover:border-brand-primary flex items-center justify-center text-gray-400 group-hover:text-brand-primary transition-colors shrink-0">
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -1063,7 +1068,7 @@ export default function ProjectDetailPage({ params }: PageProps) {
 
                         {/* SDG Icons */}
                         <div className="flex flex-wrap gap-1.5 pt-1">
-                          {getProjectSDGs(rp.id).map(sdgNum => {
+                          {rp.sdgs.map(sdgNum => {
                             const sdg = SDG_INFO[sdgNum as keyof typeof SDG_INFO];
                             if (!sdg) return null;
                             return (

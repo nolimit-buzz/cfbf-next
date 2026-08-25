@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Search, Lock, Zap, BookOpen, ChevronDown, ArrowUpRight } from 'lucide-react';
-import { projects } from '@/lib/projectsData';
 import type { NewsSummary } from '@/lib/cms/news-content';
+import type { ProjectRecord } from '@/lib/cms/project-types';
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 const NAV_MAX = 1280;
@@ -15,8 +15,10 @@ const NAV_MAX = 1280;
  * @param news CMS articles, supplied by the root layout. Defaults to empty so
  *   the mega menu and search simply show no news rather than crashing if a
  *   future caller renders the navbar without them.
+ * @param projects CMS project records (with bundled fallback already applied
+ *   by the caller), supplied by the root layout the same way as `news`.
  */
-const Navbar = ({ news = [] }: { news?: NewsSummary[] }) => {
+const Navbar = ({ news = [], projects = [] }: { news?: NewsSummary[]; projects?: ProjectRecord[] }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -294,10 +296,10 @@ const Navbar = ({ news = [] }: { news?: NewsSummary[] }) => {
                 </Link>
 
                 <div className="flex flex-col gap-1">
-                  {Object.values(projects).slice(0, 2).map((p: any) => (
+                  {projects.slice(0, 2).map((p) => (
                     <Link
-                      key={p.id}
-                      href={`/projects/${p.id}`}
+                      key={p.projectId}
+                      href={`/projects/${p.projectId}`}
                       onClick={closeNow}
                       className="group flex gap-3 items-center p-2 rounded-[6px] hover:bg-[#F3FAF6] transition-colors"
                     >
@@ -407,7 +409,7 @@ const Navbar = ({ news = [] }: { news?: NewsSummary[] }) => {
                     Type a query to search the blended finance directory.
                   </div>
                 ) : (
-                  Object.values(projects).filter(p =>
+                  projects.filter(p =>
                     p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                     p.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
                     p.category.toLowerCase().includes(searchQuery.toLowerCase())
@@ -418,7 +420,7 @@ const Navbar = ({ news = [] }: { news?: NewsSummary[] }) => {
                   ).length > 0
                 ) ? (
                   <div className="space-y-6 text-left">
-                    {Object.values(projects).filter(p =>
+                    {projects.filter(p =>
                       p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                       p.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
                       p.category.toLowerCase().includes(searchQuery.toLowerCase())
@@ -426,12 +428,12 @@ const Navbar = ({ news = [] }: { news?: NewsSummary[] }) => {
                       <div>
                         <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#00A788] mb-3 font-mono">Projects & Case Studies</h4>
                         <div className="flex flex-col gap-2">
-                          {Object.values(projects).filter(p =>
+                          {projects.filter(p =>
                             p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             p.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             p.category.toLowerCase().includes(searchQuery.toLowerCase())
                           ).map(p => (
-                            <Link key={p.id} href={`/projects/${p.id}`} onClick={() => setSearchOpen(false)} className="group flex items-center justify-between p-3 rounded-[6px] border border-gray-100 hover:border-brand-primary/20 hover:bg-[#F3FAF6] transition-all">
+                            <Link key={p.projectId} href={`/projects/${p.projectId}`} onClick={() => setSearchOpen(false)} className="group flex items-center justify-between p-3 rounded-[6px] border border-gray-100 hover:border-brand-primary/20 hover:bg-[#F3FAF6] transition-all">
                               <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded bg-[#00A788]/10 flex items-center justify-center text-[#00A788]">
                                   <Zap size={16} />

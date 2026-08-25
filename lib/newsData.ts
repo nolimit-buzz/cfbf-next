@@ -21,99 +21,127 @@ export interface NewsArticle {
 export const newsArticles: NewsArticle[] = [
   {
     id: "1",
-    tag: "Market Insights",
+    tag: "Fund Updates",
     date: "December 12, 2025",
-    readTime: "5 min read",
-    themes: ["FINANCE", "LOCAL CURRENCY", "SOLAR"],
-    keyContext: "Understanding how local currency guarantees are de-risking solar energy investments.",
-    title: "The Future of Local Currency Financing and its Impact on Sub-Saharan Africa's Renewable Energy Transition",
-    excerpt: "How local currency guarantees are de-risking investments and unlocking long-term debt from institutional investors for solar developers.",
-    author: "Chinua Okeke",
-    authorAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop",
+    readTime: "4 min read",
+    themes: ["LOCAL CURRENCY", "MINI-GRIDS", "CROSS RIVER"],
+    keyContext: "CFBF's fifth transaction backs four solar hybrid mini-grids in Cross River State, set to electrify 3,600 households and businesses.",
+    title: "Climate Finance Blending Facility Enables Local Currency Financing for CEESOLAR's Off-Grid Energy Project in Cross River State",
+    excerpt: "CFBF's fifth transaction backs four solar hybrid mini-grids in Cross River State, set to electrify 3,600 households and businesses.",
+    author: "Climate Finance Blending Facility",
+    authorAvatar: "https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=100&auto=format&fit=crop",
     image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1200&auto=format&fit=crop",
     paragraphs: [
       {
         type: 'p',
-        text: "The transition to clean energy in Sub-Saharan Africa faces a recurring challenge: foreign exchange risk. Historically, clean energy infrastructure projects have been funded in foreign hard currencies (USD or EUR), while their revenues are collected in local currencies (such as Naira). This mismatch leaves developers vulnerable to currency devaluations."
-      },
-      {
-        type: 'h2',
-        text: "Mitigating Currency Mismatch"
+        text: "The Climate Finance Blending Facility (CFBF), a catalytic first-loss multi-donor co-financing facility for off-grid clean energy projects in Nigeria, has mobilized long-term local currency financing for CEESOLAR Energy Limited's renewable energy initiative in Cross River State. This represents the fifth transaction supported by the facility, which operates with £10 million in concessional capital from the UK Foreign, Commonwealth & Development Office (FCDO), supplemented by US$10 million from British International Investment (BII) and a US$20 million counter-guarantee facility."
       },
       {
         type: 'p',
-        text: "To address this hurdle, the Climate Finance Blending Facility (CFBF), in collaboration with partners like InfraCredit, is pioneering local currency blended financing. By providing local currency guarantees, the facility enables local institutional investors—such as pension funds—to invest confidently in local currency green bonds. This matches the funding currency directly with local utility tariffs."
+        text: "The initiative will construct and commission four isolated solar hybrid mini-grids with a combined capacity of 760 kWp across underserved communities. Upon completion, these installations are projected to electrify approximately 3,600 households and small businesses, generate an estimated 561 jobs, and prevent over 737 tonnes of annual CO₂ emissions. The project aligns with Nigeria's universal electrification agenda and supports Sustainable Development Goal 7."
+      },
+      {
+        type: 'p',
+        text: "Earlier projects financed through the CFBF have deployed approximately ₦9 billion across four developers — Darway, Hotspot, ACOB, and Prado — reaching over 25,000 beneficiaries, creating more than 2,300 jobs, and installing approximately 1.7 MW of capacity. The facility has generated a pipeline of approximately ₦243.31 billion across 23 developers."
+      },
+      {
+        type: 'h2',
+        text: "Construction Finance Warehouse Facility"
+      },
+      {
+        type: 'p',
+        text: "The CEESOLAR transaction benefited from InfraCredit's Construction Finance Warehouse Facility (CFWF), funded by the Nigeria Sovereign Investment Authority (NSIA), which provides short-term bridge financing to address construction-period liquidity gaps — demonstrating InfraCredit's integrated, end-to-end approach to unlocking capital for sustainable infrastructure projects."
+      },
+      {
+        type: 'p',
+        text: "The CFBF combines subordinated first-loss capital from FCDO and development partners with technical assistance from FSD Africa and InfraCredit's 'AAA'-rated guarantees to mobilize long-term domestic institutional capital for distributed renewable energy. The transaction also reflects a strategic partnership between InfraCredit and the Africa Minigrid Developers Association (AMDA), improving access to long-term domestic financing for member developers."
       },
       {
         type: 'blockquote',
-        text: "Local currency financing is not just an alternative; it is the bedrock of sustainable infrastructure development in emerging markets."
+        text: "\"We are delighted that the UK-funded Climate Finance Blending Facility continues to catalyse local currency debt for renewable energy infrastructure.\" — Jonny Baxter, UK Deputy High Commissioner in Lagos"
+      },
+      {
+        type: 'blockquote',
+        text: "\"This milestone reflects CEESOLAR's commitment to bridging Nigeria's energy gap through innovation and collaboration.\" — Chibueze Ekeh, CEO of CEESOLAR Energy Limited"
       },
       {
         type: 'p',
-        text: "By de-risking the capital structure through a first-loss tranche, the Facility attracts private commercial pension capital that would otherwise steer clear of early-stage solar developments. This creates a sustainable cycle where domestic savings fund domestic infrastructure."
+        text: "InfraCredit CEO Chinua Azubike noted that \"this transaction demonstrates the power of partnership — combining catalytic first-loss capital,\" while AMDA CEO Olamide Niyi-Afuye commented that \"this milestone underscores the growing confidence in the capacity of AMDA's members to scale.\""
       },
       {
-        type: 'image',
-        url: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?q=80&w=1200&auto=format&fit=crop",
-        text: "Solar panels installation matching local currency investments.",
-        caption: "Domestic pension funds represent a massive, untapped pool of long-term local capital."
+        type: 'p',
+        text: "The project is registered under the World Bank's Distributed Access through Renewable Energy Scale-up (DARES) Performance-Based Grant Programme, administered by the Rural Electrification Agency (REA). InfraCredit and REA signed a Memorandum of Understanding in August 2022 to address long-term financing bottlenecks for off-grid operators."
       },
       {
         type: 'h2',
-        text: "Expanding Beyond Solar"
+        text: "About CEESOLAR"
       },
       {
         type: 'p',
-        text: "While solar hybrid mini-grids have been the primary beneficiary of this model, the Facility plans to expand the local currency guarantee framework to encompass clean cooling value chains and agricultural processing hubs, cementing local currency debt as a standard tool for renewable energy developers across West Africa."
+        text: "CEESOLAR Energy Limited is a renewable energy company providing energy access through decentralized energy systems since 2017. The company has installed 729.5kWp of capacity across mini-grid and stand-alone installations, with over 695 connections across multiple Nigerian states."
       }
     ]
   },
   {
     id: "2",
     tag: "Fund Updates",
-    date: "November 20, 2025",
+    date: "January 26, 2026",
     readTime: "4 min read",
-    themes: ["FUNDRAISING", "INVESTORS", "GROWTH"],
-    keyContext: "A breakdown of the successful closure of our Series 2 capital raise from institutional partners.",
-    title: "Clean Energy Fund Announces the Successful Closure of Series 2 Capital Raise for Institutional Investors",
-    excerpt: "The facility secures additional commitments from domestic pensions and assurance funds to expand off-grid solar operations.",
-    author: "Folasade Adebayo",
-    authorAvatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=100&auto=format&fit=crop",
+    themes: ["MESH GRID", "LOCAL CURRENCY", "PARTNERSHIP"],
+    keyContext: "CFBF's sixth transaction — and first mesh-grid project — backs First Electric's 20 mesh-grid networks across three states.",
+    title: "Climate Finance Blending Facility Supports Local Currency Financing for First Electric's Off-Grid Energy Project in Nigeria",
+    excerpt: "CFBF's sixth transaction — and first mesh-grid project — backs First Electric's 20 mesh-grid networks across three states.",
+    author: "Climate Finance Blending Facility",
+    authorAvatar: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=100&auto=format&fit=crop",
     image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=1200&auto=format&fit=crop",
     paragraphs: [
       {
         type: 'p',
-        text: "The Climate Finance Blending Facility is thrilled to announce the successful final close of its Series 2 capital raise. The raise secured an additional ₦15 Billion from domestic institutional investors, including leading pension fund administrators and assurance companies."
-      },
-      {
-        type: 'h2',
-        text: "Unlocking Pension Liquidity"
+        text: "The Climate Finance Blending Facility (CFBF), a catalytic first-loss, multi-donor co-financing mechanism for off-grid clean energy initiatives in Nigeria, has facilitated long-term local currency financing for First Electric Power and Automation Services Limited. This represents the sixth transaction under the program and marks the inaugural mesh-grid infrastructure project supported by CFBF."
       },
       {
         type: 'p',
-        text: "This capital raise demonstrates the growing appetite among local asset managers for yield-bearing green instruments. The capital will be immediately deployed to co-finance a pipeline of solar mini-grids and clean commercial cooling setups across Nigeria, helping developers access credit-enhanced Naira financing."
+        text: "The initiative encompasses 20 mesh-grid electricity networks totaling 724.8 kWp of capacity across Gombe, Nasarawa, and Ondo States. Upon completion, the project is projected to provide electricity to approximately 5,156 households and businesses, generate roughly 616 jobs, and reduce annual carbon emissions by 762 tonnes."
+      },
+      {
+        type: 'p',
+        text: "Previous CFBF projects have deployed approximately ₦12 billion across five developers, reaching over 28,000 beneficiaries and establishing approximately 1.8 MW of off-grid solar capacity. The facility's current pipeline encompasses ₦243.31 billion across 23 developers."
+      },
+      {
+        type: 'h2',
+        text: "Construction Finance Warehouse Facility"
+      },
+      {
+        type: 'p',
+        text: "First Electric also received support from InfraCredit's Construction Finance Warehouse Facility, funded by the Nigeria Sovereign Investment Authority, which provided temporary liquidity during the construction phase before long-term refinancing."
       },
       {
         type: 'blockquote',
-        text: "The success of this Series 2 close signals strong institutional trust in our risk-mitigated credit guarantee structure."
+        text: "\"This transaction marks the Facility's first investment in innovative mesh grid projects, designed to lower the cost of distributed renewable energy solutions for rural and remote communities.\" — UK Deputy High Commissioner"
       },
       {
         type: 'p',
-        text: "With this round of funding, the Facility's active capital pool increases significantly, enabling the de-risking of larger corporate clean energy bonds and helping developers secure up to 10-year tenor terms from domestic lenders."
+        text: "InfraCredit CEO Chinua Azubike said the guarantee represents \"the Facility's first investment in mesh-grid infrastructure and underscores the scale and maturity the platform has now achieved\" in financing distributed renewable energy across Nigeria. First Electric CEO Daniel Komolafe emphasized the company's commitment to \"bridging Nigeria's energy gap through innovation and collaboration,\" demonstrating that clean energy solutions can be commercially viable and sustainable. AMDA CEO Olamide Niyi-Afuye added that the transaction \"demonstrates the transformative power of strategic partnerships in advancing energy access\" and provides a blueprint for scaling distributed renewable energy across Africa."
       },
       {
-        type: 'image',
-        url: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop",
-        text: "Strategic meeting finalizing the Series 2 capital raise.",
-        caption: "Aligning domestic institutional capital with sustainable energy development targets."
+        type: 'p',
+        text: "The project is registered under the World Bank's Distributed Access through Renewable Energy Scale-up (DARES) Performance-Based Grant Programme. Technical and due diligence costs received support from FSD Africa through a Technical Assistance Agreement aimed at reducing barriers for first-time issuers."
       },
       {
         type: 'h2',
-        text: "Next Milestones"
+        text: "About the Organizations"
       },
       {
         type: 'p',
-        text: "Looking forward to 2026, the Facility plans to allocate capital across 12 new projects, focusing heavily on northern states where off-grid agricultural solar processing installations can drive the highest economic and social impacts."
+        text: "Climate Finance Blending Facility: Capitalized with $21.3 million in concessional funding from the UK Foreign, Commonwealth & Development Office and British International Investment, the facility mobilizes capital through first-loss risk sharing alongside InfraCredit's local currency guarantees."
+      },
+      {
+        type: 'p',
+        text: "First Electric: Incorporated in 2019, this Nigerian renewable energy company designs, develops, and operates mesh-grids, microgrids, and stand-alone solar systems for rural communities, currently operating approximately 250 active Energy-as-a-Service connections across Lagos, Abuja, and Ondo States."
+      },
+      {
+        type: 'p',
+        text: "InfraCredit: Established in 2017 as a specialized local currency infrastructure credit guarantee institution, InfraCredit holds 'AAA'(NG) ratings and supports long-term local currency infrastructure financing in Nigeria through guarantees that attract domestic institutional capital."
       }
     ]
   },
