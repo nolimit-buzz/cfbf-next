@@ -1,8 +1,16 @@
 // Server-only: `next/cache` cannot be imported from a client component.
 import { cacheLife } from 'next/cache';
 import { STATE_LGAS, LGA_PROJECTS_BY_STATE, resolveStateId, LGAProjectEntry } from '@/lib/mapData';
+import { CMS_BASE_URL } from '@/lib/cms/config';
 
-const PUE_API_URL = 'https://infracredit.ng/climate-facility/wp-json/infracredit/v1/pue';
+/**
+ * Proxied through Strapi's `pue-proxy` route rather than fetched directly from
+ * InfraCredit: InfraCredit's WordPress firewall blocks requests from Vercel's
+ * shared/dynamic IP range (confirmed via HTTP 403), but not from the Strapi
+ * VPS's fixed IP. See `cms/src/api/pue-proxy/controllers/pue-proxy.ts`, which
+ * does the actual InfraCredit fetch and forwards the JSON verbatim.
+ */
+const PUE_API_URL = `${CMS_BASE_URL}/api/pue-proxy`;
 const PUE_TIMEOUT_MS = 8_000;
 
 interface PueApiEntry {
