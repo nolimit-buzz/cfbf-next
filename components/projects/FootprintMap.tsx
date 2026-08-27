@@ -166,7 +166,9 @@ export default function FootprintMap({ data, modalData, footprintData }: Footpri
   // in lib/cms/defaults.ts) — not derived from `ALL_STATES` so no state needs to be
   // disabled/removed to change this display number.
   const totalStates = 35;
-  const totalCommunities = Object.values(lgaProjects).reduce((sum, arr) => sum + arr.length, 0);
+  // Hardcoded to match the reference site's displayed figure rather than the live
+  // API count (which sums to ~830 project entries, not the full communities total).
+  const totalCommunities = 5290;
 
   return (
     <>
@@ -192,7 +194,7 @@ export default function FootprintMap({ data, modalData, footprintData }: Footpri
             <p className="text-gray-400 text-xs uppercase tracking-wider font-mono mt-0.5">{copy.statesStatLabel}</p>
           </div>
           <div className="sm:text-right">
-            <span className="text-4xl font-extrabold text-[#81C34D] font-sans">{totalCommunities}+</span>
+            <span className="text-4xl font-extrabold text-[#81C34D] font-sans">{totalCommunities.toLocaleString()}</span>
             <p className="text-gray-400 text-xs uppercase tracking-wider font-mono mt-0.5">{copy.communitiesStatLabel}</p>
           </div>
         </div>

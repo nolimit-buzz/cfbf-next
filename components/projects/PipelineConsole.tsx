@@ -485,16 +485,6 @@ export default function PipelineConsole({
                     {activeStage.title}
                   </span>
                   
-                  <div className="flex items-baseline gap-1 mt-2">
-                    <span className="text-4xl md:text-5xl font-light text-white tracking-tight leading-none font-sans font-bold">
-                      {currentValues.usd}
-                    </span>
-                    <span className="text-xl text-white font-light ml-1">{copy.usdUnitLabel}</span>
-                  </div>
-                  <div className="text-[#81C34D] text-xs font-mono font-bold tracking-wider mt-2.5 uppercase">
-                    {currentValues.ngn}
-                  </div>
-
                   <p className="text-gray-300 text-xs md:text-sm font-sans font-light mt-5 leading-relaxed">
                     {activeStage.desc}
                   </p>
