@@ -197,68 +197,39 @@ const PartnersColumn = () => (
 // ─── Partner Marquee Logos (White-by-default, Colored-on-hover) ─────────────
 // Generic, data-driven mark for any partner whose logo doesn't need special
 // treatment: a single image, dimmed by default and full-opacity on hover.
-const MarqueeLogo = ({ src, alt }: { src: string; alt: string }) => (
+/**
+ * White knockout at half opacity by default, full-colour artwork on hover.
+ * Both variants come from the CMS (`logo` / `logoColour`); a partner without a
+ * colour variant just brightens its white mark instead.
+ */
+const MarqueeLogo = ({ src, alt, colourSrc }: { src: string; alt: string; colourSrc?: string }) => (
   <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
     <img
       src={src}
       alt={alt}
-      className="h-7 w-auto object-contain opacity-50 group-hover:opacity-100 transition-opacity duration-300"
+      className={`h-7 w-auto object-contain absolute opacity-50 transition-opacity duration-300 ${
+        colourSrc ? 'group-hover:opacity-0' : 'group-hover:opacity-100'
+      }`}
       loading="lazy"
     />
+    {colourSrc && (
+      <img
+        src={colourSrc}
+        alt=""
+        aria-hidden="true"
+        className="h-7 w-auto object-contain absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        loading="lazy"
+      />
+    )}
   </div>
 );
-
-// InfraCredit and Shell Foundation need a white/invert default that
-// crossfades to a true-colour version on hover (their marks read poorly at
-// reduced opacity) — kept as bespoke overrides rather than CMS-driven data.
-const InfraCreditMarqueeLogo = () => (
-  <div className="relative h-8 w-28 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-    {/* White version default */}
-    <img
-      src={`${BASE}/2022/09/ICAsset-6@4x-8-002-1024x326-1.png`}
-      alt="InfraCredit"
-      className="h-7 w-auto object-contain absolute opacity-50 group-hover:opacity-0 transition-opacity duration-300"
-      loading="lazy"
-    />
-    {/* Colored version hover */}
-    <img
-      src={`${BASE}/2022/09/InfraCredit-1.svg`}
-      alt="InfraCredit"
-      className="h-7 w-auto object-contain absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-      loading="lazy"
-    />
-  </div>
-);
-
-const ShellFoundationMarqueeLogo = () => (
-  <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-    {/* White version (filtered) */}
-    <img
-      src={`${BASE}/2022/10/Shell-foundation-1.png`}
-      alt="Shell Foundation"
-      className="h-7 w-auto object-contain absolute brightness-0 invert opacity-50 group-hover:opacity-0 transition-all duration-300"
-      loading="lazy"
-    />
-    {/* Colored version hover */}
-    <img
-      src={`${BASE}/2022/10/Shell-foundation-1.png`}
-      alt="Shell Foundation"
-      className="h-7 w-auto object-contain absolute opacity-0 group-hover:opacity-100 transition-all duration-300"
-      loading="lazy"
-    />
-  </div>
-);
-
-/** Name -> bespoke override. Any partner not listed here renders via `MarqueeLogo`. */
-const MARQUEE_LOGO_OVERRIDES: Record<string, React.ReactNode> = {
-  InfraCredit: <InfraCreditMarqueeLogo />,
-  'Shell Foundation': <ShellFoundationMarqueeLogo />,
-};
 
 const PartnerMarquee = ({ partnerLogos = FOOTER_DEFAULTS.partnerLogos }: { partnerLogos?: PartnerLogoItem[] }) => {
   const partners = partnerLogos.map((p) => ({
     name: p.name,
-    logo: MARQUEE_LOGO_OVERRIDES[p.name] ?? (p.logo ? <MarqueeLogo src={p.logo} alt={p.logo_alt_text || p.name} /> : null),
+    logo: p.logo ? (
+      <MarqueeLogo src={p.logo} alt={p.logo_alt_text || p.name} colourSrc={p.logoColour ?? undefined} />
+    ) : null,
   }));
   // Duplicate for seamless loop — matches the marquee-scroll keyframe's -50% shift
   const items = [...partners, ...partners];

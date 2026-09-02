@@ -19,13 +19,13 @@ const up = (delay = 0) => ({
 /**
  * Per-partner presentation, matched positionally to `groups[i].partners[j]`.
  *
- * The CMS holds each partner's name, role and logo URL; how big that logo
- * renders, and what colour a text-only wordmark turns on hover, are design
- * decisions that would be meaningless as editable fields. `emptyCells` pads
- * each row out to the four-up grid.
+ * The CMS holds each partner's name, role and logo URL; what colour a text-only
+ * wordmark turns on hover is a design decision that would be meaningless as an
+ * editable field. `emptyCells` pads each row out to the four-up grid.
  *
- * A partner with no entry here still renders — it just falls back to the
- * default logo size and accent — so adding one in Strapi never leaves a hole.
+ * Only wordmark partners need an entry — image logos all render at `LOGO_CLASS`
+ * — so a partner with no entry here still renders, and adding one in Strapi
+ * never leaves a hole.
  */
 /** Type scale for a text-only wordmark, and the tighter variant for long ones. */
 const WORDMARK_DEFAULT = 'text-[11px] tracking-widest';
@@ -33,89 +33,48 @@ const WORDMARK_SMALL = 'text-[10px] tracking-wide text-center leading-tight';
 
 const GROUP_STYLES: {
   emptyCells: number;
-  partners: { logoClass?: string; textColour?: string; textClass?: string; forceColour?: boolean }[];
+  partners: { textColour?: string; textClass?: string }[];
 }[] = [
-  {
-    emptyCells: 2,
-    partners: [{ logoClass: 'h-9 w-auto max-w-[110px]' }, { logoClass: 'h-9 w-auto max-w-[120px]' }],
-  },
-  {
-    emptyCells: 2,
-    partners: [{ logoClass: 'h-8 w-auto max-w-[110px]' }, { logoClass: 'h-8 w-auto max-w-[110px]' }],
-  },
-  {
-    emptyCells: 3,
-    partners: [{ logoClass: 'h-7 w-auto max-w-[130px]' }],
-  },
+  // The first three groups are image logos only — nothing to style per partner.
+  { emptyCells: 3, partners: [] },
+  { emptyCells: 2, partners: [] },
+  { emptyCells: 3, partners: [] },
   {
     emptyCells: 0,
     partners: [
       { textColour: 'group-hover:text-[#C8102E]' },
-      // Opaque JPEG background — the white/invert silhouette treatment turns
-      // this into a blank white box, so always render it in colour.
-      { textColour: 'group-hover:text-[#003087]', forceColour: true },
+      { textColour: 'group-hover:text-[#003087]' },
       { textColour: 'group-hover:text-[#0072CE]' },
-      // White-invert washes out the wordmark's fine detail — keep it in colour.
-      { textColour: 'group-hover:text-[#E31837]', forceColour: true },
+      { textColour: 'group-hover:text-[#E31837]' },
       { textColour: 'group-hover:text-[#FF6600]' },
       // Longer acronyms drop a step in size and wrap rather than overflow.
       { textColour: 'group-hover:text-brand-accent', textClass: WORDMARK_SMALL },
-      // Fully opaque PNG (baked-in background) — same white-box issue.
-      { textColour: 'group-hover:text-[#003087]', textClass: WORDMARK_SMALL, forceColour: true },
+      { textColour: 'group-hover:text-[#003087]', textClass: WORDMARK_SMALL },
     ],
   },
 ];
 
-const DEFAULT_LOGO_CLASS = 'h-8 w-auto max-w-[110px]';
+/** Every partner mark renders at one size, whatever its artwork's aspect ratio. */
+const LOGO_CLASS = 'h-12 w-auto max-w-[160px]';
 const DEFAULT_TEXT_COLOUR = 'group-hover:text-brand-accent';
 
 /** The group that gets the "Partner with CFBF" call-to-action cell appended. */
 const CTA_GROUP_CATEGORY = 'Domestic Institutional Investors';
 
-// Reusable: white by default → full colour on hover
-function LogoImg({
-  src,
-  alt,
-  className = "h-8 w-auto",
-  colourSrc,
-  forceColour,
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-  colourSrc?: string; // if a separate coloured version exists
-  forceColour?: boolean; // skip the white/invert treatment (opaque-background source images)
-}) {
-  const colour = colourSrc ?? src;
-
-  if (forceColour) {
-    return (
-      <div className="relative flex items-center justify-center w-full h-full">
-        <img
-          src={colour}
-          alt={alt}
-          className={`object-contain transition-transform duration-500 group-hover:scale-105 ${className}`}
-          loading="lazy"
-        />
-      </div>
-    );
-  }
-
+/**
+ * A partner's white knockout, lifting slightly on hover.
+ *
+ * The CMS also holds a full-colour variant per partner (`logoColour`, still
+ * used by the footer marquee), but this grid deliberately ignores it: several
+ * colour marks are near-black and read poorly on the near-black background.
+ */
+function LogoImg({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="relative flex items-center justify-center w-full h-full">
-      {/* White version */}
       <img
         src={src}
         alt={alt}
-        className={`object-contain brightness-0 invert transition-all duration-500 absolute group-hover:opacity-0 group-hover:scale-90 ${className}`}
-        loading="lazy"
-      />
-      {/* Colour version */}
-      <img
-        src={colour}
-        alt=""
-        aria-hidden="true"
-        className={`object-contain transition-all duration-500 absolute opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 ${className}`}
+        className={`object-contain transition-transform duration-500 group-hover:scale-105 ${LOGO_CLASS}`}
         loading="lazy"
       />
     </div>
@@ -128,18 +87,10 @@ function PartnerLogo({
   style,
 }: {
   partner: AboutPartner;
-  style?: { logoClass?: string; textColour?: string; textClass?: string; forceColour?: boolean };
+  style?: { textColour?: string; textClass?: string };
 }) {
   if (partner.logo) {
-    return (
-      <LogoImg
-        src={partner.logo}
-        alt={partner.logo_alt_text || partner.name}
-        colourSrc={partner.logoColour ?? undefined}
-        className={style?.logoClass ?? DEFAULT_LOGO_CLASS}
-        forceColour={style?.forceColour}
-      />
-    );
+    return <LogoImg src={partner.logo} alt={partner.logo_alt_text || partner.name} />;
   }
 
   return (
@@ -156,7 +107,7 @@ function PartnerLogo({
 }
 
 type GridCell =
-  | { type: 'partner'; partner: AboutPartner; style?: { logoClass?: string; textColour?: string; textClass?: string; forceColour?: boolean } }
+  | { type: 'partner'; partner: AboutPartner; style?: { textColour?: string; textClass?: string } }
   | { type: 'cta' }
   | { type: 'empty' };
 
@@ -237,21 +188,12 @@ export default function PartnerShowcase({ data }: { data?: AboutPartnersSection 
                         return (
                           <div
                             key={cell.partner.name}
-                            className={`relative flex flex-col justify-center items-center px-4 py-6 border-white/5 h-24 md:h-28 bg-[#010908] group cursor-default overflow-hidden border-b ${borderRightClass} ${desktopBorderRightClass}`}
+                            className={`relative flex flex-col justify-center items-center px-4 py-4 border-white/5 h-24 md:h-28 bg-[#010908] group cursor-default overflow-hidden border-b ${borderRightClass} ${desktopBorderRightClass}`}
                           >
-                            {/* Logo Display Container */}
-                            <div className="relative h-12 w-full flex items-center justify-center">
+                            {/* Logo Display Container — unconstrained height so
+                                the hover scale has room before the cell clips. */}
+                            <div className="relative w-full flex items-center justify-center">
                               <PartnerLogo partner={cell.partner} style={cell.style} />
-                            </div>
-
-                            {/* Name panel — fades/slides up on hover */}
-                            <div className="absolute bottom-2 inset-x-2 text-center opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-10">
-                              <span className="text-[9px] text-white block font-sans truncate font-semibold leading-none">
-                                {cell.partner.name}
-                              </span>
-                              <span className="text-[7.5px] font-bold text-brand-accent uppercase tracking-widest font-mono block mt-0.5 opacity-90">
-                                {cell.partner.role}
-                              </span>
                             </div>
 
                             {/* Intersection Crosshair */}
