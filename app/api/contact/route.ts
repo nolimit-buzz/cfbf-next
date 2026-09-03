@@ -1,4 +1,5 @@
 import { sendEmail, escapeHtml } from '@/lib/email/brevo';
+import { logEmail } from '@/lib/email/logEmail';
 
 /**
  * Receives the contact page enquiry form and delivers it over Brevo.
@@ -7,6 +8,10 @@ import { sendEmail, escapeHtml } from '@/lib/email/brevo';
  * set to the enquirer, so a reply goes straight back), and a short
  * acknowledgement to the enquirer. The acknowledgement is best-effort — see the
  * send block below.
+ *
+ * Both are archived in the CMS `email-log` collection, sent or failed, so the
+ * client has a searchable record of every submission and can prove whether a
+ * message was ever accepted. Archiving never affects what the visitor sees.
  */
 
 const ROLES = ['developer', 'investor', 'donor'] as const;
@@ -48,6 +53,12 @@ function field(value: unknown, max = MAX_FIELD) {
 
 function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+/** Brevo answers a successful send with `{ messageId }`. */
+function receipt(result: unknown) {
+  const messageId = (result as { messageId?: string } | null)?.messageId ?? null;
+  return { messageId, smtpResponse: result ? JSON.stringify(result) : null };
 }
 
 function row(label: string, value: string) {
@@ -111,13 +122,36 @@ export async function POST(request: Request) {
   const score = field(body.score);
   const tech = field(body.tech);
 
-  const rows = [
-    ...SHARED_LABELS.map(([key, label]) => row(label, values[key])),
-    ...ROLE_LABELS[role].map(([key, label]) => row(label, values[key])),
-    ...(readiness ? [row('Assessment outcome', readiness)] : []),
-    ...(score ? [row('Readiness score', score)] : []),
-    ...(tech ? [row('Assessment technology', tech)] : []),
-  ].join('');
+  // The label/value pairs are built once and rendered twice: as the HTML table
+  // of the email itself, and as the plain-text `Label: value` block the archive
+  // stores. Keeping one source means the two can never drift apart.
+  const fields: Array<[string, string]> = [
+    ...SHARED_LABELS.map(([key, label]) => [label, values[key]] as [string, string]),
+    ...ROLE_LABELS[role].map(([key, label]) => [label, values[key]] as [string, string]),
+    ...(readiness ? [['Assessment outcome', readiness] as [string, string]] : []),
+    ...(score ? [['Readiness score', score] as [string, string]] : []),
+    ...(tech ? [['Assessment technology', tech] as [string, string]] : []),
+  ];
+
+  const rows = fields.map(([label, value]) => row(label, value)).join('');
+
+  // Labels, a blank line, then the free-text message — the shape the CMS
+  // exporter parses when an entry's structured payload is missing.
+  const internalText = `${fields
+    .map(([label, value]) => `${label}: ${value}`)
+    .join('\n')}\n\n${message}`;
+
+  const payload = {
+    role,
+    ...values,
+    message,
+    ...(readiness ? { readiness } : {}),
+    ...(score ? { score } : {}),
+    ...(tech ? { tech } : {}),
+  };
+
+  const from = process.env.BREVO_FROM_EMAIL as string;
+  const internalSubject = `New ${role} enquiry — ${values.fullName}`;
 
   const internalHtml = `
     <div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:640px;">
@@ -132,25 +166,63 @@ export async function POST(request: Request) {
       </div>
     </div>`;
 
+  const internalLog = {
+    type: 'contact',
+    to: recipient,
+    from,
+    replyTo: values.emailAddress,
+    subject: internalSubject,
+    body: internalText,
+    payload,
+  } as const;
+
   try {
-    await sendEmail({
+    const result = await sendEmail({
       to: recipient,
-      subject: `New ${role} enquiry — ${values.fullName}`,
+      subject: internalSubject,
       htmlContent: internalHtml,
       replyTo: values.emailAddress,
     });
+    await logEmail({ ...internalLog, status: 'sent', error: null, ...receipt(result) });
   } catch (error) {
     console.error('[contact] enquiry send failed', error);
+    await logEmail({
+      ...internalLog,
+      status: 'failed',
+      error: String(error),
+      messageId: null,
+      smtpResponse: null,
+    });
     return Response.json({ error: 'Could not send your enquiry. Please try again.' }, { status: 502 });
   }
 
   // Best-effort: the enquiry is already delivered, so a bounced acknowledgement
   // (typo'd address, Brevo rate limit) must not read to the visitor as a failed
   // submission.
+  const ackSubject = 'We received your enquiry — Climate Facility';
+  const ackText =
+    `Full name: ${values.fullName}\n` +
+    `Email: ${values.emailAddress}\n\n` +
+    `Hi ${values.fullName},\n\n` +
+    'Thank you for contacting the Climate Facility. We have received your enquiry ' +
+    'and a member of our team will be in touch shortly.\n\n' +
+    `${message}\n\n` +
+    'This is an automated confirmation — there is no need to reply.';
+
+  const ackLog = {
+    type: 'contact-ack',
+    to: values.emailAddress,
+    from,
+    replyTo: null,
+    subject: ackSubject,
+    body: ackText,
+    payload,
+  } as const;
+
   try {
-    await sendEmail({
+    const result = await sendEmail({
       to: values.emailAddress,
-      subject: 'We received your enquiry — Climate Facility',
+      subject: ackSubject,
       htmlContent: `
         <div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:640px;color:#051F1A;">
           <p style="font-size:14px;line-height:1.6;">Hi ${escapeHtml(values.fullName)},</p>
@@ -166,8 +238,16 @@ export async function POST(request: Request) {
           </p>
         </div>`,
     });
+    await logEmail({ ...ackLog, status: 'sent', error: null, ...receipt(result) });
   } catch (error) {
     console.error('[contact] acknowledgement send failed', error);
+    await logEmail({
+      ...ackLog,
+      status: 'failed',
+      error: String(error),
+      messageId: null,
+      smtpResponse: null,
+    });
   }
 
   return Response.json({ sent: true });
