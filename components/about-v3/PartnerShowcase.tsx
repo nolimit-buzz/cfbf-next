@@ -62,21 +62,31 @@ const DEFAULT_TEXT_COLOUR = 'group-hover:text-brand-accent';
 const CTA_GROUP_CATEGORY = 'Domestic Institutional Investors';
 
 /**
- * A partner's white knockout, lifting slightly on hover.
- *
- * The CMS also holds a full-colour variant per partner (`logoColour`, still
- * used by the footer marquee), but this grid deliberately ignores it: several
- * colour marks are near-black and read poorly on the near-black background.
+ * A partner's white knockout by default, crossfading to the full-colour mark
+ * on hover — same white/colour swap as the footer marquee's `MarqueeLogo`
+ * (`components/Footer.tsx`), just without the at-rest dimming since this grid
+ * shows the white mark at full opacity when not hovered.
  */
-function LogoImg({ src, alt }: { src: string; alt: string }) {
+function LogoImg({ src, alt, colourSrc }: { src: string; alt: string; colourSrc?: string }) {
   return (
     <div className="relative flex items-center justify-center w-full h-full">
       <img
         src={src}
         alt={alt}
-        className={`object-contain transition-transform duration-500 group-hover:scale-105 ${LOGO_CLASS}`}
+        className={`object-contain absolute transition-all duration-500 group-hover:scale-105 ${LOGO_CLASS} ${
+          colourSrc ? 'group-hover:opacity-0' : ''
+        }`}
         loading="lazy"
       />
+      {colourSrc && (
+        <img
+          src={colourSrc}
+          alt=""
+          aria-hidden="true"
+          className={`object-contain absolute opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105 ${LOGO_CLASS}`}
+          loading="lazy"
+        />
+      )}
     </div>
   );
 }
@@ -90,7 +100,13 @@ function PartnerLogo({
   style?: { textColour?: string; textClass?: string };
 }) {
   if (partner.logo) {
-    return <LogoImg src={partner.logo} alt={partner.logo_alt_text || partner.name} />;
+    return (
+      <LogoImg
+        src={partner.logo}
+        alt={partner.logo_alt_text || partner.name}
+        colourSrc={partner.logoColour ?? undefined}
+      />
+    );
   }
 
   return (
