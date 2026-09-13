@@ -196,19 +196,19 @@ const PartnersColumn = () => (
 
 // ─── Partner Marquee Logos (White-by-default, Colored-on-hover) ─────────────
 // Generic, data-driven mark for any partner whose logo doesn't need special
-// treatment: a single image, dimmed by default and full-opacity on hover.
+// treatment: a single image, full-opacity by default and on hover.
 /**
- * White knockout at half opacity by default, full-colour artwork on hover.
- * Both variants come from the CMS (`logo` / `logoColour`); a partner without a
- * colour variant just brightens its white mark instead.
+ * White knockout at full opacity by default, crossfading to full-colour
+ * artwork on hover. Both variants come from the CMS (`logo` / `logoColour`);
+ * a partner without a colour variant just keeps showing its white mark.
  */
 const MarqueeLogo = ({ src, alt, colourSrc }: { src: string; alt: string; colourSrc?: string }) => (
   <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
     <img
       src={src}
       alt={alt}
-      className={`h-7 w-auto object-contain absolute opacity-50 transition-opacity duration-300 ${
-        colourSrc ? 'group-hover:opacity-0' : 'group-hover:opacity-100'
+      className={`h-7 w-auto object-contain absolute transition-opacity duration-300 ${
+        colourSrc ? 'group-hover:opacity-0' : ''
       }`}
       loading="lazy"
     />
@@ -257,14 +257,9 @@ const PartnerMarquee = ({ partnerLogos = FOOTER_DEFAULTS.partnerLogos }: { partn
             }}
           >
             {items.map((partner, i) => (
-              <div key={i} className="group flex flex-col items-center justify-center min-w-[140px] min-h-[52px] transition-all duration-300 px-4">
+              <div key={i} className="group flex items-center justify-center min-w-[140px] min-h-[32px] transition-all duration-300 px-4">
                 {partner.logo ? (
-                  <>
-                    {partner.logo}
-                    <span className="text-[10px] tracking-wider text-white/35 group-hover:text-white transition-colors duration-500 font-sans font-medium uppercase mt-2 select-none">
-                      {partner.name}
-                    </span>
-                  </>
+                  partner.logo
                 ) : (
                   <span className="text-xs font-semibold tracking-wider text-white/45 group-hover:text-white transition-colors duration-500 font-sans uppercase select-none py-2 text-center">
                     {partner.name}

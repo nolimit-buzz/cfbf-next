@@ -41,7 +41,6 @@ export const FOOTER_DEFAULTS: FooterSettings = {
     { name: 'AfDB', ...partner('afdb'), logo_alt_text: 'African Development Bank', logoColour_alt_text: 'African Development Bank' },
     { name: 'USAID', ...partner('usaid'), logo_alt_text: 'USAID', logoColour_alt_text: 'USAID' },
     { name: 'Power Africa', ...partner('power-africa'), logo_alt_text: 'Power Africa', logoColour_alt_text: 'Power Africa' },
-    { name: 'Shell Foundation', ...partner('shell-foundation'), logo_alt_text: 'Shell Foundation', logoColour_alt_text: 'Shell Foundation' },
     {
       // No artwork in the partners folder, so BII keeps its legacy white PNG
       // and renders without a colour swap. It moved here from the About page's
