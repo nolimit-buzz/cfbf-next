@@ -38,7 +38,7 @@ function reportFallback(reason: string, url: string, detail?: string) {
  */
 export async function getFooterSettings(): Promise<FooterSettings> {
   'use cache';
-  cacheLife('hours');
+  cacheLife('minutes');
   cacheTag(FOOTER_CACHE_TAG);
 
   const url = `${CMS_BASE_URL}/api/footer?${FOOTER_QUERY}`;

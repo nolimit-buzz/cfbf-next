@@ -45,7 +45,7 @@ const ABOUT_QUERY = buildZoneQuery(SHALLOW_SECTIONS, DEEP_SECTIONS);
  */
 export async function getAboutSections(): Promise<AboutPageSection[]> {
   'use cache';
-  cacheLife('hours');
+  cacheLife('minutes');
   cacheTag(ABOUT_CACHE_TAG);
 
   return fetchPageSections<AboutPageSection>('/api/about', 'ABOUT PAGE', ABOUT_QUERY);

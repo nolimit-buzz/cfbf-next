@@ -95,7 +95,7 @@ function reportFallback(reason: string, detail?: string) {
  */
 export async function getProjects(): Promise<ProjectRecord[]> {
   'use cache';
-  cacheLife('hours');
+  cacheLife('minutes');
   cacheTag(PROJECTS_COLLECTION_CACHE_TAG);
 
   const query =

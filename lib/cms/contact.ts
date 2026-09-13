@@ -45,7 +45,7 @@ const CONTACT_QUERY = buildZoneQuery(SHALLOW_SECTIONS, DEEP_SECTIONS);
  */
 export async function getContactSections(): Promise<ContactPageSection[]> {
   'use cache';
-  cacheLife('hours');
+  cacheLife('minutes');
   cacheTag(CONTACT_CACHE_TAG);
 
   return fetchPageSections<ContactPageSection>('/api/contact', 'CONTACT PAGE', CONTACT_QUERY);

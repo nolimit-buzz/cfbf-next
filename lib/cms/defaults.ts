@@ -460,7 +460,7 @@ export const NEWS_DEFAULTS: NewsContent = {
 
 export const NET_ZERO_DEFAULTS: NetZeroContent = {
   cardTitle: 'NET ZERO',
-  cardSubtitle: 'Strategy Report 2025',
+  cardSubtitle: '',
   cardBody:
     'Our commitment to a sustainable future through strategic decarbonization and green investment.',
   eyebrow: 'Our Goal',

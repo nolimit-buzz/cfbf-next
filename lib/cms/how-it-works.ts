@@ -42,7 +42,7 @@ const HOW_IT_WORKS_QUERY = buildZoneQuery(SHALLOW_SECTIONS, DEEP_SECTIONS);
  */
 export async function getHowItWorksSections(): Promise<HowItWorksPageSection[]> {
   'use cache';
-  cacheLife('hours');
+  cacheLife('minutes');
   cacheTag(HOW_IT_WORKS_CACHE_TAG);
 
   return fetchPageSections<HowItWorksPageSection>(

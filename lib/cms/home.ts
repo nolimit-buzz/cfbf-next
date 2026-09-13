@@ -17,7 +17,7 @@ export const HOME_CACHE_TAG = 'home';
  */
 export async function getHomeSections(): Promise<HomeSection[]> {
   'use cache';
-  cacheLife('hours');
+  cacheLife('minutes');
   cacheTag(HOME_CACHE_TAG);
 
   return fetchPageSections<HomeSection>('/api/home', 'HOMEPAGE');

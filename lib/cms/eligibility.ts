@@ -44,7 +44,7 @@ const ELIGIBILITY_QUERY = buildZoneQuery(SHALLOW_SECTIONS, DEEP_SECTIONS);
  */
 export async function getEligibilitySections(): Promise<EligibilityPageSection[]> {
   'use cache';
-  cacheLife('hours');
+  cacheLife('minutes');
   cacheTag(ELIGIBILITY_CACHE_TAG);
 
   return fetchPageSections<EligibilityPageSection>(

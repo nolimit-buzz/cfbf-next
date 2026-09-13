@@ -40,7 +40,7 @@ const NEWS_QUERY = buildZoneQuery(SHALLOW_SECTIONS, DEEP_SECTIONS);
  */
 export async function getNewsSections(): Promise<NewsPageSection[]> {
   'use cache';
-  cacheLife('hours');
+  cacheLife('minutes');
   cacheTag(NEWS_CACHE_TAG);
 
   return fetchPageSections<NewsPageSection>('/api/news', 'NEWS PAGE', NEWS_QUERY);

@@ -38,7 +38,7 @@ function reportFallback(reason: string, url: string, detail?: string) {
  */
 export async function getGlobalSettings(): Promise<GlobalSettings> {
   'use cache';
-  cacheLife('hours');
+  cacheLife('minutes');
   cacheTag(GLOBAL_CACHE_TAG);
 
   const url = `${CMS_BASE_URL}/api/global?${GLOBAL_QUERY}`;

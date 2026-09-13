@@ -48,7 +48,7 @@ const PROJECTS_QUERY = buildZoneQuery(SHALLOW_SECTIONS, DEEP_SECTIONS);
  */
 export async function getProjectsSections(): Promise<ProjectsPageSection[]> {
   'use cache';
-  cacheLife('hours');
+  cacheLife('minutes');
   cacheTag(PROJECTS_CACHE_TAG);
 
   return fetchPageSections<ProjectsPageSection>('/api/projects', 'PROJECTS PAGE', PROJECTS_QUERY);

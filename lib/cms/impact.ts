@@ -37,7 +37,7 @@ const IMPACT_QUERY = buildZoneQuery(SHALLOW_SECTIONS);
  */
 export async function getImpactSections(): Promise<ImpactPageSection[]> {
   'use cache';
-  cacheLife('hours');
+  cacheLife('minutes');
   cacheTag(IMPACT_CACHE_TAG);
 
   return fetchPageSections<ImpactPageSection>('/api/impact', 'IMPACT PAGE', IMPACT_QUERY);
