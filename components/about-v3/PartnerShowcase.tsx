@@ -58,6 +58,16 @@ const GROUP_STYLES: {
 const LOGO_CLASS = 'h-12 w-auto max-w-[160px]';
 const DEFAULT_TEXT_COLOUR = 'group-hover:text-brand-accent';
 
+// Partners called out for a non-default size, matched case-insensitively so it
+// still applies if the CMS name's casing differs from the bundled defaults.
+const LOGO_SIZE_OVERRIDES: Record<string, string> = {
+  'aiico insurance plc': 'h-9 w-auto max-w-[130px]',
+  'leadway insurance': 'h-16 w-auto max-w-[190px]',
+  'nem insurance plc': 'h-16 w-auto max-w-[190px]',
+  'shell foundation': 'h-16 w-auto max-w-[190px]',
+};
+const logoSizeClass = (name: string) => LOGO_SIZE_OVERRIDES[name.trim().toLowerCase()] ?? LOGO_CLASS;
+
 /** The group that gets the "Partner with CFBF" call-to-action cell appended. */
 const CTA_GROUP_CATEGORY = 'Domestic Institutional Investors';
 
@@ -67,13 +77,23 @@ const CTA_GROUP_CATEGORY = 'Domestic Institutional Investors';
  * (`components/Footer.tsx`), just without the at-rest dimming since this grid
  * shows the white mark at full opacity when not hovered.
  */
-function LogoImg({ src, alt, colourSrc }: { src: string; alt: string; colourSrc?: string }) {
+function LogoImg({
+  src,
+  alt,
+  colourSrc,
+  sizeClass = LOGO_CLASS,
+}: {
+  src: string;
+  alt: string;
+  colourSrc?: string;
+  sizeClass?: string;
+}) {
   return (
     <div className="relative flex items-center justify-center w-full h-full">
       <img
         src={src}
         alt={alt}
-        className={`object-contain absolute transition-all duration-500 group-hover:scale-105 ${LOGO_CLASS} ${
+        className={`object-contain absolute transition-all duration-500 group-hover:scale-105 ${sizeClass} ${
           colourSrc ? 'group-hover:opacity-0' : ''
         }`}
         loading="lazy"
@@ -83,7 +103,7 @@ function LogoImg({ src, alt, colourSrc }: { src: string; alt: string; colourSrc?
           src={colourSrc}
           alt=""
           aria-hidden="true"
-          className={`object-contain absolute opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105 ${LOGO_CLASS}`}
+          className={`object-contain absolute opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105 ${sizeClass}`}
           loading="lazy"
         />
       )}
@@ -105,6 +125,7 @@ function PartnerLogo({
         src={partner.logo}
         alt={partner.logo_alt_text || partner.name}
         colourSrc={partner.logoColour ?? undefined}
+        sizeClass={logoSizeClass(partner.name)}
       />
     );
   }

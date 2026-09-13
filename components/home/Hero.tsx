@@ -145,9 +145,9 @@ export default function Hero({
     <section className="relative min-h-screen w-full overflow-hidden bg-[#02100d]">
       {/* Background Parallax */}
       <motion.div style={{ y }} className="absolute inset-0 z-0 scale-110">
-        <div className="absolute inset-0 bg-black/60 mix-blend-multiply z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#02100d] via-[#02100d]/40 to-transparent z-10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#02100d]/95 via-transparent to-[#02100d]/50 z-10" />
+        <div className="absolute inset-0 bg-black/35 mix-blend-multiply z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#02100d]/85 via-[#02100d]/25 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#02100d]/75 via-transparent to-[#02100d]/30 z-10" />
         
         {/* Fallback image */}
         <img
@@ -163,7 +163,7 @@ export default function Hero({
           muted
           playsInline
           loop
-          className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-1000 ${videoReady ? 'opacity-40' : 'opacity-0'}`}
+          className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-1000 ${videoReady ? 'opacity-55' : 'opacity-0'}`}
         />
       </motion.div>
 

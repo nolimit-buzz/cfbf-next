@@ -202,12 +202,49 @@ const PartnersColumn = () => (
  * artwork on hover. Both variants come from the CMS (`logo` / `logoColour`);
  * a partner without a colour variant just keeps showing its white mark.
  */
-const MarqueeLogo = ({ src, alt, colourSrc }: { src: string; alt: string; colourSrc?: string }) => (
-  <div className="relative h-8 w-24 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+// Partners called out for extra visibility in the marquee — matched
+// case-insensitively so it still applies if the CMS name's casing differs
+// from the bundled defaults. Leadway stands out most, so it gets its own
+// larger tier above the rest of this set.
+const XL_MARQUEE_LOGOS = new Set(['leadway']);
+const LARGE_MARQUEE_LOGOS = new Set(['afdb', 'power africa', 'united capital', 'pension custodian']);
+type MarqueeLogoSize = 'normal' | 'large' | 'xl';
+const marqueeLogoSize = (name: string): MarqueeLogoSize => {
+  const key = name.trim().toLowerCase();
+  if (XL_MARQUEE_LOGOS.has(key)) return 'xl';
+  if (LARGE_MARQUEE_LOGOS.has(key)) return 'large';
+  return 'normal';
+};
+
+const WRAPPER_SIZE_CLASS: Record<MarqueeLogoSize, string> = {
+  normal: 'h-8 w-24',
+  large: 'h-11 w-32',
+  xl: 'h-14 w-40',
+};
+const IMAGE_SIZE_CLASS: Record<MarqueeLogoSize, string> = {
+  normal: 'h-7',
+  large: 'h-10',
+  xl: 'h-12',
+};
+
+const MarqueeLogo = ({
+  src,
+  alt,
+  colourSrc,
+  size = 'normal',
+}: {
+  src: string;
+  alt: string;
+  colourSrc?: string;
+  size?: MarqueeLogoSize;
+}) => (
+  <div
+    className={`relative flex items-center justify-center group-hover:scale-105 transition-transform duration-300 ${WRAPPER_SIZE_CLASS[size]}`}
+  >
     <img
       src={src}
       alt={alt}
-      className={`h-7 w-auto object-contain absolute transition-opacity duration-300 ${
+      className={`w-auto object-contain absolute transition-opacity duration-300 ${IMAGE_SIZE_CLASS[size]} ${
         colourSrc ? 'group-hover:opacity-0' : ''
       }`}
       loading="lazy"
@@ -217,7 +254,7 @@ const MarqueeLogo = ({ src, alt, colourSrc }: { src: string; alt: string; colour
         src={colourSrc}
         alt=""
         aria-hidden="true"
-        className="h-7 w-auto object-contain absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        className={`w-auto object-contain absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${IMAGE_SIZE_CLASS[size]}`}
         loading="lazy"
       />
     )}
@@ -228,7 +265,12 @@ const PartnerMarquee = ({ partnerLogos = FOOTER_DEFAULTS.partnerLogos }: { partn
   const partners = partnerLogos.map((p) => ({
     name: p.name,
     logo: p.logo ? (
-      <MarqueeLogo src={p.logo} alt={p.logo_alt_text || p.name} colourSrc={p.logoColour ?? undefined} />
+      <MarqueeLogo
+        src={p.logo}
+        alt={p.logo_alt_text || p.name}
+        colourSrc={p.logoColour ?? undefined}
+        size={marqueeLogoSize(p.name)}
+      />
     ) : null,
   }));
   // Duplicate for seamless loop — matches the marquee-scroll keyframe's -50% shift
