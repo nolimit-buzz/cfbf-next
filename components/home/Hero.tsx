@@ -167,8 +167,8 @@ export default function Hero({
         />
       </motion.div>
 
-      <div className="container mx-auto relative z-20 h-full px-6 pt-28 sm:pt-32 pb-12 md:pb-20 flex flex-col justify-end">
-        <div className="grid lg:grid-cols-12 gap-12 items-end">
+      <div className="container mx-auto absolute inset-0 z-20 px-6 pt-28 sm:pt-32 pb-12 md:pb-20 flex flex-col justify-end">
+        <div className="grid lg:grid-cols-12 gap-12 items-start">
 
           {/* Left Content */}
           <motion.div
@@ -183,7 +183,7 @@ export default function Hero({
               </motion.h1>
             </div>
             <div className="overflow-hidden mb-6">
-              <motion.h1 variants={item} className="text-5xl md:text-6xl lg:text-[4.5rem] font-semibold font-sans">
+              <motion.h1 variants={item} className="text-5xl md:text-6xl lg:text-[4.5rem] font-semibold leading-[1.05] font-sans">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-brand-primary">
                   {c.headingSecondary}
                 </span>
@@ -233,7 +233,7 @@ export default function Hero({
           </motion.div>
 
           {/* Right Content - News Cards Slider (desktop only) */}
-          <div className="hidden lg:flex lg:col-span-5 xl:col-span-4 flex-col justify-start self-stretch pt-2">
+          <div className="hidden lg:flex lg:col-span-5 xl:col-span-4 flex-col justify-start self-stretch pt-6">
             {/* Top: Climate Bonds Certified Emblem (top aligned, centered, fades in and hovers to 100% with subtle rotation) */}
             <motion.div
               initial={{ opacity: 0 }}
