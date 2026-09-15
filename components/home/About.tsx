@@ -13,40 +13,40 @@ import type { AboutSection as AboutSectionData } from '@/lib/cms/types';
  * supplies only the partner name and we look the artwork up here. An unknown
  * name falls through to a plain wordmark.
  */
-const PARTNER_LOGOS: Record<string, ReactNode> = {
-  UKaid: (
-    <img
-      src="https://res.cloudinary.com/diqfojkri/image/upload/climate%20facility/partners/partner-uk-fcdo-colour.svg"
-      alt="UKaid"
-      className="h-6 w-auto object-contain"
-      loading="lazy"
-    />
-  ),
-  InfraCredit: (
-    <img
-      src="https://res.cloudinary.com/diqfojkri/image/upload/climate%20facility/partners/partner-infracredit-colour.svg"
-      alt="InfraCredit"
-      className="h-6 w-auto object-contain"
-      loading="lazy"
-    />
-  ),
-  AIICO: (
-    <img
-      src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962991/climate%20facility/about-page/partners-group-3-partner-2-logo.png"
-      alt="AIICO Insurance PLC"
-      className="h-6 w-auto object-contain"
-      loading="lazy"
-    />
-  ),
-  'LINKAGE ASSURANCE': (
-    <img
-      src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962993/climate%20facility/about-page/partners-group-3-partner-4-logo.png"
-      alt="Linkage Assurance"
-      className="h-10 w-auto object-contain"
-      loading="lazy"
-    />
-  ),
-};
+// const PARTNER_LOGOS: Record<string, ReactNode> = {
+//   UKaid: (
+//     <img
+//       src="https://res.cloudinary.com/diqfojkri/image/upload/climate%20facility/partners/partner-uk-fcdo-colour.svg"
+//       alt="UKaid"
+//       className="h-6 w-auto object-contain"
+//       loading="lazy"
+//     />
+//   ),
+//   InfraCredit: (
+//     <img
+//       src="https://res.cloudinary.com/diqfojkri/image/upload/climate%20facility/partners/partner-infracredit-colour.svg"
+//       alt="InfraCredit"
+//       className="h-6 w-auto object-contain"
+//       loading="lazy"
+//     />
+//   ),
+//   AIICO: (
+//     <img
+//       src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962991/climate%20facility/about-page/partners-group-3-partner-2-logo.png"
+//       alt="AIICO Insurance PLC"
+//       className="h-6 w-auto object-contain"
+//       loading="lazy"
+//     />
+//   ),
+//   'LINKAGE ASSURANCE': (
+//     <img
+//       src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962993/climate%20facility/about-page/partners-group-3-partner-4-logo.png"
+//       alt="Linkage Assurance"
+//       className="h-10 w-auto object-contain"
+//       loading="lazy"
+//     />
+//   ),
+// };
 
 export default function AboutSection({ data }: { data?: AboutSectionData }) {
   const c = { ...ABOUT_DEFAULTS, ...withoutEmpty(data) };
@@ -116,7 +116,7 @@ export default function AboutSection({ data }: { data?: AboutSectionData }) {
               </button>
             </motion.div>
 
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -136,7 +136,7 @@ export default function AboutSection({ data }: { data?: AboutSectionData }) {
                   </React.Fragment>
                 ))}
               </div>
-            </motion.div>
+            </motion.div> */}
           </div>
 
           <div className="relative mt-12 lg:mt-0 lg:pl-10">
