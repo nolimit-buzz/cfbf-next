@@ -16,7 +16,7 @@ import type { AboutSection as AboutSectionData } from '@/lib/cms/types';
 const PARTNER_LOGOS: Record<string, ReactNode> = {
   UKaid: (
     <img
-      src="https://infracredit.ng/climate-facility/wp-content/uploads/2022/10/UK-DEVELOPMENT-WHITE.png"
+      src="https://res.cloudinary.com/diqfojkri/image/upload/climate%20facility/partners/partner-uk-fcdo-colour.svg"
       alt="UKaid"
       className="h-6 w-auto object-contain"
       loading="lazy"
@@ -24,7 +24,7 @@ const PARTNER_LOGOS: Record<string, ReactNode> = {
   ),
   InfraCredit: (
     <img
-      src="https://infracredit.ng/climate-facility/wp-content/uploads/2022/09/ICAsset-6@4x-8-002-1024x326-1.png"
+      src="https://res.cloudinary.com/diqfojkri/image/upload/climate%20facility/partners/partner-infracredit-colour.svg"
       alt="InfraCredit"
       className="h-6 w-auto object-contain"
       loading="lazy"
@@ -124,13 +124,15 @@ export default function AboutSection({ data }: { data?: AboutSectionData }) {
               className="mt-auto border-t border-gray-100 pt-10"
             >
               <h4 className="text-[10px] font-normal tracking-[0.2em] text-gray-400 uppercase mb-6 font-sans">{c.partnersHeading}</h4>
-              <div className="flex flex-wrap items-center gap-8 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+              <div className="flex flex-wrap items-center gap-8">
                 {c.partners.map((partner, i) => (
                   <React.Fragment key={partner.id ?? partner.name}>
                     {i > 0 && <span className="h-6 w-px bg-gray-200"></span>}
-                    {PARTNER_LOGOS[partner.name] ?? (
-                      <div className="font-bold text-gray-600 text-lg font-sans">{partner.name}</div>
-                    )}
+                    <div className="opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                      {PARTNER_LOGOS[partner.name] ?? (
+                        <div className="font-bold text-gray-600 text-lg font-sans">{partner.name}</div>
+                      )}
+                    </div>
                   </React.Fragment>
                 ))}
               </div>
