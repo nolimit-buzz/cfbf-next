@@ -85,7 +85,7 @@ export default function MilestonesTimelineV3({ data }: { data?: AboutMilestonesS
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-brand-primary" />
-            <span className="text-brand-primary text-xs font-semibold tracking-[0.2em] uppercase font-mono">{c.eyebrow}</span>
+            <span className="text-brand-primary text-sm font-semibold tracking-[0.2em] uppercase font-mono">{c.eyebrow}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-brand-dark font-sans tracking-tight leading-tight">
             {c.headingPrimary}
@@ -174,7 +174,7 @@ export default function MilestonesTimelineV3({ data }: { data?: AboutMilestonesS
                 style={{ left: `${pct * 100}%`, transform: 'translateX(-50%)', top: 16 }}
               >
                 <div className="w-px h-5 bg-gray-200" />
-                <span className="text-xs font-mono text-gray-400 mt-1 select-none">{yr}</span>
+                <span className="text-sm font-mono text-gray-400 mt-1 select-none">{yr}</span>
               </div>
             );
           })}

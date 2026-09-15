@@ -296,7 +296,7 @@ export default function ProjectDetailPage({ project, prevProject, nextProject, r
         <div className="w-full text-left mt-6">
           {/* Project Header Info */}
           <div className="flex flex-wrap items-center gap-3 mb-6">
-            <span className="bg-brand-primary/20 text-[#81C34D] px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider font-sans border border-brand-primary/30">
+            <span className="bg-brand-primary/20 text-[#81C34D] px-3 py-1 rounded-full text-sm font-semibold uppercase tracking-wider font-sans border border-brand-primary/30">
               {project.category}
             </span>
             <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider font-sans border ${
@@ -398,7 +398,7 @@ export default function ProjectDetailPage({ project, prevProject, nextProject, r
 
               {/* Specs Table Column */}
               <div className="lg:col-span-5 flex flex-col">
-                <div className="border border-white/10 rounded-[6px] overflow-hidden bg-[#021814]/40 backdrop-blur-sm shadow-xl text-xs font-sans flex flex-col text-left">
+                <div className="border border-white/10 rounded-[6px] overflow-hidden bg-[#021814]/40 backdrop-blur-sm shadow-xl text-sm font-sans flex flex-col text-left">
                   <div>
                     <div className="grid grid-cols-3 border-b border-white/10 p-3 bg-white/[0.02]">
                       <span className="text-gray-400 font-bold uppercase tracking-wider text-[9px] font-mono">Specification</span>
@@ -560,7 +560,7 @@ export default function ProjectDetailPage({ project, prevProject, nextProject, r
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-[#00A788]">
                     <Shield size={20} className="shrink-0" />
-                    <span className="text-xs font-bold uppercase tracking-wider font-mono">De-risked Credit Enhancement</span>
+                    <span className="text-sm font-bold uppercase tracking-wider font-mono">De-risked Credit Enhancement</span>
                   </div>
                   <p className="text-gray-600 text-sm md:text-base leading-relaxed font-sans font-light">
                     {project.financing}
@@ -572,7 +572,7 @@ export default function ProjectDetailPage({ project, prevProject, nextProject, r
               <div className="md:w-[320px] w-full bg-[#FAFDFB] border border-gray-100 rounded-[6px] p-6 flex flex-col justify-between space-y-6">
                 <div>
                   <span className="text-[10px] font-bold text-[#00A788] uppercase tracking-wider font-mono block mb-4">Financing key parameters</span>
-                  <div className="space-y-3 text-xs">
+                  <div className="space-y-3 text-sm">
                     <div className="flex justify-between border-b border-gray-200/50 pb-2">
                       <span className="text-gray-500 font-mono">Instrument Type</span>
                       <span className="text-[#051F1A] font-bold text-right ml-2">{project.financingInstrument}</span>
@@ -705,7 +705,7 @@ export default function ProjectDetailPage({ project, prevProject, nextProject, r
 
           {/* Strategic Technical Assistance Funder (FSD Africa) */}
           <div className="border-t border-white/10 pt-12 mt-16 text-left">
-            <h3 className="text-[#81C34D] font-bold tracking-[0.2em] uppercase mb-8 text-xs font-mono">
+            <h3 className="text-[#81C34D] font-bold tracking-[0.2em] uppercase mb-8 text-sm font-mono">
               Technical Assistance & Support
             </h3>
             <div className="flex flex-col lg:flex-row gap-8 items-start lg:items-center">
@@ -730,7 +730,7 @@ export default function ProjectDetailPage({ project, prevProject, nextProject, r
           
           {/* Rating Agency block */}
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-            <span className="text-[#81C34D] font-bold text-xs uppercase tracking-wider font-mono whitespace-nowrap">Rating Agency</span>
+            <span className="text-[#81C34D] font-bold text-sm uppercase tracking-wider font-mono whitespace-nowrap">Rating Agency</span>
             <div className="flex items-center gap-4 sm:border-l sm:border-white/20 sm:pl-6">
               <div className="flex flex-col items-center shrink-0">
                 <span className="text-[#FF4A6B] font-bold text-3xl leading-none tracking-tighter">GCR</span>
@@ -747,7 +747,7 @@ export default function ProjectDetailPage({ project, prevProject, nextProject, r
 
           {/* Green Verifier block */}
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-            <span className="text-[#81C34D] font-bold text-xs uppercase tracking-wider font-mono whitespace-nowrap">Green Verifier</span>
+            <span className="text-[#81C34D] font-bold text-sm uppercase tracking-wider font-mono whitespace-nowrap">Green Verifier</span>
             <div className="flex flex-col gap-1 sm:border-l sm:border-white/20 sm:pl-6 text-left">
               <div className="flex items-center gap-2">
                 <div className="grid grid-cols-2 gap-[2px] w-3 h-3 shrink-0">
@@ -942,7 +942,7 @@ export default function ProjectDetailPage({ project, prevProject, nextProject, r
             </div>
             <div className="hidden md:block leading-tight text-left">
               <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400 block font-mono">Previous Project</span>
-              <span className="font-extrabold text-xs line-clamp-1">{prevProject.title}</span>
+              <span className="font-extrabold text-sm line-clamp-1">{prevProject.title}</span>
             </div>
           </Link>
 
@@ -952,7 +952,7 @@ export default function ProjectDetailPage({ project, prevProject, nextProject, r
           >
             <div className="hidden md:block leading-tight text-right">
               <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400 block font-mono">Next Project</span>
-              <span className="font-extrabold text-xs line-clamp-1">{nextProject.title}</span>
+              <span className="font-extrabold text-sm line-clamp-1">{nextProject.title}</span>
             </div>
             <div className="w-10 h-10 rounded-full border border-gray-200 hover:border-brand-primary flex items-center justify-center text-gray-400 group-hover:text-brand-primary transition-colors shrink-0">
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -1023,7 +1023,7 @@ export default function ProjectDetailPage({ project, prevProject, nextProject, r
                     {/* Header Row */}
                     <div className="flex items-center justify-between p-5 border-b border-[#144D3F]/50 bg-[#03241D]/30">
                       <div className="flex items-center gap-3">
-                        <span className="text-xs text-[#81C34D] font-mono bg-[#03241D] border border-[#1E5E4E] px-2.5 py-0.5 rounded-[6px] font-bold">/ {rp.id}</span>
+                        <span className="text-sm text-[#81C34D] font-mono bg-[#03241D] border border-[#1E5E4E] px-2.5 py-0.5 rounded-[6px] font-bold">/ {rp.id}</span>
                         <Link 
                           href={`/projects/${rp.id}`}
                           className="font-extrabold text-sm text-[#81C34D] hover:text-white transition-colors leading-tight font-sans cursor-pointer"
@@ -1049,7 +1049,7 @@ export default function ProjectDetailPage({ project, prevProject, nextProject, r
                       <div className="p-5 flex flex-col justify-between space-y-4">
                         <div>
                           <h5 className="text-[10px] font-bold text-[#81C34D] uppercase tracking-widest mb-1.5 font-mono">Challenge & Solution</h5>
-                          <p className="text-gray-300 text-xs leading-relaxed line-clamp-3 font-sans font-light">
+                          <p className="text-gray-300 text-sm leading-relaxed line-clamp-3 font-sans font-light">
                             {rp.problem}
                           </p>
                         </div>
@@ -1124,25 +1124,25 @@ export default function ProjectDetailPage({ project, prevProject, nextProject, r
                 <ShieldCheck size={24} />
               </div>
 
-              <span className="text-brand-accent text-xs font-bold uppercase tracking-[0.25em] mb-4 block font-mono">Developer pipeline</span>
+              <span className="text-brand-accent text-sm font-bold uppercase tracking-[0.25em] mb-4 block font-mono">Developer pipeline</span>
               <h3 className="text-white text-3xl font-bold font-sans mb-4 leading-tight">
                 Ready to scale your <span className="text-brand-accent">green infrastructure</span>?
               </h3>
 
-              <p className="text-white/70 font-sans text-xs md:text-sm leading-relaxed mb-8 max-w-xl font-light">
+              <p className="text-white/70 font-sans text-sm md:text-sm leading-relaxed mb-8 max-w-xl font-light">
                 CFBF provides subordinated debt and credit wraps to de-risk local currency financing. Check if your project meets our qualification standards or connect directly with our intake team.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full sm:w-auto">
                 <Link
                   href="/eligibility"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#81C34D] text-[#051F1A] hover:bg-white hover:text-brand-dark px-8 py-3.5 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans shadow-lg focus:outline-none"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#81C34D] text-[#051F1A] hover:bg-white hover:text-brand-dark px-8 py-3.5 rounded-[6px] text-sm font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans shadow-lg focus:outline-none"
                 >
                   Check Eligibility <ArrowRight size={16} />
                 </Link>
                 <Link
                   href="/contact"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/5 border border-white/10 hover:border-[#81C34D] hover:bg-[#81C34D] hover:text-[#051F1A] text-white px-8 py-3.5 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans focus:outline-none"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/5 border border-white/10 hover:border-[#81C34D] hover:bg-[#81C34D] hover:text-[#051F1A] text-white px-8 py-3.5 rounded-[6px] text-sm font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans focus:outline-none"
                 >
                   Contact Our Team
                 </Link>

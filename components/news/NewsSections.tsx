@@ -137,7 +137,7 @@ export default function NewsSections({ hero, listing, articles, nextSteps }: New
                       <h3 className="text-base md:text-lg font-bold text-brand-dark group-hover:text-brand-primary transition-colors font-sans leading-snug line-clamp-2">
                         {article.title}
                       </h3>
-                      <p className="text-xs text-gray-500 font-sans font-light mt-1.5 line-clamp-1 leading-relaxed hidden sm:block">
+                      <p className="text-sm text-gray-500 font-sans font-light mt-1.5 line-clamp-1 leading-relaxed hidden sm:block">
                         {article.excerpt}
                       </p>
                     </div>
@@ -218,7 +218,7 @@ export default function NewsSections({ hero, listing, articles, nextSteps }: New
             <button
               key={cat.label}
               onClick={() => setActiveFilter(cat.label)}
-              className={`px-5 py-2.5 rounded-full border text-xs tracking-wide transition-all duration-300 font-sans whitespace-nowrap focus:outline-none interactive ${
+              className={`px-5 py-2.5 rounded-full border text-sm tracking-wide transition-all duration-300 font-sans whitespace-nowrap focus:outline-none interactive ${
                 activeFilter === cat.label
                   ? 'bg-brand-primary text-white border-brand-primary font-medium shadow-md shadow-brand-primary/10'
                   : 'bg-white text-gray-500 border-gray-200 hover:border-brand-primary hover:text-brand-primary font-light'
@@ -285,17 +285,17 @@ export default function NewsSections({ hero, listing, articles, nextSteps }: New
 
                     <div className="p-6 flex-1 flex flex-col justify-between">
                       <div>
-                        <div className="text-gray-400 text-xs font-medium mb-3 flex items-center gap-2 font-sans">
+                        <div className="text-gray-400 text-sm font-medium mb-3 flex items-center gap-2 font-sans">
                           <Calendar size={12} className="text-brand-accent" />
                           <span>{article.date}</span>
                           <span>•</span>
                           <span>{article.readTime}</span>
                         </div>
                         <h3 className="text-lg font-bold text-brand-dark mb-3 group-hover:text-brand-primary transition-colors leading-snug font-sans line-clamp-2 tracking-tight">{article.title}</h3>
-                        <p className="text-gray-500 text-xs leading-relaxed mb-6 font-sans font-light">{article.excerpt}</p>
+                        <p className="text-gray-500 text-sm leading-relaxed mb-6 font-sans font-light">{article.excerpt}</p>
                       </div>
 
-                      <div className="pt-4 border-t border-gray-100 flex items-center justify-between text-brand-accent font-bold text-xs uppercase tracking-wider group-hover:text-brand-primary transition-colors font-sans">
+                      <div className="pt-4 border-t border-gray-100 flex items-center justify-between text-brand-accent font-bold text-sm uppercase tracking-wider group-hover:text-brand-primary transition-colors font-sans">
                         <span>{articlesCopy.gridCtaLabel}</span>
                         <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                       </div>
@@ -337,9 +337,9 @@ export default function NewsSections({ hero, listing, articles, nextSteps }: New
                     <div className="flex-1 text-left">
                       <div className="flex flex-wrap items-center gap-3 mb-3">
                         <span className="text-[10px] font-bold bg-brand-light text-brand-primary px-2.5 py-1 rounded-[6px] uppercase tracking-wider">{article.tag}</span>
-                        <span className="text-xs text-gray-400 font-medium flex items-center gap-1.5"><Calendar size={12}/> {article.date}</span>
+                        <span className="text-sm text-gray-400 font-medium flex items-center gap-1.5"><Calendar size={12}/> {article.date}</span>
                         <span className="text-gray-300">•</span>
-                        <span className="text-xs text-gray-400 font-light">{article.readTime}</span>
+                        <span className="text-sm text-gray-400 font-light">{article.readTime}</span>
                       </div>
                       <h3 className="text-xl font-bold text-brand-dark mb-2 group-hover:text-brand-primary transition-colors leading-snug font-sans tracking-tight">{article.title}</h3>
                       <p className="text-gray-500 text-sm font-sans line-clamp-2 leading-relaxed font-light">{article.excerpt}</p>
@@ -368,7 +368,7 @@ export default function NewsSections({ hero, listing, articles, nextSteps }: New
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-[#81C34D]" />
-            <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-mono">{nextStepsCopy.eyebrow}</span>
+            <span className="text-[#81C34D] text-sm font-semibold tracking-[0.2em] uppercase font-mono">{nextStepsCopy.eyebrow}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
             {nextStepsCopy.headingPartOne} <span className="text-[#9BB7B1] italic font-serif">{nextStepsCopy.headingItalic}</span>
@@ -400,7 +400,7 @@ export default function NewsSections({ hero, listing, articles, nextSteps }: New
                     <h4 className="text-white text-base font-bold font-sans group-hover:text-white/80 transition-colors duration-300">
                       {link.title}
                     </h4>
-                    <p className="text-white/65 text-xs font-light mt-0.5 font-sans">
+                    <p className="text-white/65 text-sm font-light mt-0.5 font-sans">
                       {link.description}
                     </p>
                   </div>

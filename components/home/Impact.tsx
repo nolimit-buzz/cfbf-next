@@ -105,7 +105,7 @@ const CapacityBuildingContent = ({ content }: { content: ImpactContent }) => {
               <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-6 backdrop-blur-md">
                 <Users className="text-brand-accent" size={24} />
               </div>
-              <h4 className="text-xs font-bold text-brand-accent uppercase tracking-widest mb-2">{content.statsCardEyebrow}</h4>
+              <h4 className="text-sm font-bold text-brand-accent uppercase tracking-widest mb-2">{content.statsCardEyebrow}</h4>
             </div>
 
             <div className="z-10 h-32 relative">
@@ -219,7 +219,7 @@ const CapacityBuildingContent = ({ content }: { content: ImpactContent }) => {
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden"
                       >
-                        <div className="px-4 py-2 text-xs text-gray-500 flex justify-between items-center bg-gray-50/50 rounded-b-[6px] mx-1">
+                        <div className="px-4 py-2 text-sm text-gray-500 flex justify-between items-center bg-gray-50/50 rounded-b-[6px] mx-1">
                           <span className="truncate max-w-[70%] font-medium">{report.title}</span>
                           <span className="font-mono text-[10px] bg-gray-200 px-1.5 py-0.5 rounded text-gray-600">{report.size}</span>
                         </div>
@@ -330,7 +330,7 @@ const ImpactVisualCard = ({
             <span className={`text-2xl font-medium ${isDark ? "text-brand-accent" : "opacity-60"}`}>{suffix}</span>
           </div>
           <div className={`mt-6 pt-6 border-t ${isDark ? "border-white/10 group-hover:border-brand-accent/50" : "border-black/5"} transition-colors`}>
-            <p className={`text-xs font-bold uppercase tracking-[0.2em] ${isDark ? "text-gray-400 group-hover:text-white" : "opacity-70"}`}>
+            <p className={`text-sm font-bold uppercase tracking-[0.2em] ${isDark ? "text-gray-400 group-hover:text-white" : "opacity-70"}`}>
               {label}
             </p>
           </div>
@@ -360,7 +360,7 @@ export default function HowWeDriveImpact({ data }: { data?: ImpactSection }) {
               className="flex items-center gap-3 mb-3"
             >
               <div className="h-px w-8 bg-brand-primary"></div>
-              <span className="text-brand-primary text-xs font-normal tracking-[0.2em] uppercase font-sans">{content.eyebrow}</span>
+              <span className="text-brand-primary text-sm font-normal tracking-[0.2em] uppercase font-sans">{content.eyebrow}</span>
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
@@ -481,7 +481,7 @@ export default function HowWeDriveImpact({ data }: { data?: ImpactSection }) {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                   >
-                    <h4 className="text-xs font-bold tracking-[0.2em] uppercase text-gray-500 mb-4 font-sans">{content.theoryEyebrow}</h4>
+                    <h4 className="text-sm font-bold tracking-[0.2em] uppercase text-gray-500 mb-4 font-sans">{content.theoryEyebrow}</h4>
                     <h2 className="text-4xl md:text-5xl font-medium font-sans leading-tight">{content.theoryHeadingPrimary}<br /><span className="text-brand-primary">{content.theoryHeadingSecondary}</span></h2>
                   </motion.div>
                 </div>
@@ -517,9 +517,9 @@ export default function HowWeDriveImpact({ data }: { data?: ImpactSection }) {
                           </div>
                           <div className="my-auto">
                             <h3 className="text-lg font-bold leading-snug font-sans text-brand-dark mb-2">{card.title}</h3>
-                            <p className="text-xs text-gray-500 leading-relaxed font-sans">{card.description}</p>
+                            <p className="text-sm text-gray-500 leading-relaxed font-sans">{card.description}</p>
                           </div>
-                          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gray-400 group-hover:text-brand-primary transition-colors">
+                          <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-gray-400 group-hover:text-brand-primary transition-colors">
                             {card.linkLabel} <ArrowRight size={14} />
                           </div>
                         </div>
@@ -528,9 +528,9 @@ export default function HowWeDriveImpact({ data }: { data?: ImpactSection }) {
                           <div>
                             <div className="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-2 font-sans">{card.subtitle}</div>
                             <h3 className="text-lg font-bold leading-snug font-sans text-white mb-2">{card.title}</h3>
-                            <p className="text-xs text-gray-200/90 leading-relaxed font-sans">{card.description}</p>
+                            <p className="text-sm text-gray-200/90 leading-relaxed font-sans">{card.description}</p>
                           </div>
-                          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white border-b border-white/30 pb-1 w-fit group-hover:border-brand-accent group-hover:text-brand-accent transition-colors">
+                          <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white border-b border-white/30 pb-1 w-fit group-hover:border-brand-accent group-hover:text-brand-accent transition-colors">
                             {card.linkLabel} <ArrowRight size={14} />
                           </div>
                         </div>

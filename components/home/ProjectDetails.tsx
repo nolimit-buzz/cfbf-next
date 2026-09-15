@@ -44,18 +44,18 @@ export default function ProjectDetails({
           <div className="flex items-start gap-4 mb-8">
             <div className="w-1 h-12 bg-brand-accent rounded-full mt-1 shrink-0"></div>
             <div>
-              <h4 className="text-xs font-bold text-brand-accent uppercase tracking-widest mb-3 font-sans">{challengeLabel}</h4>
+              <h4 className="text-sm font-bold text-brand-accent uppercase tracking-widest mb-3 font-sans">{challengeLabel}</h4>
               <p className="text-xl text-gray-200 font-medium leading-relaxed font-sans">{project.problem}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-8 mb-10 bg-white/5 p-6 rounded-[6px] border border-white/10">
             <div>
-              <h5 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 font-sans">{solutionLabel}</h5>
+              <h5 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-3 font-sans">{solutionLabel}</h5>
               <p className="text-gray-300 text-sm leading-relaxed font-sans">{project.solution}</p>
             </div>
             <div>
-              <h5 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 font-sans">{impactLabel}</h5>
+              <h5 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-3 font-sans">{impactLabel}</h5>
               <p className="text-gray-300 text-sm leading-relaxed font-sans">{project.impact}</p>
             </div>
           </div>

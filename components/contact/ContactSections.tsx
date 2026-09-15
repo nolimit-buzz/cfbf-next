@@ -112,7 +112,7 @@ function FunStatsCarousel({ funStats }: { funStats?: ContactFunStatsSection }) {
               </div>
 
               {/* Subtext explanation in sentence case */}
-              <p className="text-xs sm:text-sm text-gray-300 font-light leading-relaxed">
+              <p className="text-sm sm:text-sm text-gray-300 font-light leading-relaxed">
                 {stat.description}
               </p>
             </motion.div>
@@ -357,7 +357,7 @@ export default function ContactSections({
               <div className="flex gap-4 items-start">
                 <MapPin className="text-brand-primary shrink-0 mt-1" size={20} />
                 <div>
-                  <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block font-sans mb-1">{contactsCopy.officeLocationLabel}</span>
+                  <span className="text-sm text-gray-400 font-bold uppercase tracking-wider block font-sans mb-1">{contactsCopy.officeLocationLabel}</span>
                   <p className="text-gray-600 text-sm font-sans leading-relaxed">
                     {contactsCopy.officeAddressLineOne} <br />
                     {contactsCopy.officeAddressLineTwo}
@@ -368,7 +368,7 @@ export default function ContactSections({
               <div className="flex gap-4 items-start">
                 <Mail className="text-brand-primary shrink-0 mt-1" size={20} />
                 <div>
-                  <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block font-sans mb-1">{contactsCopy.emailLabel}</span>
+                  <span className="text-sm text-gray-400 font-bold uppercase tracking-wider block font-sans mb-1">{contactsCopy.emailLabel}</span>
                   <a href={contactsCopy.emailHref} className="text-brand-primary text-sm font-sans hover:text-[#051F1A] transition-colors font-medium interactive focus:outline-none">
                     {contactsCopy.emailAddress}
                   </a>
@@ -378,7 +378,7 @@ export default function ContactSections({
               <div className="flex gap-4 items-start">
                 <Phone className="text-brand-primary shrink-0 mt-1" size={20} />
                 <div>
-                  <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block font-sans mb-1">{contactsCopy.phoneLabel}</span>
+                  <span className="text-sm text-gray-400 font-bold uppercase tracking-wider block font-sans mb-1">{contactsCopy.phoneLabel}</span>
                   <a href={contactsCopy.phoneHref} className="text-brand-primary text-sm font-sans hover:text-[#051F1A] transition-colors font-medium interactive focus:outline-none">
                     {contactsCopy.phoneNumber}
                   </a>
@@ -390,15 +390,15 @@ export default function ContactSections({
             <div className="bg-[#FAFDFB] rounded-[6px] p-8 border border-[#81C34D]/30 space-y-4">
               <div className="flex items-center gap-2 text-[#00A788]">
                 <ShieldCheck size={20} className="shrink-0" />
-                <span className="text-xs font-bold uppercase tracking-wider font-mono">{reminderCopy.eyebrow}</span>
+                <span className="text-sm font-bold uppercase tracking-wider font-mono">{reminderCopy.eyebrow}</span>
               </div>
               <h4 className="font-bold text-lg font-sans text-brand-dark">{reminderCopy.heading}</h4>
-              <p className="text-xs text-gray-500 font-sans leading-relaxed">
+              <p className="text-sm text-gray-500 font-sans leading-relaxed">
                 {reminderCopy.description}
               </p>
               <Link
                 href={reminderCopy.ctaHref}
-                className="w-full bg-[#051F1A] text-white py-3.5 rounded-[6px] flex items-center justify-center gap-2 font-bold uppercase tracking-wider text-xs hover:bg-brand-primary transition-all interactive font-sans justify-center"
+                className="w-full bg-[#051F1A] text-white py-3.5 rounded-[6px] flex items-center justify-center gap-2 font-bold uppercase tracking-wider text-sm hover:bg-brand-primary transition-all interactive font-sans justify-center"
               >
                 {reminderCopy.ctaLabel}
               </Link>
@@ -428,7 +428,7 @@ export default function ContactSections({
 
                   {/* Dynamic Alert Banner for pre-fills */}
                   {readiness && (
-                    <div className={`p-4 rounded-[6px] border mb-6 text-xs flex items-start gap-2.5 font-sans ${
+                    <div className={`p-4 rounded-[6px] border mb-6 text-sm flex items-start gap-2.5 font-sans ${
                       readiness === 'qualified'
                         ? 'bg-green-50 text-green-800 border-green-200'
                         : 'bg-blue-50 text-blue-800 border-blue-200'
@@ -459,7 +459,7 @@ export default function ContactSections({
                         key={value}
                         type="button"
                         onClick={() => setRole(value)}
-                        className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider border-b-2 font-sans transition-colors interactive focus:outline-none ${
+                        className={`flex-1 py-2 text-sm font-bold uppercase tracking-wider border-b-2 font-sans transition-colors interactive focus:outline-none ${
                           role === value ? 'border-brand-primary text-brand-primary' : 'border-transparent text-gray-400 hover:text-[#051F1A]'
                         }`}
                       >
@@ -482,7 +482,7 @@ export default function ContactSections({
                       />
                       <label
                         htmlFor="fullName"
-                        className="absolute text-xs text-gray-400 font-bold uppercase tracking-wider duration-300 transform -translate-y-3 scale-90 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-gray-500 peer-focus:scale-90 peer-focus:-translate-y-3 peer-focus:text-brand-primary peer-focus:font-bold pointer-events-none"
+                        className="absolute text-sm text-gray-400 font-bold uppercase tracking-wider duration-300 transform -translate-y-3 scale-90 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-gray-500 peer-focus:scale-90 peer-focus:-translate-y-3 peer-focus:text-brand-primary peer-focus:font-bold pointer-events-none"
                       >
                         {formCopy.fullNameLabel}
                       </label>
@@ -500,7 +500,7 @@ export default function ContactSections({
                       />
                       <label
                         htmlFor="organization"
-                        className="absolute text-xs text-gray-400 font-bold uppercase tracking-wider duration-300 transform -translate-y-3 scale-90 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-gray-500 peer-focus:scale-90 peer-focus:-translate-y-3 peer-focus:text-brand-primary peer-focus:font-bold pointer-events-none"
+                        className="absolute text-sm text-gray-400 font-bold uppercase tracking-wider duration-300 transform -translate-y-3 scale-90 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-gray-500 peer-focus:scale-90 peer-focus:-translate-y-3 peer-focus:text-brand-primary peer-focus:font-bold pointer-events-none"
                       >
                         {formCopy.organizationLabel}
                       </label>
@@ -519,7 +519,7 @@ export default function ContactSections({
                     />
                     <label
                       htmlFor="emailAddress"
-                      className="absolute text-xs text-gray-400 font-bold uppercase tracking-wider duration-300 transform -translate-y-3 scale-90 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-gray-500 peer-focus:scale-90 peer-focus:-translate-y-3 peer-focus:text-brand-primary peer-focus:font-bold pointer-events-none"
+                      className="absolute text-sm text-gray-400 font-bold uppercase tracking-wider duration-300 transform -translate-y-3 scale-90 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-gray-500 peer-focus:scale-90 peer-focus:-translate-y-3 peer-focus:text-brand-primary peer-focus:font-bold pointer-events-none"
                     >
                       {formCopy.emailAddressLabel}
                     </label>
@@ -545,7 +545,7 @@ export default function ContactSections({
                         </select>
                         <label
                           htmlFor="techType"
-                          className="absolute text-xs text-brand-primary font-bold uppercase tracking-wider top-1.5 left-4 pointer-events-none"
+                          className="absolute text-sm text-brand-primary font-bold uppercase tracking-wider top-1.5 left-4 pointer-events-none"
                         >
                           {formCopy.technologyTypeLabel}
                         </label>
@@ -566,7 +566,7 @@ export default function ContactSections({
                         />
                         <label
                           htmlFor="capacity"
-                          className="absolute text-xs text-gray-400 font-bold uppercase tracking-wider duration-300 transform -translate-y-3 scale-90 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-gray-500 peer-focus:scale-90 peer-focus:-translate-y-3 peer-focus:text-brand-primary peer-focus:font-bold pointer-events-none"
+                          className="absolute text-sm text-gray-400 font-bold uppercase tracking-wider duration-300 transform -translate-y-3 scale-90 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-gray-500 peer-focus:scale-90 peer-focus:-translate-y-3 peer-focus:text-brand-primary peer-focus:font-bold pointer-events-none"
                         >
                           {formCopy.capacityLabel}
                         </label>
@@ -594,7 +594,7 @@ export default function ContactSections({
                         </select>
                         <label
                           htmlFor="institutionType"
-                          className="absolute text-xs text-brand-primary font-bold uppercase tracking-wider top-1.5 left-4 pointer-events-none"
+                          className="absolute text-sm text-brand-primary font-bold uppercase tracking-wider top-1.5 left-4 pointer-events-none"
                         >
                           {formCopy.institutionTypeLabel}
                         </label>
@@ -612,7 +612,7 @@ export default function ContactSections({
                         />
                         <label
                           htmlFor="investmentTranche"
-                          className="absolute text-xs text-gray-400 font-bold uppercase tracking-wider duration-300 transform -translate-y-3 scale-90 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-gray-500 peer-focus:scale-90 peer-focus:-translate-y-3 peer-focus:text-brand-primary peer-focus:font-bold pointer-events-none"
+                          className="absolute text-sm text-gray-400 font-bold uppercase tracking-wider duration-300 transform -translate-y-3 scale-90 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-gray-500 peer-focus:scale-90 peer-focus:-translate-y-3 peer-focus:text-brand-primary peer-focus:font-bold pointer-events-none"
                         >
                           {formCopy.investmentTrancheLabel}
                         </label>
@@ -632,14 +632,14 @@ export default function ContactSections({
                     />
                     <label
                       htmlFor="message"
-                      className="absolute text-xs text-gray-400 font-bold uppercase tracking-wider duration-300 transform -translate-y-3 scale-90 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-gray-500 peer-focus:scale-90 peer-focus:-translate-y-3 peer-focus:text-brand-primary peer-focus:font-bold pointer-events-none"
+                      className="absolute text-sm text-gray-400 font-bold uppercase tracking-wider duration-300 transform -translate-y-3 scale-90 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal peer-placeholder-shown:text-gray-500 peer-focus:scale-90 peer-focus:-translate-y-3 peer-focus:text-brand-primary peer-focus:font-bold pointer-events-none"
                     >
                       {formCopy.messageLabel}
                     </label>
                   </div>
 
                   {error && (
-                    <div className="p-4 rounded-[6px] border border-red-200 bg-red-50 text-red-800 text-xs flex items-start gap-2.5 font-sans">
+                    <div className="p-4 rounded-[6px] border border-red-200 bg-red-50 text-red-800 text-sm flex items-start gap-2.5 font-sans">
                       <AlertCircle className="shrink-0 mt-0.5 text-red-600" size={16} />
                       <p className="font-light leading-relaxed">{error}</p>
                     </div>
@@ -648,7 +648,7 @@ export default function ContactSections({
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full bg-brand-primary hover:bg-[#051F1A] text-white py-4 rounded-full flex items-center justify-center gap-3 font-bold uppercase tracking-wider text-xs shadow-lg shadow-brand-primary/20 transition-all interactive font-sans focus:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-brand-primary"
+                    className="w-full bg-brand-primary hover:bg-[#051F1A] text-white py-4 rounded-full flex items-center justify-center gap-3 font-bold uppercase tracking-wider text-sm shadow-lg shadow-brand-primary/20 transition-all interactive font-sans focus:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-brand-primary"
                   >
                     <Send size={14} />
                     {submitting ? 'Sending…' : formCopy.submitLabel}
@@ -671,13 +671,13 @@ export default function ContactSections({
                   <div className="pt-6 flex justify-center gap-4">
                     <button
                       onClick={() => router.push(successCopy.primaryCtaHref)}
-                      className="px-8 py-3 bg-brand-primary text-white rounded-full text-xs font-bold uppercase tracking-wider hover:bg-brand-dark transition-all interactive font-sans focus:outline-none"
+                      className="px-8 py-3 bg-brand-primary text-white rounded-full text-sm font-bold uppercase tracking-wider hover:bg-brand-dark transition-all interactive font-sans focus:outline-none"
                     >
                       {successCopy.primaryCtaLabel}
                     </button>
                     <button
                       onClick={() => setSubmitted(false)}
-                      className="px-6 py-3 bg-gray-50 text-gray-500 border border-gray-200 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-gray-100 transition-all interactive font-sans focus:outline-none"
+                      className="px-6 py-3 bg-gray-50 text-gray-500 border border-gray-200 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-gray-100 transition-all interactive font-sans focus:outline-none"
                     >
                       {successCopy.secondaryCtaLabel}
                     </button>
@@ -702,7 +702,7 @@ export default function ContactSections({
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-[#81C34D]" />
-            <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-mono">{nextStepsCopy.eyebrow}</span>
+            <span className="text-[#81C34D] text-sm font-semibold tracking-[0.2em] uppercase font-mono">{nextStepsCopy.eyebrow}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
             {nextStepsCopy.headingPartOne}<span className="text-[#9BB7B1] italic font-serif">{nextStepsCopy.headingItalic}</span>
@@ -734,7 +734,7 @@ export default function ContactSections({
                     <h4 className="text-white text-base font-bold font-sans group-hover:text-white/80 transition-colors duration-300">
                       {link.title}
                     </h4>
-                    <p className="text-white/65 text-xs font-light mt-0.5 font-sans">
+                    <p className="text-white/65 text-sm font-light mt-0.5 font-sans">
                       {link.description}
                     </p>
                   </div>
@@ -765,7 +765,7 @@ export default function ContactSections({
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-20 text-center max-w-2xl px-6 flex flex-col items-center"
           >
-            <span className="text-brand-accent text-xs font-bold uppercase tracking-[0.25em] mb-4 block font-mono">{ctaCopy.eyebrow}</span>
+            <span className="text-brand-accent text-sm font-bold uppercase tracking-[0.25em] mb-4 block font-mono">{ctaCopy.eyebrow}</span>
             <h3 className="text-white text-3xl md:text-4xl font-bold font-sans mb-4 leading-tight">{ctaCopy.heading}</h3>
             <p className="text-white/75 font-sans text-sm md:text-base leading-relaxed mb-8 max-w-xl">
               {ctaCopy.description}
@@ -774,7 +774,7 @@ export default function ContactSections({
               onClick={() => downloadFile(ctaCopy.fileHref, ctaCopy.downloadFileName)}
               whileHover={{ scale: 1.05, backgroundColor: '#ffffff', color: '#051F1A' }}
               whileTap={{ scale: 0.97 }}
-              className="bg-brand-accent text-brand-dark px-8 py-4 rounded-[6px] flex items-center gap-3 font-bold uppercase tracking-wider text-xs shadow-lg shadow-brand-accent/25 transition-all duration-300 font-sans cursor-pointer focus:outline-none"
+              className="bg-brand-accent text-brand-dark px-8 py-4 rounded-[6px] flex items-center gap-3 font-bold uppercase tracking-wider text-sm shadow-lg shadow-brand-accent/25 transition-all duration-300 font-sans cursor-pointer focus:outline-none"
             >
               <Download size={16} />
               {ctaCopy.ctaLabel}

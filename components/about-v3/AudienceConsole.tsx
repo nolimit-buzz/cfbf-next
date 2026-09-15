@@ -67,7 +67,7 @@ export default function AudienceConsole({
           <div className="mb-6 md:mb-0">
             <div className="flex items-center gap-3 mb-2">
               <div className="h-px w-8 bg-brand-primary" />
-              <span className="text-brand-primary text-xs font-semibold tracking-[0.2em] uppercase font-mono">
+              <span className="text-brand-primary text-sm font-semibold tracking-[0.2em] uppercase font-mono">
                 {c.eyebrow}
               </span>
             </div>
@@ -120,7 +120,7 @@ export default function AudienceConsole({
                 <div className="w-8 h-8 rounded-full bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center text-brand-primary">
                   <ActiveIcon size={16} />
                 </div>
-                <span className="text-brand-primary text-xs font-bold uppercase tracking-widest font-mono">
+                <span className="text-brand-primary text-sm font-bold uppercase tracking-widest font-mono">
                   {currentData.tabLabel}{c.journeySuffix}
                 </span>
               </div>
@@ -140,7 +140,7 @@ export default function AudienceConsole({
               <div className="pt-4">
                 <button
                   onClick={() => handleCta(currentData.ctaHref)}
-                  className="inline-flex items-center gap-3 bg-[#051F1A] hover:bg-brand-primary text-white hover:text-white px-8 py-4 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-colors duration-300 font-sans shadow-lg focus:outline-none cursor-pointer"
+                  className="inline-flex items-center gap-3 bg-[#051F1A] hover:bg-brand-primary text-white hover:text-white px-8 py-4 rounded-[6px] text-sm font-bold uppercase tracking-wider transition-colors duration-300 font-sans shadow-lg focus:outline-none cursor-pointer"
                 >
                   {isDownloadHref(currentData.ctaHref) ? <Download size={14} /> : <FileText size={14} />}
                   {currentData.ctaLabel}
@@ -151,7 +151,7 @@ export default function AudienceConsole({
 
             {/* Right Checklist (5 columns) - Interactive Accordion Deck */}
             <div className="lg:col-span-5 bg-[#FAFDFB] border border-gray-100 rounded-[8px] p-6 md:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.015)]">
-              <h4 className="text-xs font-bold font-mono text-gray-400 uppercase tracking-widest mb-6 pb-3 border-b border-gray-100 text-left">
+              <h4 className="text-sm font-bold font-mono text-gray-400 uppercase tracking-widest mb-6 pb-3 border-b border-gray-100 text-left">
                 {c.questionsHeading}
               </h4>
 
@@ -168,7 +168,7 @@ export default function AudienceConsole({
                           <span className={`text-[10px] font-mono font-bold tracking-wider mt-0.5 w-5 ${isOpen ? 'text-brand-primary' : 'text-gray-400 group-hover:text-brand-primary transition-colors duration-200'}`}>
                             0{i + 1}
                           </span>
-                          <h5 className={`text-xs md:text-sm font-bold font-sans leading-tight transition-colors duration-200 ${isOpen ? 'text-brand-dark' : 'text-gray-600 group-hover:text-brand-dark'}`}>
+                          <h5 className={`text-sm md:text-sm font-bold font-sans leading-tight transition-colors duration-200 ${isOpen ? 'text-brand-dark' : 'text-gray-600 group-hover:text-brand-dark'}`}>
                             {item.question}
                           </h5>
                         </div>
@@ -189,7 +189,7 @@ export default function AudienceConsole({
                             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                             className="overflow-hidden"
                           >
-                            <div className="pb-4 pl-8 pr-2 text-xs text-gray-500 leading-relaxed font-sans font-light">
+                            <div className="pb-4 pl-8 pr-2 text-sm text-gray-500 leading-relaxed font-sans font-light">
                               {item.answer}
                             </div>
                           </motion.div>

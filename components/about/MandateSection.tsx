@@ -60,7 +60,7 @@ export default function MandateSection({
           {/* Left Column - Text and Numbers */}
           <motion.div {...fadeUp(0)} className="lg:col-span-7 space-y-6 text-left">
             <div>
-              <span className="text-brand-primary text-xs font-semibold tracking-[0.2em] uppercase font-mono block mb-2">
+              <span className="text-brand-primary text-sm font-semibold tracking-[0.2em] uppercase font-mono block mb-2">
                 {c.eyebrow}
               </span>
               <h2 className="text-3xl md:text-[2.5rem] font-bold text-brand-dark font-sans tracking-tight leading-[1.1] max-w-xl">
@@ -72,10 +72,10 @@ export default function MandateSection({
             </div>
 
             <div className="pt-2 border-t border-gray-100">
-              <h3 className="text-xs font-bold text-brand-primary uppercase tracking-wider mb-3 font-mono">
+              <h3 className="text-sm font-bold text-brand-primary uppercase tracking-wider mb-3 font-mono">
                 {c.mandateHeading}
               </h3>
-              <div className="grid md:grid-cols-2 gap-6 text-xs md:text-sm text-gray-500 font-sans leading-relaxed">
+              <div className="grid md:grid-cols-2 gap-6 text-sm md:text-sm text-gray-500 font-sans leading-relaxed">
                 {c.paragraphs?.map((paragraph, i) => (
                   <p key={paragraph.id ?? i}>{paragraph.text}</p>
                 ))}

@@ -115,7 +115,7 @@ export default function GlassHero({
           className={`shadow-2xl rounded-[6px] px-8 md:px-12 pt-8 pb-10 ${t.panel}`}
         >
           {/* Breadcrumb */}
-          <div className={`flex items-center gap-2 mb-7 pb-5 border-b text-xs font-mono uppercase tracking-widest ${t.crumbBorder}`}>
+          <div className={`flex items-center gap-2 mb-7 pb-5 border-b text-sm font-mono uppercase tracking-widest ${t.crumbBorder}`}>
             <button
               onClick={() => router.push('/')}
               className={`transition-colors focus:outline-none interactive lowercase ${t.crumb}`}
@@ -141,7 +141,7 @@ export default function GlassHero({
           {subtitle && (
             <div className="flex items-center gap-3 mb-6">
               <div className={`h-px w-8 ${t.rule}`} />
-              <span className={`text-xs font-semibold tracking-[0.2em] uppercase font-mono ${t.label}`}>{subtitle}</span>
+              <span className={`text-sm font-semibold tracking-[0.2em] uppercase font-mono ${t.label}`}>{subtitle}</span>
             </div>
           )}
 

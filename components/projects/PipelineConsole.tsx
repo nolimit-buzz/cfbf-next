@@ -405,7 +405,7 @@ export default function PipelineConsole({
       <div className="container mx-auto px-6 mb-12">
         <div className="flex items-center gap-3 mb-4">
           <div className="h-px w-8 bg-brand-accent"></div>
-          <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-mono">{copy.eyebrow}</span>
+          <span className="text-[#81C34D] text-sm font-semibold tracking-[0.2em] uppercase font-mono">{copy.eyebrow}</span>
         </div>
         <h2 className="text-3xl md:text-4xl font-bold font-sans leading-tight tracking-tight mb-4 text-left">
           {copy.headingPartOne}<span className="text-[#9BB7B1]">{copy.headingHighlight}</span>
@@ -466,7 +466,7 @@ export default function PipelineConsole({
                               setActiveStageId(stage.id);
                               setDropdownOpen(false);
                             }}
-                            className="w-full text-left px-4 py-3 text-xs md:text-sm text-gray-300 hover:text-white hover:bg-white/[0.04] transition-all flex items-center justify-between"
+                            className="w-full text-left px-4 py-3 text-sm md:text-sm text-gray-300 hover:text-white hover:bg-white/[0.04] transition-all flex items-center justify-between"
                           >
                             <span className={activeStageId === stage.id ? 'text-[#81C34D] font-semibold' : ''}>
                               {stage.label}
@@ -485,7 +485,7 @@ export default function PipelineConsole({
                     {activeStage.title}
                   </span>
                   
-                  <p className="text-gray-300 text-xs md:text-sm font-sans font-light mt-5 leading-relaxed">
+                  <p className="text-gray-300 text-sm md:text-sm font-sans font-light mt-5 leading-relaxed">
                     {activeStage.desc}
                   </p>
                 </div>
@@ -535,7 +535,7 @@ export default function PipelineConsole({
                             <span className={`inline-block text-[10px] font-bold text-white font-mono ${sdg.color} px-2 py-0.5 rounded-full mb-2 leading-none`}>
                               SDG {sdgNum}
                             </span>
-                            <h4 className="font-bold text-xs md:text-sm text-white font-sans leading-tight line-clamp-2">{title}</h4>
+                            <h4 className="font-bold text-sm md:text-sm text-white font-sans leading-tight line-clamp-2">{title}</h4>
                           </div>
                         </motion.div>
                       );
@@ -590,7 +590,7 @@ export default function PipelineConsole({
 
                 {/* Middle Row: Content header aligned horizontally with left stage titles */}
                 <div className="mt-8 mb-8 flex-grow">
-                  <h3 className="text-xs font-bold font-mono uppercase tracking-[0.2em] text-[#81C34D] block m-0 mt-0">
+                  <h3 className="text-sm font-bold font-mono uppercase tracking-[0.2em] text-[#81C34D] block m-0 mt-0">
                     {activeStage.metrics ? copy.metricsHeader : copy.businessModelsHeader}
                   </h3>
                   <p className="text-gray-300 text-base font-sans font-light mt-4 leading-relaxed max-w-xl">
@@ -653,11 +653,11 @@ export default function PipelineConsole({
                                     {cleanValue}
                                   </span>
                                   {displaysUnit && (
-                                    <span className="text-xs text-gray-400 ml-1.5 font-light font-sans">{displaysUnit}</span>
+                                    <span className="text-sm text-gray-400 ml-1.5 font-light font-sans">{displaysUnit}</span>
                                   )}
                                 </div>
 
-                                <p className="text-gray-300 text-xs leading-relaxed font-sans font-light mt-auto">
+                                <p className="text-gray-300 text-sm leading-relaxed font-sans font-light mt-auto">
                                   {cardDesc}
                                 </p>
                               </motion.div>
@@ -670,7 +670,7 @@ export default function PipelineConsole({
                           {/* Sector Table */}
                           <div className="overflow-hidden border border-white/10 rounded-[8px] bg-[#02100d]/90">
                             <div className="max-h-[460px] overflow-y-auto overflow-x-auto no-scrollbar">
-                              <table className="w-full text-left border-collapse text-xs md:text-sm">
+                              <table className="w-full text-left border-collapse text-sm md:text-sm">
                                 <thead>
                                   <tr className="border-b border-white/10 text-[10px] font-mono font-bold text-gray-400 uppercase tracking-wider">
                                     <th className="py-4 px-6 sticky top-0 bg-[#02100d] z-30">{copy.tableHeadSector}</th>

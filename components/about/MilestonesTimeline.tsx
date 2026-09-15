@@ -89,7 +89,7 @@ export default function MilestonesTimeline() {
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-brand-accent" />
-            <span className="text-brand-accent text-xs font-semibold tracking-[0.2em] uppercase font-mono">Progress indicator</span>
+            <span className="text-brand-accent text-sm font-semibold tracking-[0.2em] uppercase font-mono">Progress indicator</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white font-sans tracking-tight leading-tight">
             Facility milestones <span className="text-[#9BB7B1]">&amp; growth timeline</span>
@@ -176,7 +176,7 @@ export default function MilestonesTimeline() {
                 style={{ left: `${pct * 100}%`, transform: 'translateX(-50%)', top: 16 }}
               >
                 <div className="w-px h-5 bg-white/20" />
-                <span className="text-xs font-mono text-gray-500 mt-1 select-none">{yr}</span>
+                <span className="text-sm font-mono text-gray-500 mt-1 select-none">{yr}</span>
               </div>
             );
           })}

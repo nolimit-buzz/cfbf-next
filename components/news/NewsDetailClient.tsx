@@ -50,7 +50,7 @@ export default function NewsDetailPage({
         <p className="text-gray-500 mb-8 font-sans">{labels.notFoundBody}</p>
         <button
           onClick={() => router.push('/news')}
-          className="flex items-center gap-2 bg-brand-primary hover:bg-[#051F1A] text-white px-6 py-3 rounded-full font-bold uppercase tracking-wider text-xs shadow-md transition-all interactive font-sans"
+          className="flex items-center gap-2 bg-brand-primary hover:bg-[#051F1A] text-white px-6 py-3 rounded-full font-bold uppercase tracking-wider text-sm shadow-md transition-all interactive font-sans"
         >
           <ArrowLeft size={16} /> {labels.notFoundCtaLabel}
         </button>
@@ -95,7 +95,7 @@ export default function NewsDetailPage({
         parent={{ label: labels.breadcrumbParentLabel, href: '/news' }}
       >
         {/* Metadata row */}
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-mono text-gray-400 uppercase tracking-widest">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-mono text-gray-400 uppercase tracking-widest">
           <span className="flex items-center gap-1.5">
             <Clock size={11} className="text-brand-primary" />
             {article.readTime}
@@ -119,11 +119,11 @@ export default function NewsDetailPage({
         <div className="mb-12 flex items-center justify-between border-b border-gray-100 pb-5 max-w-5xl mx-auto">
           <button
             onClick={() => router.push('/news')}
-            className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-brand-primary transition-colors uppercase font-bold tracking-wider focus:outline-none"
+            className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-brand-primary transition-colors uppercase font-bold tracking-wider focus:outline-none"
           >
             <ArrowLeft size={16} /> {labels.backLabel}
           </button>
-          <div className="text-gray-400 text-xs font-mono uppercase">
+          <div className="text-gray-400 text-sm font-mono uppercase">
             {labels.breadcrumbPrefix}{article.tag.toLowerCase().replace(' ', '-')}
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function NewsDetailPage({
 
               <div className="border-l-2 border-brand-accent pl-4 py-1">
                 <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-3 font-mono">{labels.contextLabel}</h4>
-                <p className="text-xs italic leading-relaxed text-gray-500 font-sans">{article.keyContext}</p>
+                <p className="text-sm italic leading-relaxed text-gray-500 font-sans">{article.keyContext}</p>
               </div>
 
             </div>
@@ -195,7 +195,7 @@ export default function NewsDetailPage({
                         <img src={item.url ?? undefined} alt={item.url_alt_text || item.text} className="w-full h-full object-cover" />
                       </div>
                       {item.caption && (
-                        <figcaption className="text-center text-xs text-gray-400 italic mt-3 font-sans">
+                        <figcaption className="text-center text-sm text-gray-400 italic mt-3 font-sans">
                           {item.caption}
                         </figcaption>
                       )}
@@ -243,7 +243,7 @@ export default function NewsDetailPage({
                   </button>
                 </div>
               </div>
-              <div className="text-xs text-gray-400 font-sans font-light">
+              <div className="text-sm text-gray-400 font-sans font-light">
                 {labels.publishedInPrefix}{article.tag} · {article.date}
               </div>
             </div>
@@ -315,7 +315,7 @@ export default function NewsDetailPage({
                       {item.title}
                     </h4>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1.5 text-xs text-brand-accent font-bold uppercase tracking-wider font-sans group-hover:text-brand-primary transition-colors">
+                  <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1.5 text-sm text-brand-accent font-bold uppercase tracking-wider font-sans group-hover:text-brand-primary transition-colors">
                     {labels.relatedCtaLabel} <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </div>

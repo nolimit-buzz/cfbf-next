@@ -346,11 +346,11 @@ export default function EligibilitySections({
                   <Zap size={18} />
                 </div>
                 <h4 className="font-bold text-lg font-sans mb-3">{cardAt(0).heading}</h4>
-                <p className="text-xs text-gray-300 leading-relaxed font-sans max-w-2xl">
+                <p className="text-sm text-gray-300 leading-relaxed font-sans max-w-2xl">
                   {cardAt(0).body}
                 </p>
                 <div className="h-px bg-white/10 my-4" />
-                <p className="text-xs text-gray-400 font-sans leading-relaxed">
+                <p className="text-sm text-gray-400 font-sans leading-relaxed">
                   {cardAt(0).subNote}
                 </p>
               </div>
@@ -368,7 +368,7 @@ export default function EligibilitySections({
                   <ScrollText size={18} />
                 </div>
                 <h4 className="font-bold text-base font-sans text-[#051F1A] mb-3">{cardAt(1).heading}</h4>
-                <ul className="space-y-1.5 text-xs text-gray-500 font-sans list-decimal pl-4 leading-normal">
+                <ul className="space-y-1.5 text-sm text-gray-500 font-sans list-decimal pl-4 leading-normal">
                   {cardAt(1).listItems.map((item, idx) => (
                     <li key={idx}>{item.text}</li>
                   ))}
@@ -388,7 +388,7 @@ export default function EligibilitySections({
                   <ShieldCheck size={18} />
                 </div>
                 <h4 className="font-bold text-base font-sans text-[#051F1A] mb-3">{cardAt(2).heading}</h4>
-                <ul className="space-y-2 text-xs text-gray-500 font-sans">
+                <ul className="space-y-2 text-sm text-gray-500 font-sans">
                   {cardAt(2).listItems.map((item, idx) => (
                     <li key={idx} className="flex gap-2"><span className="text-[#009FD4] font-bold">•</span> {item.text}</li>
                   ))}
@@ -466,7 +466,7 @@ export default function EligibilitySections({
                       <h4 className="font-bold text-sm text-white font-sans">
                         {step.title}
                       </h4>
-                      <p className="text-xs text-gray-400 leading-relaxed font-sans font-light">
+                      <p className="text-sm text-gray-400 leading-relaxed font-sans font-light">
                         {step.description}
                       </p>
                     </div>
@@ -499,7 +499,7 @@ export default function EligibilitySections({
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-[#81C34D]" />
-            <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-mono">{nextStepsCopy.eyebrow}</span>
+            <span className="text-[#81C34D] text-sm font-semibold tracking-[0.2em] uppercase font-mono">{nextStepsCopy.eyebrow}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
             {nextStepsCopy.headingPartOne} <span className="text-[#9BB7B1] italic font-serif">{nextStepsCopy.headingItalic}</span>
@@ -531,7 +531,7 @@ export default function EligibilitySections({
                     <h4 className="text-white text-base font-bold font-sans group-hover:text-white/80 transition-colors duration-300">
                       {link.title}
                     </h4>
-                    <p className="text-white/65 text-xs font-light mt-0.5 font-sans">
+                    <p className="text-white/65 text-sm font-light mt-0.5 font-sans">
                       {link.description}
                     </p>
                   </div>
@@ -564,7 +564,7 @@ export default function EligibilitySections({
               <FolderCheck size={24} />
             </div>
 
-            <span className="text-brand-accent text-xs font-bold uppercase tracking-[0.25em] mb-4 block font-mono">{ctaCopy.eyebrow}</span>
+            <span className="text-brand-accent text-sm font-bold uppercase tracking-[0.25em] mb-4 block font-mono">{ctaCopy.eyebrow}</span>
             <h3 className="text-white text-3xl md:text-4xl font-bold font-sans mb-4 leading-tight">
               {ctaCopy.headingPartOne} <span className="text-brand-accent">{ctaCopy.headingHighlight}</span>
             </h3>
@@ -576,13 +576,13 @@ export default function EligibilitySections({
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full sm:w-auto">
               <button
                 onClick={() => router.push(ctaCopy.primaryCtaHref)}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#81C34D] text-[#051F1A] hover:bg-white hover:text-brand-dark px-8 py-3.5 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans shadow-lg cursor-pointer select-none focus:outline-none"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#81C34D] text-[#051F1A] hover:bg-white hover:text-brand-dark px-8 py-3.5 rounded-[6px] text-sm font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans shadow-lg cursor-pointer select-none focus:outline-none"
               >
                 {ctaCopy.primaryCtaLabel} <ArrowRight size={16} />
               </button>
               <button
                 onClick={() => downloadFile(ctaCopy.downloadCtaHref, ctaCopy.downloadFileName)}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/5 border border-white/10 hover:border-[#81C34D] hover:bg-[#81C34D] hover:text-[#051F1A] text-white px-8 py-3.5 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans shrink-0 focus:outline-none"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/5 border border-white/10 hover:border-[#81C34D] hover:bg-[#81C34D] hover:text-[#051F1A] text-white px-8 py-3.5 rounded-[6px] text-sm font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans shrink-0 focus:outline-none"
               >
                 <Download size={14} /> {ctaCopy.downloadCtaLabel}
               </button>

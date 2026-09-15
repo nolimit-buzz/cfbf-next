@@ -176,7 +176,7 @@ export default function FootprintMap({ data, modalData, footprintData }: Footpri
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-[#81C34D]" />
-            <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-mono">{copy.eyebrow}</span>
+            <span className="text-[#81C34D] text-sm font-semibold tracking-[0.2em] uppercase font-mono">{copy.eyebrow}</span>
           </div>
           <h2 className="text-3xl font-bold font-sans tracking-tight mb-3">
             {copy.headingPartOne}<span className="text-[#9BB7B1]">{copy.headingHighlight}</span>
@@ -189,11 +189,11 @@ export default function FootprintMap({ data, modalData, footprintData }: Footpri
         <div className="flex gap-8 sm:flex-col sm:items-end sm:gap-4 shrink-0">
           <div className="sm:text-right">
             <span className="text-4xl font-extrabold text-[#81C34D] font-sans">{totalStates}</span>
-            <p className="text-gray-400 text-xs uppercase tracking-wider font-mono mt-0.5">{copy.statesStatLabel}</p>
+            <p className="text-gray-400 text-sm uppercase tracking-wider font-mono mt-0.5">{copy.statesStatLabel}</p>
           </div>
           <div className="sm:text-right">
             <span className="text-4xl font-extrabold text-[#81C34D] font-sans">{totalCommunities}</span>
-            <p className="text-gray-400 text-xs uppercase tracking-wider font-mono mt-0.5">{copy.communitiesStatLabel}</p>
+            <p className="text-gray-400 text-sm uppercase tracking-wider font-mono mt-0.5">{copy.communitiesStatLabel}</p>
           </div>
         </div>
       </div>
@@ -205,7 +205,7 @@ export default function FootprintMap({ data, modalData, footprintData }: Footpri
         <div className="lg:col-span-3 border-r border-white/8 flex flex-col">
           {/* Header */}
           <div className="px-4 py-3 border-b border-white/8 bg-white/[0.02] flex-shrink-0">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 font-mono mb-2">{copy.statesColumnLabel}</h3>
+            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400 font-mono mb-2">{copy.statesColumnLabel}</h3>
             {/* Search */}
             <div className="relative">
               <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none" />
@@ -214,7 +214,7 @@ export default function FootprintMap({ data, modalData, footprintData }: Footpri
                 value={stateSearch}
                 onChange={e => setStateSearch(e.target.value)}
                 placeholder={copy.searchPlaceholder}
-                className="w-full bg-white/[0.03] border border-white/8 rounded-[6px] pl-7 pr-3 py-1.5 text-xs text-gray-300 placeholder-gray-600 focus:outline-none focus:border-[#81C34D]/40 font-sans transition-colors"
+                className="w-full bg-white/[0.03] border border-white/8 rounded-[6px] pl-7 pr-3 py-1.5 text-sm text-gray-300 placeholder-gray-600 focus:outline-none focus:border-[#81C34D]/40 font-sans transition-colors"
               />
               {stateSearch && (
                 <button onClick={() => setStateSearch('')} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-400">
@@ -439,7 +439,7 @@ export default function FootprintMap({ data, modalData, footprintData }: Footpri
                   ) : (
                     <div className="flex flex-col items-center justify-center h-full py-12 text-center px-4">
                       <MapPin size={24} className="text-gray-600 mb-2" />
-                      <p className="text-gray-500 text-xs font-sans">{copy.lgaEmptyMessage}</p>
+                      <p className="text-gray-500 text-sm font-sans">{copy.lgaEmptyMessage}</p>
                     </div>
                   )}
                 </div>
@@ -467,7 +467,7 @@ export default function FootprintMap({ data, modalData, footprintData }: Footpri
                   <MapPin size={20} className="text-gray-600" />
                 </div>
                 <h4 className="text-sm font-semibold text-gray-400 font-sans">{copy.placeholderTitle}</h4>
-                <p className="text-xs text-gray-600 leading-relaxed font-sans max-w-[180px]">
+                <p className="text-sm text-gray-600 leading-relaxed font-sans max-w-[180px]">
                   {copy.placeholderBody}
                 </p>
               </motion.div>

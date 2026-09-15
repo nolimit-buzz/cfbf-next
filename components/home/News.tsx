@@ -66,7 +66,7 @@ export default function LatestNews({
                       alt={item.imageAlt}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                    <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-[6px] text-xs font-bold text-brand-primary uppercase tracking-wider shadow-sm flex items-center gap-2 font-sans">
+                    <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-[6px] text-sm font-bold text-brand-primary uppercase tracking-wider shadow-sm flex items-center gap-2 font-sans">
                       <Tag size={12} className="text-brand-accent" />
                       {item.tag}
                     </div>
@@ -106,8 +106,8 @@ export default function LatestNews({
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-xs font-bold bg-brand-light text-brand-primary px-2 py-1 rounded-[6px] uppercase tracking-wider">{item.tag}</span>
-                      <span className="text-xs text-gray-400 font-medium flex items-center gap-1"><Calendar size={12} /> {item.date}</span>
+                      <span className="text-sm font-bold bg-brand-light text-brand-primary px-2 py-1 rounded-[6px] uppercase tracking-wider">{item.tag}</span>
+                      <span className="text-sm text-gray-400 font-medium flex items-center gap-1"><Calendar size={12} /> {item.date}</span>
                     </div>
                     <h3 className="text-xl font-bold text-brand-dark mb-2 group-hover:text-brand-primary transition-colors">{item.title}</h3>
                     <div className="text-sm text-gray-500 flex items-center gap-2">

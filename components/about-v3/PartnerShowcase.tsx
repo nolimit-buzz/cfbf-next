@@ -205,7 +205,7 @@ export default function PartnerShowcase({ data }: { data?: AboutPartnersSection 
                   <h3 className="text-[10px] font-bold font-mono uppercase tracking-[0.16em] text-brand-accent">
                     {group.category}
                   </h3>
-                  <p className="text-xs md:text-[13px] text-gray-400 font-light font-sans mt-1 max-w-[28ch] leading-relaxed">
+                  <p className="text-sm md:text-[13px] text-gray-400 font-light font-sans mt-1 max-w-[28ch] leading-relaxed">
                     {group.description}
                   </p>
                 </div>

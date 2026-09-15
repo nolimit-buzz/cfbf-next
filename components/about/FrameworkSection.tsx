@@ -79,7 +79,7 @@ export default function FrameworkSection({
           <motion.div {...fadeUp(0)}>
             <div className="flex items-center gap-3 mb-6">
               <div className="h-px w-8 bg-brand-primary" />
-              <span className="text-brand-primary text-xs font-semibold tracking-[0.2em] uppercase font-mono">{c.eyebrow}</span>
+              <span className="text-brand-primary text-sm font-semibold tracking-[0.2em] uppercase font-mono">{c.eyebrow}</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-brand-dark font-sans tracking-tight leading-[1.1]">
               {c.headingPrimary}
@@ -177,13 +177,13 @@ export default function FrameworkSection({
                     {s.headingPrimary}
                     <span className="text-[#7C9590] italic font-serif">{s.headingSecondary}</span>
                   </h3>
-                  <p className="text-gray-400 text-xs leading-relaxed font-sans font-light">
+                  <p className="text-gray-400 text-sm leading-relaxed font-sans font-light">
                     {s.collapsedBody}
                   </p>
                 </div>
                 <button
                   onClick={() => onToggleSimulator(true)}
-                  className="shrink-0 inline-flex items-center justify-center gap-2 border border-gray-200/70 hover:border-brand-primary hover:bg-[#F3FAF6] text-brand-dark px-6 py-3 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans select-none focus:outline-none"
+                  className="shrink-0 inline-flex items-center justify-center gap-2 border border-gray-200/70 hover:border-brand-primary hover:bg-[#F3FAF6] text-brand-dark px-6 py-3 rounded-[6px] text-sm font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans select-none focus:outline-none"
                 >
                   {s.launchLabel} <ArrowRight size={14} />
                 </button>
@@ -208,13 +208,13 @@ export default function FrameworkSection({
                       {s.headingPrimary}
                       <span className="text-[#7C9590] italic font-serif">{s.headingSecondary}</span>
                     </h3>
-                    <p className="text-gray-400 text-xs leading-relaxed font-sans font-light">
+                    <p className="text-gray-400 text-sm leading-relaxed font-sans font-light">
                       {s.expandedBody}
                     </p>
                   </div>
                   <button
                     onClick={() => onToggleSimulator(false)}
-                    className="shrink-0 inline-flex items-center justify-center gap-2 border border-gray-200/70 hover:border-brand-primary hover:bg-[#FAFDFB] text-brand-dark px-6 py-3 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans select-none focus:outline-none"
+                    className="shrink-0 inline-flex items-center justify-center gap-2 border border-gray-200/70 hover:border-brand-primary hover:bg-[#FAFDFB] text-brand-dark px-6 py-3 rounded-[6px] text-sm font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans select-none focus:outline-none"
                   >
                     {s.collapseLabel}
                   </button>
@@ -229,7 +229,7 @@ export default function FrameworkSection({
                       {/* Slider Control */}
                       <div className="bg-white border border-gray-100/70 rounded-[6px] p-6 mb-6">
                         <div className="flex justify-between items-baseline mb-4">
-                          <label className="text-xs font-bold font-mono text-gray-500 uppercase tracking-wider">{s.sliderLabel}</label>
+                          <label className="text-sm font-bold font-mono text-gray-500 uppercase tracking-wider">{s.sliderLabel}</label>
                           <div className="text-3xl font-extrabold text-brand-dark tracking-tight">
                             ₦{projectSize.toFixed(1)}<span className="text-lg font-medium text-gray-400">{s.sliderUnitLabel}</span>
                           </div>
@@ -265,8 +265,8 @@ export default function FrameworkSection({
                               </div>
                               <div className="flex-1">
                                 <div className="flex justify-between items-baseline mb-1">
-                                  <h4 className={`text-xs font-bold uppercase tracking-wider ${style.title}`}>{segment.title}</h4>
-                                  <span className={`text-xs font-bold font-mono ${style.amount}`}>
+                                  <h4 className={`text-sm font-bold uppercase tracking-wider ${style.title}`}>{segment.title}</h4>
+                                  <span className={`text-sm font-bold font-mono ${style.amount}`}>
                                     ₦{(segmentAmounts[i] ?? 0).toFixed(1)}B
                                   </span>
                                 </div>

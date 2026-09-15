@@ -36,7 +36,7 @@ export default function MapSection({ data }: { data?: MapSectionData }) {
                 className="flex items-center gap-3 mb-3"
               >
                 <div className="h-px w-8 bg-brand-primary"></div>
-                <span className="text-brand-primary text-xs font-normal tracking-[0.2em] uppercase font-sans">{c.eyebrow}</span>
+                <span className="text-brand-primary text-sm font-normal tracking-[0.2em] uppercase font-sans">{c.eyebrow}</span>
               </motion.div>
               <motion.h2 
                 initial={{ opacity: 0, y: 30 }}
@@ -57,7 +57,7 @@ export default function MapSection({ data }: { data?: MapSectionData }) {
                  <button
                    key={cat}
                    onClick={() => setFilter(cat)}
-                   className={`px-6 py-2 rounded-full border text-xs tracking-wide transition-all duration-300 font-sans whitespace-nowrap focus:outline-none ${
+                   className={`px-6 py-2 rounded-full border text-sm tracking-wide transition-all duration-300 font-sans whitespace-nowrap focus:outline-none ${
                      filter === cat
                        ? 'bg-brand-primary text-white border-brand-primary font-medium shadow-md shadow-brand-primary/20'
                        : 'bg-transparent text-gray-500 border-gray-200 hover:border-brand-primary hover:text-brand-primary font-light'

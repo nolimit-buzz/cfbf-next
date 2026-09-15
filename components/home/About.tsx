@@ -42,7 +42,7 @@ const PARTNER_LOGOS: Record<string, ReactNode> = {
     <img
       src="https://res.cloudinary.com/diqfojkri/image/upload/v1786962993/climate%20facility/about-page/partners-group-3-partner-4-logo.png"
       alt="Linkage Assurance"
-      className="h-6 w-auto object-contain"
+      className="h-10 w-auto object-contain"
       loading="lazy"
     />
   ),
@@ -74,7 +74,7 @@ export default function AboutSection({ data }: { data?: AboutSectionData }) {
             >
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-px w-8 bg-brand-primary"></div>
-                <span className="text-brand-primary text-xs font-normal tracking-[0.2em] uppercase font-sans">{c.eyebrow}</span>
+                <span className="text-brand-primary text-sm font-normal tracking-[0.2em] uppercase font-sans">{c.eyebrow}</span>
               </div>
             </motion.div>
 

@@ -54,7 +54,7 @@ export default function InnerPageHero({ title, subtitle, bgImage, cards, current
             }`}
           >
             {/* Breadcrumbs (lowercase, aligned inside card) */}
-            <div className={`flex items-center gap-2 text-xs font-mono uppercase tracking-wider mb-6 pb-2 border-b w-full select-none ${
+            <div className={`flex items-center gap-2 text-sm font-mono uppercase tracking-wider mb-6 pb-2 border-b w-full select-none ${
               lightPanel ? 'text-gray-400 border-gray-100' : 'text-gray-300 border-white/5'
             }`}>
               <button
@@ -84,7 +84,7 @@ export default function InnerPageHero({ title, subtitle, bgImage, cards, current
 
             {/* Header text */}
             <div className="mb-8 text-center md:text-left">
-              <span className={`text-[10px] md:text-xs font-light tracking-[0.25em] block mb-3 font-mono uppercase ${lightPanel ? 'text-brand-primary' : 'text-brand-accent'}`}>
+              <span className={`text-[10px] md:text-sm font-light tracking-[0.25em] block mb-3 font-mono uppercase ${lightPanel ? 'text-brand-primary' : 'text-brand-accent'}`}>
                 {subtitle}
               </span>
               <h1 className={`text-3xl md:text-4xl lg:text-5xl font-bold leading-tight font-sans tracking-tight ${lightPanel ? 'text-brand-dark' : 'text-white'}`}>
@@ -104,7 +104,7 @@ export default function InnerPageHero({ title, subtitle, bgImage, cards, current
                     className="bg-white/95 p-5 shadow-md flex flex-col justify-between h-32 md:h-36 transition-all duration-300 group cursor-default rounded-[6px]"
                   >
                     <h3 className="text-lg md:text-xl font-bold text-[#051F1A] font-sans leading-none tracking-tight">{cards[0].title}</h3>
-                    <p className="text-[#051F1A]/70 text-xs md:text-sm leading-relaxed font-sans">{cards[0].desc}</p>
+                    <p className="text-[#051F1A]/70 text-sm md:text-sm leading-relaxed font-sans">{cards[0].desc}</p>
                   </motion.div>
 
                   {/* Card 2: Brand Cyan surface */}
@@ -113,7 +113,7 @@ export default function InnerPageHero({ title, subtitle, bgImage, cards, current
                     className="bg-brand-cyan p-5 shadow-md flex flex-col justify-between h-32 md:h-36 transition-all duration-300 group cursor-default rounded-[6px]"
                   >
                     <h3 className="text-lg md:text-xl font-bold text-white font-sans leading-none tracking-tight">{cards[1].title}</h3>
-                    <p className="text-white/90 text-xs md:text-sm leading-relaxed font-sans font-medium">{cards[1].desc}</p>
+                    <p className="text-white/90 text-sm md:text-sm leading-relaxed font-sans font-medium">{cards[1].desc}</p>
                   </motion.div>
 
                   {/* Card 3: Brand Primary Green surface */}
@@ -122,7 +122,7 @@ export default function InnerPageHero({ title, subtitle, bgImage, cards, current
                     className="bg-brand-primary p-5 shadow-md flex flex-col justify-between h-32 md:h-36 transition-all duration-300 group cursor-default rounded-[6px]"
                   >
                     <h3 className="text-lg md:text-xl font-bold text-white font-sans leading-none tracking-tight">{cards[2].title}</h3>
-                    <p className="text-white/85 text-xs md:text-sm leading-relaxed font-sans">{cards[2].desc}</p>
+                    <p className="text-white/85 text-sm md:text-sm leading-relaxed font-sans">{cards[2].desc}</p>
                   </motion.div>
                 </div>
               )

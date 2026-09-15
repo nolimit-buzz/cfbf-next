@@ -36,7 +36,7 @@ const CO_FINANCING = {
   // white version (PNG from live site)
   srcWhite: `${BASE}/2022/09/ICAsset-6@4x-8-002-1024x326-1.png`,
   // coloured SVG version
-  srcColour: `${BASE}/2022/09/InfraCredit-1.svg`,
+  // srcColour: `${BASE}/2022/09/InfraCredit-1.svg`,
   alt: "InfraCredit",
   href: "https://infracredit.ng/",
 };
@@ -174,7 +174,7 @@ const PartnersColumn = () => (
           />
           {/* Coloured SVG on hover */}
           <img
-            src={CO_FINANCING.srcColour}
+            src={CO_FINANCING.srcWhite}
             alt=""
             aria-hidden="true"
             className="h-7 w-auto object-contain absolute inset-0 opacity-0 scale-95 transition-all duration-400 group-hover/ic:opacity-100 group-hover/ic:scale-100"
@@ -303,7 +303,7 @@ const PartnerMarquee = ({ partnerLogos = FOOTER_DEFAULTS.partnerLogos }: { partn
                 {partner.logo ? (
                   partner.logo
                 ) : (
-                  <span className="text-xs font-semibold tracking-wider text-white/45 group-hover:text-white transition-colors duration-500 font-sans uppercase select-none py-2 text-center">
+                  <span className="text-sm font-semibold tracking-wider text-white/45 group-hover:text-white transition-colors duration-500 font-sans uppercase select-none py-2 text-center">
                     {partner.name}
                   </span>
                 )}
@@ -343,7 +343,7 @@ const CTASection = () => {
                 'https://res.cloudinary.com/diqfojkri/raw/upload/v1787333672/climate%20facility/documents/cfbf-impact-report-2025.pdf',
                 'CFBF_Impact_Report_2025.pdf'
               )}
-              className="bg-white text-brand-dark px-8 py-3 rounded-full flex items-center w-fit gap-4 font-bold uppercase tracking-wider text-xs transition-all duration-300 hover:bg-brand-accent hover:shadow-[0_0_30px_rgba(72,192,163,0.4)] interactive group/btn focus:outline-none"
+              className="bg-white text-brand-dark px-8 py-3 rounded-full flex items-center w-fit gap-4 font-bold uppercase tracking-wider text-sm transition-all duration-300 hover:bg-brand-accent hover:shadow-[0_0_30px_rgba(72,192,163,0.4)] interactive group/btn focus:outline-none"
             >
               <span>Download PDF</span>
               <div className="w-8 h-8 bg-brand-dark text-white rounded-full flex items-center justify-center transition-transform duration-300 group-hover/btn:scale-110">

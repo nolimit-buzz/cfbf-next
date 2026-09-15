@@ -33,7 +33,7 @@ function CapitalStackSimulatorContent() {
         <div className="max-w-3xl mb-16">
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-brand-primary" />
-            <span className="text-brand-primary text-xs font-semibold tracking-[0.2em] uppercase font-mono">
+            <span className="text-brand-primary text-sm font-semibold tracking-[0.2em] uppercase font-mono">
               Blended Finance in Action
             </span>
           </div>
@@ -54,7 +54,7 @@ function CapitalStackSimulatorContent() {
             {/* Slider Control */}
             <div className="bg-white border border-gray-200/60 rounded-[6px] p-6 shadow-[0_2px_10px_rgba(0,0,0,0.01)]">
               <div className="flex justify-between items-baseline mb-4">
-                <label className="text-xs font-bold font-mono text-gray-500 uppercase tracking-wider">Project Size (NGN)</label>
+                <label className="text-sm font-bold font-mono text-gray-500 uppercase tracking-wider">Project Size (NGN)</label>
                 <div className="text-3xl font-extrabold text-brand-dark font-sans tracking-tight">
                   ₦{projectSize.toFixed(1)}<span className="text-lg font-medium text-gray-400"> Billion</span>
                 </div>
@@ -84,8 +84,8 @@ function CapitalStackSimulatorContent() {
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between items-baseline mb-1">
-                    <h4 className="text-xs font-bold text-brand-dark uppercase tracking-wider">Senior PFA Debt (60%)</h4>
-                    <span className="text-xs font-bold font-mono text-brand-dark">₦{seniorDebt.toFixed(1)}B</span>
+                    <h4 className="text-sm font-bold text-brand-dark uppercase tracking-wider">Senior PFA Debt (60%)</h4>
+                    <span className="text-sm font-bold font-mono text-brand-dark">₦{seniorDebt.toFixed(1)}B</span>
                   </div>
                   <p className="text-[11px] text-gray-400 leading-relaxed font-sans font-light">
                     Secured, long-term debt funded by domestic Pension Fund Administrators (PFAs). Wrapped under the <span className="font-semibold text-brand-primary">InfraCredit AAA guarantee</span> to meet statutory safety regulations.
@@ -100,8 +100,8 @@ function CapitalStackSimulatorContent() {
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between items-baseline mb-1">
-                    <h4 className="text-xs font-bold text-brand-primary uppercase tracking-wider">CFBF Blended Layer (20%)</h4>
-                    <span className="text-xs font-bold font-mono text-brand-primary">₦{subordinatedDebt.toFixed(1)}B</span>
+                    <h4 className="text-sm font-bold text-brand-primary uppercase tracking-wider">CFBF Blended Layer (20%)</h4>
+                    <span className="text-sm font-bold font-mono text-brand-primary">₦{subordinatedDebt.toFixed(1)}B</span>
                   </div>
                   <p className="text-[11px] text-gray-400 leading-relaxed font-sans font-light">
                     Subordinated, first-loss concessional debt funded via FCDO seed capital. Absorbs developer risk and lowers the overall financing cost to attract private commercial participants.
@@ -116,8 +116,8 @@ function CapitalStackSimulatorContent() {
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between items-baseline mb-1">
-                    <h4 className="text-xs font-bold text-brand-cyan uppercase tracking-wider">Developer Equity (20%)</h4>
-                    <span className="text-xs font-bold font-mono text-brand-cyan">₦{developerEquity.toFixed(1)}B</span>
+                    <h4 className="text-sm font-bold text-brand-cyan uppercase tracking-wider">Developer Equity (20%)</h4>
+                    <span className="text-sm font-bold font-mono text-brand-cyan">₦{developerEquity.toFixed(1)}B</span>
                   </div>
                   <p className="text-[11px] text-gray-400 leading-relaxed font-sans font-light">
                     Sponsor/developer commitment layer. Demonstrates alignment of interests and operational responsibility for active green asset sites.
@@ -209,7 +209,7 @@ function CapitalStackSimulatorContent() {
 export default function CapitalStackSimulator() {
   return (
     <Suspense fallback={
-      <div className="py-24 text-center font-mono text-xs uppercase tracking-widest text-gray-400">
+      <div className="py-24 text-center font-mono text-sm uppercase tracking-widest text-gray-400">
         Loading simulator...
       </div>
     }>

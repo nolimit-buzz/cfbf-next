@@ -135,7 +135,7 @@ const IconStatBox: React.FC<{
         {value}
       </span>
       {unit && (
-        <span className="text-xs text-gray-400 ml-1 font-light font-sans">{unit}</span>
+        <span className="text-sm text-gray-400 ml-1 font-light font-sans">{unit}</span>
       )}
     </div>
 
@@ -323,7 +323,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
                   )}
                 </div>
 
-                <p className="text-gray-300 text-xs md:text-sm leading-relaxed font-sans font-light">
+                <p className="text-gray-300 text-sm md:text-sm leading-relaxed font-sans font-light">
                   {stat.description}
                 </p>
 
@@ -352,7 +352,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-8 bg-brand-accent"></div>
-              <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-sans">{tabsCopy.eyebrow}</span>
+              <span className="text-[#81C34D] text-sm font-semibold tracking-[0.2em] uppercase font-sans">{tabsCopy.eyebrow}</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold font-sans leading-tight tracking-tight">
               {tabsCopy.headingPartOne}<span className="text-[#9BB7B1]">{tabsCopy.headingHighlight}</span>
@@ -442,7 +442,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
                   <h3 className="font-bold text-lg font-sans text-white">{analysisCopy.tableHeading}</h3>
                   <button
                     onClick={() => downloadFile(analysisCopy.downloadHref, 'CFBF_Impact_Report_2025.pdf')}
-                    className="flex items-center gap-2 text-xs font-bold text-brand-accent uppercase tracking-wider hover:text-white transition-colors interactive font-sans focus:outline-none"
+                    className="flex items-center gap-2 text-sm font-bold text-brand-accent uppercase tracking-wider hover:text-white transition-colors interactive font-sans focus:outline-none"
                   >
                     <Download size={14} /> {analysisCopy.downloadLabel}
                   </button>
@@ -451,7 +451,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
                 <div className="overflow-x-auto no-scrollbar">
                   <table className="w-full text-left border-collapse whitespace-nowrap">
                      <thead>
-                       <tr className="bg-white/[0.02] border-b border-white/5 text-xs font-bold uppercase tracking-wider text-gray-400 font-mono">
+                       <tr className="bg-white/[0.02] border-b border-white/5 text-sm font-bold uppercase tracking-wider text-gray-400 font-mono">
                          {analysisCopy.columnHeads.map((head, idx) => (
                            <th
                              key={head.label || idx}
@@ -490,7 +490,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
                         </tr>
                       ))}
                     </tbody>
-                    <tfoot className="border-t-2 border-white/10 bg-white/[0.02] text-xs font-mono font-bold text-white uppercase tracking-wider">
+                    <tfoot className="border-t-2 border-white/10 bg-white/[0.02] text-sm font-mono font-bold text-white uppercase tracking-wider">
                       <tr>
                         <td className="p-4 pl-6 text-gray-400 font-sans normal-case">{analysisCopy.totalsRowLabel}</td>
                         <td className="p-4 text-[#81C34D]">{totalCapacity.toLocaleString()} {analysisCopy.capacityUnit}</td>
@@ -526,7 +526,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center justify-between bg-white/[0.02] border border-[#81C34D]/30 p-4 rounded-[6px] mb-4 text-xs md:text-sm font-sans"
+                  className="flex items-center justify-between bg-white/[0.02] border border-[#81C34D]/30 p-4 rounded-[6px] mb-4 text-sm md:text-sm font-sans"
                 >
                   <div className="flex items-center gap-2">
                     <MapPin className="text-[#81C34D]" size={16} />
@@ -555,7 +555,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
                   <button
                     key={cat}
                     onClick={() => setFilter(cat)}
-                    className={`px-6 py-2 rounded-[6px] border text-xs tracking-wide transition-all duration-300 font-sans whitespace-nowrap focus:outline-none ${
+                    className={`px-6 py-2 rounded-[6px] border text-sm tracking-wide transition-all duration-300 font-sans whitespace-nowrap focus:outline-none ${
                       filter === cat
                         ? 'bg-[#81C34D] text-[#051F1A] border-[#81C34D] font-semibold'
                         : 'bg-white/5 text-gray-400 border-white/10 hover:border-brand-accent hover:text-white font-light'
@@ -594,13 +594,13 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
                         className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 cursor-pointer interactive group"
                       >
                         <div className="flex items-center gap-4 flex-1">
-                          <span className="text-xs text-brand-accent font-mono bg-brand-accent/10 px-2.5 py-1 rounded-[6px]">{pipelineCopy.projectIdPrefix}{p.projectId}</span>
+                          <span className="text-sm text-brand-accent font-mono bg-brand-accent/10 px-2.5 py-1 rounded-[6px]">{pipelineCopy.projectIdPrefix}{p.projectId}</span>
                           <h3 className={`text-lg md:text-xl font-bold transition-colors ${expandedProject === p.projectId ? 'text-brand-accent' : 'text-white group-hover:text-brand-accent'}`}>
                             {p.title}
                           </h3>
                         </div>
 
-                        <div className="flex items-center gap-6 mt-4 md:mt-0 font-sans text-xs uppercase tracking-wider text-gray-400">
+                        <div className="flex items-center gap-6 mt-4 md:mt-0 font-sans text-sm uppercase tracking-wider text-gray-400">
                           <span>{p.location}</span>
                           <span className="hidden md:inline">•</span>
                           <span>{p.capacity}</span>
@@ -627,10 +627,10 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
                                 </div>
                                 <div className="flex flex-col justify-center space-y-4">
                                   <div>
-                                    <h4 className="text-xs font-bold text-[#81C34D] uppercase tracking-widest mb-1.5">{pipelineCopy.challengeLabel}</h4>
+                                    <h4 className="text-sm font-bold text-[#81C34D] uppercase tracking-widest mb-1.5">{pipelineCopy.challengeLabel}</h4>
                                     <p className="text-gray-300 text-sm leading-relaxed">{p.problem}</p>
                                   </div>
-                                  <div className="grid grid-cols-2 gap-4 bg-white/[0.02] p-4 rounded-[6px] border border-white/5 shadow-md text-xs">
+                                  <div className="grid grid-cols-2 gap-4 bg-white/[0.02] p-4 rounded-[6px] border border-white/5 shadow-md text-sm">
                                     <div>
                                       <span className="font-semibold text-gray-500 block mb-1">{pipelineCopy.financialCloseLabel}</span>
                                       <span className="text-white font-bold font-mono">{p.year}</span>
@@ -643,7 +643,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
 
                                   {/* Aligned SDG Goals */}
                                   <div>
-                                    <span className="text-xs font-semibold text-gray-500 block mb-2 uppercase tracking-wider">{pipelineCopy.sdgGoalsLabel}</span>
+                                    <span className="text-sm font-semibold text-gray-500 block mb-2 uppercase tracking-wider">{pipelineCopy.sdgGoalsLabel}</span>
                                     <div className="flex flex-wrap gap-2">
                                       {parseSdgs(p.sdgs).map(sdgNum => {
                                         const sdg = SDG_INFO[sdgNum];
@@ -663,7 +663,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
 
                                   <Link
                                     href={`/projects/${p.projectId}`}
-                                    className="self-start flex items-center gap-1.5 text-xs font-bold text-brand-accent border-b border-brand-accent pb-0.5 hover:text-white hover:border-white transition-colors interactive font-sans uppercase tracking-wider mt-2"
+                                    className="self-start flex items-center gap-1.5 text-sm font-bold text-brand-accent border-b border-brand-accent pb-0.5 hover:text-white hover:border-white transition-colors interactive font-sans uppercase tracking-wider mt-2"
                                   >
                                     {pipelineCopy.detailsLinkLabel} <ArrowUpRight size={14} />
                                   </Link>
@@ -715,7 +715,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
                 <ShieldCheck size={24} />
               </div>
 
-              <span className="text-brand-accent text-xs font-bold uppercase tracking-[0.25em] mb-4 block font-mono">{ctaCopy.eyebrow}</span>
+              <span className="text-brand-accent text-sm font-bold uppercase tracking-[0.25em] mb-4 block font-mono">{ctaCopy.eyebrow}</span>
               <h3 className="text-white text-3xl md:text-4xl font-bold font-sans mb-4 leading-tight">
                 {ctaCopy.headingPartOne}<span className="text-brand-accent">{ctaCopy.headingHighlight}</span>{ctaCopy.headingPartTwo}
               </h3>
@@ -726,7 +726,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
 
               <Link
                 href={ctaCopy.ctaHref}
-                className="inline-flex items-center justify-center gap-2 bg-[#81C34D] text-[#051F1A] hover:bg-white hover:text-brand-dark px-8 py-3.5 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans shadow-lg focus:outline-none"
+                className="inline-flex items-center justify-center gap-2 bg-[#81C34D] text-[#051F1A] hover:bg-white hover:text-brand-dark px-8 py-3.5 rounded-[6px] text-sm font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans shadow-lg focus:outline-none"
               >
                 {ctaCopy.ctaLabel} <ArrowRight size={16} />
               </Link>
@@ -758,7 +758,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-[#81C34D]" />
-            <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-mono">{nextStepsCopy.eyebrow}</span>
+            <span className="text-[#81C34D] text-sm font-semibold tracking-[0.2em] uppercase font-mono">{nextStepsCopy.eyebrow}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
             {nextStepsCopy.headingPartOne}<span className="text-[#9BB7B1] italic font-serif">{nextStepsCopy.headingItalic}</span>
@@ -790,7 +790,7 @@ export default function ProjectsSections(props: ProjectsSectionsProps) {
                     <h4 className="text-white text-base font-bold font-sans group-hover:text-white/80 transition-colors duration-300">
                       {link.title}
                     </h4>
-                    <p className="text-white/65 text-xs font-light mt-0.5 font-sans">
+                    <p className="text-white/65 text-sm font-light mt-0.5 font-sans">
                       {link.description}
                     </p>
                   </div>

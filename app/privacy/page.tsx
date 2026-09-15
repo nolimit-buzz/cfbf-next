@@ -66,7 +66,7 @@ export default function PrivacyPolicyPage() {
         bgImage="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=1600&auto=format&fit=crop"
         currentPage="privacy policy"
       >
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-mono text-gray-400 uppercase tracking-widest mt-4">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-mono text-gray-400 uppercase tracking-widest mt-4">
           <span className="flex items-center gap-1.5">
             Last Updated: June 25, 2026
           </span>
@@ -89,7 +89,7 @@ export default function PrivacyPolicyPage() {
                     <button
                       key={sec.id}
                       onClick={() => scrollToSection(sec.id)}
-                      className={`text-left text-xs font-bold font-sans py-2.5 px-3 rounded-[4px] transition-all duration-300 focus:outline-none ${
+                      className={`text-left text-sm font-bold font-sans py-2.5 px-3 rounded-[4px] transition-all duration-300 focus:outline-none ${
                         activeId === sec.id
                           ? 'bg-[#051F1A] text-white pl-4'
                           : 'text-gray-500 hover:text-[#051F1A] hover:bg-gray-50'
@@ -161,18 +161,18 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <div className="grid md:grid-cols-2 gap-4 mt-2">
                   <div className="bg-[#FAFDFB] border border-gray-100 p-4 rounded-[6px]">
-                    <h4 className="font-bold text-xs text-brand-dark mb-1 font-mono uppercase tracking-wider flex items-center gap-1.5">
+                    <h4 className="font-bold text-sm text-brand-dark mb-1 font-mono uppercase tracking-wider flex items-center gap-1.5">
                       <CheckCircle size={14} className="text-[#00A788]" /> Eligibility Assessment
                     </h4>
-                    <p className="text-xs text-gray-500 font-light leading-relaxed">
+                    <p className="text-sm text-gray-500 font-light leading-relaxed">
                       Calculating qualifiers, estimating compliance weights, and evaluating developers for subordinated credit wraps.
                     </p>
                   </div>
                   <div className="bg-[#FAFDFB] border border-gray-100 p-4 rounded-[6px]">
-                    <h4 className="font-bold text-xs text-brand-dark mb-1 font-mono uppercase tracking-wider flex items-center gap-1.5">
+                    <h4 className="font-bold text-sm text-brand-dark mb-1 font-mono uppercase tracking-wider flex items-center gap-1.5">
                       <CheckCircle size={14} className="text-[#00A788]" /> Facility Reporting
                     </h4>
-                    <p className="text-xs text-gray-500 font-light leading-relaxed">
+                    <p className="text-sm text-gray-500 font-light leading-relaxed">
                       Aggregating developmental milestones (connections powered, carbon metric savings) for FCDO governance reviews.
                     </p>
                   </div>
@@ -256,9 +256,9 @@ export default function PrivacyPolicyPage() {
                   <div className="space-y-1">
                     <span className="text-[10px] font-bold tracking-[0.25em] text-[#00A788] uppercase block font-mono">Administration Desk</span>
                     <h4 className="text-base font-bold text-brand-dark font-sans">InfraCredit Facility Manager</h4>
-                    <p className="text-xs text-gray-500 font-light">Lagos State, Nigeria</p>
+                    <p className="text-sm text-gray-500 font-light">Lagos State, Nigeria</p>
                   </div>
-                  <Link href="/contact" className="inline-flex items-center gap-2 bg-[#051F1A] text-white hover:bg-brand-primary px-6 py-3 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-colors duration-300 font-mono">
+                  <Link href="/contact" className="inline-flex items-center gap-2 bg-[#051F1A] text-white hover:bg-brand-primary px-6 py-3 rounded-[6px] text-sm font-bold uppercase tracking-wider transition-colors duration-300 font-mono">
                     <MessageSquare size={14} /> Contact Intake Team
                   </Link>
                 </div>

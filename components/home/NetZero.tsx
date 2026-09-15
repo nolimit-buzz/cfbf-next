@@ -62,7 +62,7 @@ export default function NetZeroSection({ data }: { data?: NetZeroSectionData }) 
                   {c.cardSubtitle && (
                     <div className="text-xl text-brand-accent font-sans tracking-wide">{c.cardSubtitle}</div>
                   )}
-                  <p className="text-xs text-gray-400 mt-4 leading-relaxed border-t border-white/10 pt-4">
+                  <p className="text-sm text-gray-400 mt-4 leading-relaxed border-t border-white/10 pt-4">
                     {c.cardBody}
                   </p>
                 </div>

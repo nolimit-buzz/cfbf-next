@@ -67,7 +67,7 @@ export default function TermsOfUsePage() {
         bgImage="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=1600&auto=format&fit=crop"
         currentPage="terms of use"
       >
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-mono text-gray-400 uppercase tracking-widest mt-4">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-mono text-gray-400 uppercase tracking-widest mt-4">
           <span className="flex items-center gap-1.5">
             Last Updated: June 25, 2026
           </span>
@@ -90,7 +90,7 @@ export default function TermsOfUsePage() {
                     <button
                       key={sec.id}
                       onClick={() => scrollToSection(sec.id)}
-                      className={`text-left text-xs font-bold font-sans py-2.5 px-3 rounded-[4px] transition-all duration-300 focus:outline-none ${
+                      className={`text-left text-sm font-bold font-sans py-2.5 px-3 rounded-[4px] transition-all duration-300 focus:outline-none ${
                         activeId === sec.id
                           ? 'bg-[#051F1A] text-white pl-4'
                           : 'text-gray-500 hover:text-[#051F1A] hover:bg-gray-50'
@@ -105,7 +105,7 @@ export default function TermsOfUsePage() {
               <div className="bg-[#FAFDFB] border border-gray-200/40 rounded-[6px] p-6 text-left flex items-start gap-3">
                 <Scale size={18} className="text-[#00A788] shrink-0 mt-0.5" />
                 <div>
-                  <h5 className="text-xs font-bold text-brand-dark font-mono uppercase tracking-wider mb-1">Legal Notice</h5>
+                  <h5 className="text-sm font-bold text-brand-dark font-mono uppercase tracking-wider mb-1">Legal Notice</h5>
                   <p className="text-[11px] leading-relaxed text-gray-500 font-sans font-light">
                     These parameters establish formal bounds for submissions. Submitting checklists represents full compliance.
                   </p>
@@ -239,9 +239,9 @@ export default function TermsOfUsePage() {
                   <div className="space-y-1">
                     <span className="text-[10px] font-bold tracking-[0.25em] text-[#00A788] uppercase block font-mono">UK aid / FCDO Blended Fund</span>
                     <h4 className="text-base font-bold text-brand-dark font-sans">InfraCredit Legal Counsel</h4>
-                    <p className="text-xs text-gray-500 font-light">Lagos State, Nigeria</p>
+                    <p className="text-sm text-gray-500 font-light">Lagos State, Nigeria</p>
                   </div>
-                  <Link href="/contact" className="inline-flex items-center gap-2 bg-[#051F1A] text-white hover:bg-brand-primary px-6 py-3 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-colors duration-300 font-mono">
+                  <Link href="/contact" className="inline-flex items-center gap-2 bg-[#051F1A] text-white hover:bg-brand-primary px-6 py-3 rounded-[6px] text-sm font-bold uppercase tracking-wider transition-colors duration-300 font-mono">
                     <MessageSquare size={14} /> Contact Legal Team
                   </Link>
                 </div>

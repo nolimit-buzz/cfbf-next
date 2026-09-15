@@ -148,7 +148,7 @@ const Navbar = ({ news = [], projects = [] }: { news?: NewsSummary[]; projects?:
               href={link.href}
               onMouseEnter={link.mega ? openMega : closeNow}
               onMouseLeave={link.mega ? closeMega : undefined}
-              className={`text-xs lg:text-sm font-medium transition-colors relative group font-sans interactive focus:outline-none inline-flex items-center gap-1 ${
+              className={`text-sm lg:text-sm font-medium transition-colors relative group font-sans interactive focus:outline-none inline-flex items-center gap-1 ${
                 isWhite
                   ? activePage === link.key ? 'text-brand-primary' : 'text-gray-600 hover:text-brand-primary'
                   : activePage === link.key ? 'text-brand-accent' : 'text-gray-300 hover:text-brand-accent'

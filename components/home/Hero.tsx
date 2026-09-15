@@ -226,7 +226,7 @@ export default function Hero({
                   className="cursor-pointer"
                 >
                   <div className="text-2xl md:text-3xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-xs text-gray-400 uppercase tracking-widest">{stat.label}</div>
+                  <div className="text-sm text-gray-400 uppercase tracking-widest">{stat.label}</div>
                 </motion.div>
               ))}
             </motion.div>
@@ -288,7 +288,7 @@ export default function Hero({
                         {activeItem.title}
                       </h3>
                     </div>
-                    <div className="flex items-center gap-1 text-xs font-medium text-white group-hover:text-brand-accent transition-colors font-sans">
+                    <div className="flex items-center gap-1 text-sm font-medium text-white group-hover:text-brand-accent transition-colors font-sans">
                       {c.newsCtaLabel}
                       <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </div>

@@ -121,7 +121,7 @@ export default function AssessmentClient({
 
   /** Renders the shared `LABEL *` line above a question's options. */
   const questionLabel = (idx: number) => (
-    <label id={`q-${idx}-label`} className="text-xs font-semibold text-gray-300 block uppercase tracking-wider">
+    <label id={`q-${idx}-label`} className="text-sm font-semibold text-gray-300 block uppercase tracking-wider">
       {q(idx).label} <span className="text-[#81C34D] font-bold">{q(idx).requiredMarker}</span>
     </label>
   );
@@ -301,7 +301,7 @@ export default function AssessmentClient({
         <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-5">
           <button
             onClick={handleBack}
-            className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors uppercase font-bold tracking-wider focus:outline-none"
+            className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors uppercase font-bold tracking-wider focus:outline-none"
           >
             <ArrowLeft size={16} /> {chromeCopy.backLabel}
           </button>
@@ -341,7 +341,7 @@ export default function AssessmentClient({
               <h3 className="text-xl md:text-2xl font-bold tracking-tight font-sans text-white">
                 {stepAt(0).title}
               </h3>
-              <p className="text-xs md:text-sm text-gray-400 leading-relaxed font-light mb-8">
+              <p className="text-sm md:text-sm text-gray-400 leading-relaxed font-light mb-8">
                 {stepAt(0).description}
               </p>
 
@@ -353,7 +353,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.nigeriaBase === true}
                     onClick={() => handleSelect('nigeriaBase', true)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.nigeriaBase === true
                         ? 'bg-brand-accent text-brand-dark border-brand-accent'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -365,7 +365,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.nigeriaBase === false}
                     onClick={() => handleSelect('nigeriaBase', false)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.nigeriaBase === false
                         ? 'bg-red-500/20 text-red-400 border-red-500/50'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -387,7 +387,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.pencomCompliant === true}
                     onClick={() => handleSelect('pencomCompliant', true)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.pencomCompliant === true
                         ? 'bg-brand-accent text-brand-dark border-brand-accent'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -399,7 +399,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.pencomCompliant === false}
                     onClick={() => handleSelect('pencomCompliant', false)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.pencomCompliant === false
                         ? 'bg-red-500/20 text-red-400 border-red-500/50'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -423,7 +423,7 @@ export default function AssessmentClient({
                       role="radio"
                       aria-checked={answers.experienceYears === option.value}
                       onClick={() => handleSelect('experienceYears', option.value)}
-                      className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                      className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                         answers.experienceYears === option.value
                           ? 'bg-brand-accent text-brand-dark border-brand-accent'
                           : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -449,7 +449,7 @@ export default function AssessmentClient({
               <h3 className="text-xl md:text-2xl font-bold tracking-tight font-sans text-white">
                 {stepAt(1).title}
               </h3>
-              <p className="text-xs md:text-sm text-gray-400 leading-relaxed font-light mb-8">
+              <p className="text-sm md:text-sm text-gray-400 leading-relaxed font-light mb-8">
                 {stepAt(1).description}
               </p>
 
@@ -463,7 +463,7 @@ export default function AssessmentClient({
                       role="radio"
                       aria-checked={answers.techType === tech.value}
                       onClick={() => handleSelect('techType', tech.value)}
-                      className={`py-3 px-2 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                      className={`py-3 px-2 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                         answers.techType === tech.value
                           ? tech.value === 'fossil-fuel'
                             ? 'bg-red-500/20 text-red-400 border-red-500/50'
@@ -485,7 +485,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.humanRights === true}
                     onClick={() => handleSelect('humanRights', true)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.humanRights === true
                         ? 'bg-brand-accent text-brand-dark border-brand-accent'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -497,7 +497,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.humanRights === false}
                     onClick={() => handleSelect('humanRights', false)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.humanRights === false
                         ? 'bg-red-500/20 text-red-400 border-red-500/50'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -516,7 +516,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.ifcCompliance === true}
                     onClick={() => handleSelect('ifcCompliance', true)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.ifcCompliance === true
                         ? 'bg-brand-accent text-brand-dark border-brand-accent'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -528,7 +528,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.ifcCompliance === false}
                     onClick={() => handleSelect('ifcCompliance', false)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.ifcCompliance === false
                         ? 'bg-red-500/20 text-red-400 border-red-500/50'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -553,7 +553,7 @@ export default function AssessmentClient({
               <h3 className="text-xl md:text-2xl font-bold tracking-tight font-sans text-white">
                 {stepAt(2).title}
               </h3>
-              <p className="text-xs md:text-sm text-gray-400 leading-relaxed font-light mb-8">
+              <p className="text-sm md:text-sm text-gray-400 leading-relaxed font-light mb-8">
                 {stepAt(2).description}
               </p>
 
@@ -565,7 +565,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.capacityCheck === true}
                     onClick={() => handleSelect('capacityCheck', true)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.capacityCheck === true
                         ? 'bg-brand-accent text-brand-dark border-brand-accent'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -577,7 +577,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.capacityCheck === false}
                     onClick={() => handleSelect('capacityCheck', false)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.capacityCheck === false
                         ? 'bg-red-500/20 text-red-400 border-red-500/50'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -600,7 +600,7 @@ export default function AssessmentClient({
                         role="radio"
                         aria-checked={answers.activeSites === val}
                         onClick={() => handleSelect('activeSites', val)}
-                        className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                        className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                           answers.activeSites === val
                             ? val === 0
                               ? 'bg-red-500/20 text-red-400 border-red-500/50'
@@ -623,7 +623,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.payingCustomers === true}
                     onClick={() => handleSelect('payingCustomers', true)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.payingCustomers === true
                         ? 'bg-brand-accent text-brand-dark border-brand-accent'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -635,7 +635,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.payingCustomers === false}
                     onClick={() => handleSelect('payingCustomers', false)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.payingCustomers === false
                         ? 'bg-white/10 text-white border-white/10 hover:border-white/30'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -654,7 +654,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.scalableModel === true}
                     onClick={() => handleSelect('scalableModel', true)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.scalableModel === true
                         ? 'bg-brand-accent text-brand-dark border-brand-accent'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -666,7 +666,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.scalableModel === false}
                     onClick={() => handleSelect('scalableModel', false)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.scalableModel === false
                         ? 'bg-white/10 text-white border-white/10 hover:border-white/30'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -691,7 +691,7 @@ export default function AssessmentClient({
               <h3 className="text-xl md:text-2xl font-bold tracking-tight font-sans text-white">
                 {stepAt(3).title}
               </h3>
-              <p className="text-xs md:text-sm text-gray-400 leading-relaxed font-light mb-8">
+              <p className="text-sm md:text-sm text-gray-400 leading-relaxed font-light mb-8">
                 {stepAt(3).description}
               </p>
 
@@ -703,7 +703,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.nairaDenominated === true}
                     onClick={() => handleSelect('nairaDenominated', true)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.nairaDenominated === true
                         ? 'bg-brand-accent text-brand-dark border-brand-accent'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -715,7 +715,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.nairaDenominated === false}
                     onClick={() => handleSelect('nairaDenominated', false)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.nairaDenominated === false
                         ? 'bg-red-500/20 text-red-400 border-red-500/50'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -734,7 +734,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.fundingStructure === 'debt'}
                     onClick={() => handleSelect('fundingStructure', 'debt')}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.fundingStructure === 'debt'
                         ? 'bg-brand-accent text-brand-dark border-brand-accent'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -746,7 +746,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.fundingStructure === 'equity-only'}
                     onClick={() => handleSelect('fundingStructure', 'equity-only')}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.fundingStructure === 'equity-only'
                         ? 'bg-red-500/20 text-red-400 border-red-500/50'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -765,7 +765,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.tenorLimit === true}
                     onClick={() => handleSelect('tenorLimit', true)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.tenorLimit === true
                         ? 'bg-brand-accent text-brand-dark border-brand-accent'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -777,7 +777,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.tenorLimit === false}
                     onClick={() => handleSelect('tenorLimit', false)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.tenorLimit === false
                         ? 'bg-white/10 text-white border-white/10 hover:border-white/30'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -796,7 +796,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.securityPackage === true}
                     onClick={() => handleSelect('securityPackage', true)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.securityPackage === true
                         ? 'bg-brand-accent text-brand-dark border-brand-accent'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -808,7 +808,7 @@ export default function AssessmentClient({
                     role="radio"
                     aria-checked={answers.securityPackage === false}
                     onClick={() => handleSelect('securityPackage', false)}
-                    className={`py-3.5 rounded-[6px] border text-xs font-bold transition-all focus:outline-none ${
+                    className={`py-3.5 rounded-[6px] border text-sm font-bold transition-all focus:outline-none ${
                       answers.securityPackage === false
                         ? 'bg-red-500/20 text-red-400 border-red-500/50'
                         : 'bg-white/5 border-white/10 hover:border-white/30 text-gray-300'
@@ -892,13 +892,13 @@ export default function AssessmentClient({
                   </h3>
                 </div>
 
-                <p className="text-xs md:text-sm text-gray-300 leading-relaxed font-light max-w-lg mx-auto">
+                <p className="text-sm md:text-sm text-gray-300 leading-relaxed font-light max-w-lg mx-auto">
                   {result.desc}
                 </p>
               </div>
 
               {/* Summary parameters checklist preview */}
-              <div className="w-full bg-[#02100d] border border-white/5 rounded-[6px] p-5 text-left text-xs font-sans space-y-2.5">
+              <div className="w-full bg-[#02100d] border border-white/5 rounded-[6px] p-5 text-left text-sm font-sans space-y-2.5">
                 <h5 className="font-bold text-gray-400 uppercase tracking-wider text-[10px] border-b border-white/5 pb-2 mb-2 font-mono">
                   {resultCopy.logHeading}
                 </h5>
@@ -939,7 +939,7 @@ export default function AssessmentClient({
                 {result.status !== 'excluded' ? (
                   <button
                     onClick={handleResultSubmit}
-                    className="flex-1 py-3.5 rounded-full bg-[#81C34D] hover:bg-white text-brand-dark hover:text-[#051F1A] font-bold text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 focus:outline-none interactive"
+                    className="flex-1 py-3.5 rounded-full bg-[#81C34D] hover:bg-white text-brand-dark hover:text-[#051F1A] font-bold text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 focus:outline-none interactive"
                   >
                     <FileCheck size={16} />
                     {outcomeFor(result.status).ctaLabel}
@@ -947,7 +947,7 @@ export default function AssessmentClient({
                 ) : (
                   <button
                     onClick={() => router.push('/eligibility')}
-                    className="flex-1 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 focus:outline-none interactive"
+                    className="flex-1 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 focus:outline-none interactive"
                   >
                     <BookOpen size={16} /> {resultCopy.excludedCtaLabel}
                   </button>
@@ -955,7 +955,7 @@ export default function AssessmentClient({
 
                 <button
                   onClick={restartQuiz}
-                  className="py-3.5 px-6 rounded-full bg-white/5 border border-white/10 hover:border-white/30 text-gray-400 hover:text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 focus:outline-none interactive"
+                  className="py-3.5 px-6 rounded-full bg-white/5 border border-white/10 hover:border-white/30 text-gray-400 hover:text-white text-sm font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-1.5 focus:outline-none interactive"
                 >
                   <RotateCcw size={14} /> {resultCopy.restartLabel}
                 </button>
@@ -969,7 +969,7 @@ export default function AssessmentClient({
           <div className="flex justify-between items-center mt-10 pt-5 border-t border-white/5">
             <button
               onClick={handleBack}
-              className="px-6 py-2.5 rounded text-xs text-gray-400 hover:text-white transition-colors uppercase font-bold tracking-wider focus:outline-none"
+              className="px-6 py-2.5 rounded text-sm text-gray-400 hover:text-white transition-colors uppercase font-bold tracking-wider focus:outline-none"
             >
               {step === 1 ? chromeCopy.cancelLabel : chromeCopy.backLabel}
             </button>
@@ -977,7 +977,7 @@ export default function AssessmentClient({
             <button
               onClick={handleNext}
               disabled={!isStepValid()}
-              className={`px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-1.5 focus:outline-none interactive ${
+              className={`px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-1.5 focus:outline-none interactive ${
                 isStepValid()
                   ? 'bg-brand-accent text-brand-dark hover:bg-white'
                   : 'bg-white/5 text-gray-500 border border-white/5 cursor-not-allowed'

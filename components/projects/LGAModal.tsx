@@ -120,7 +120,7 @@ export default function LGAModal({
               <div className="absolute inset-0 bg-gradient-to-t from-[#051F1A] via-[#051F1A]/60 to-transparent" />
               <div className="absolute inset-0 flex flex-col items-center justify-end pb-6 text-center">
                 <h2 className="text-3xl font-extrabold text-white tracking-tight font-sans">{lga}</h2>
-                <p className="text-[#81C34D] text-xs font-bold uppercase tracking-[0.2em] mt-1 font-mono">
+                <p className="text-[#81C34D] text-sm font-bold uppercase tracking-[0.2em] mt-1 font-mono">
                   {copy.subtitlePrefix} · {stateName} {copy.subtitleStateSuffix}
                 </p>
               </div>
@@ -171,12 +171,12 @@ export default function LGAModal({
                 <div className="flex flex-col items-center justify-center py-16 text-center px-8">
                   <MapPin size={32} className="text-brand-accent/30 mb-3" />
                   <p className="text-gray-400 text-sm font-sans">{copy.emptyTitle}</p>
-                  <p className="text-gray-600 text-xs font-sans mt-1">{copy.emptyBody}</p>
+                  <p className="text-gray-600 text-sm font-sans mt-1">{copy.emptyBody}</p>
                 </div>
               ) : (
                 <table className="w-full text-left border-collapse text-sm">
                   <thead className="sticky top-0 z-10">
-                    <tr className="bg-white/[0.04] backdrop-blur-sm border-b border-white/5 text-xs font-bold uppercase tracking-wider text-gray-400 font-mono">
+                    <tr className="bg-white/[0.04] backdrop-blur-sm border-b border-white/5 text-sm font-bold uppercase tracking-wider text-gray-400 font-mono">
                       {copy.columnHeads.map((head, idx) => {
                         // The last two columns are numeric and centre-aligned;
                         // the first carries the table's left gutter.
@@ -201,11 +201,11 @@ export default function LGAModal({
                         className="hover:bg-white/[0.03] transition-colors duration-150 group"
                       >
                         <td className="p-4 pl-6">
-                          <span className="font-semibold text-white text-xs">{entry.developer}</span>
+                          <span className="font-semibold text-white text-sm">{entry.developer}</span>
                         </td>
-                        <td className="p-4 text-xs text-gray-300 max-w-[200px]">{entry.community}</td>
-                        <td className="p-4 text-xs">{entry.state}</td>
-                        <td className="p-4 text-xs">{entry.lga}</td>
+                        <td className="p-4 text-sm text-gray-300 max-w-[200px]">{entry.community}</td>
+                        <td className="p-4 text-sm">{entry.state}</td>
+                        <td className="p-4 text-sm">{entry.lga}</td>
                         <td className="p-4">
                           <span className="inline-flex items-center gap-1.5 text-[11px] font-medium">
                             <span>{projectTypeIcon[entry.projectType] ?? copy.fallbackIcon}</span>
@@ -213,12 +213,12 @@ export default function LGAModal({
                           </span>
                         </td>
                         <td className="p-4 text-center">
-                          <span className={`text-xs font-bold font-mono ${entry.puePotential > 0 ? 'text-[#81C34D]' : 'text-gray-600'}`}>
+                          <span className={`text-sm font-bold font-mono ${entry.puePotential > 0 ? 'text-[#81C34D]' : 'text-gray-600'}`}>
                             {entry.puePotential}
                           </span>
                         </td>
                         <td className="p-4 pr-6 text-center">
-                          <span className={`text-xs font-bold font-mono ${entry.enumerators > 0 ? 'text-[#FDB713]' : 'text-gray-600'}`}>
+                          <span className={`text-sm font-bold font-mono ${entry.enumerators > 0 ? 'text-[#FDB713]' : 'text-gray-600'}`}>
                             {entry.enumerators}
                           </span>
                         </td>
@@ -231,7 +231,7 @@ export default function LGAModal({
 
             {/* Footer */}
             <div className="flex-shrink-0 flex items-center justify-between border-t border-white/5 px-6 py-3 bg-white/[0.01]">
-              <p className="text-xs text-gray-600 font-mono uppercase tracking-widest">
+              <p className="text-sm text-gray-600 font-mono uppercase tracking-widest">
                 {copy.sourceLabel}
               </p>
               <button

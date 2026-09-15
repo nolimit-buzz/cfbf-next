@@ -56,7 +56,7 @@ export default function ProjectBentoMetric({
           }`}>
             <CountUp value={value} />
           </h3>
-          <p className={`text-xs md:text-sm leading-relaxed pr-6 mt-4 ${
+          <p className={`text-sm md:text-sm leading-relaxed pr-6 mt-4 ${
             isDark ? 'text-white/60' : 'text-gray-500'
           }`}>
             {desc}

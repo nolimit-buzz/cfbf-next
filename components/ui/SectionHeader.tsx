@@ -58,7 +58,7 @@ export default function SectionHeader({
           className="flex items-center gap-3 mb-3"
         >
           <div className={`h-px w-8 ${dark ? 'bg-brand-accent' : 'bg-brand-primary'}`}></div>
-          <span className={`${dark ? 'text-brand-accent' : 'text-brand-primary'} text-xs font-normal tracking-[0.2em] uppercase font-sans`}>{sub}</span>
+          <span className={`${dark ? 'text-brand-accent' : 'text-brand-primary'} text-sm font-normal tracking-[0.2em] uppercase font-sans`}>{sub}</span>
         </motion.div>
         <motion.h2 
           initial={{ opacity: 0, y: 30 }}

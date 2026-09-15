@@ -195,7 +195,7 @@ export default function HowItWorksSections({
           <motion.div {...fadeUp(0)}>
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-8 bg-[#81C34D]" />
-              <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-mono">{financing.eyebrow}</span>
+              <span className="text-[#81C34D] text-sm font-semibold tracking-[0.2em] uppercase font-mono">{financing.eyebrow}</span>
             </div>
             <div className="grid lg:grid-cols-2 gap-16 items-start">
               {/* Left: Copy */}
@@ -253,7 +253,7 @@ export default function HowItWorksSections({
                     <img src={coFinancing.srcWhite} alt={coFinancing.srcWhite_alt_text || coFinancing.alt} className="h-7 w-auto object-contain absolute transition-all duration-300 group-hover/ic:opacity-0 group-hover/ic:scale-95" loading="lazy" />
                     {/* Decorative hover swap of the logo above — never announced. */}
                     <img src={coFinancing.srcColour} alt="" aria-hidden="true" className="h-7 w-auto object-contain opacity-0 scale-95 transition-all duration-300 group-hover/ic:opacity-100 group-hover/ic:scale-100" loading="lazy" />
-                    <span className="invisible text-white text-xs font-bold">{coFinancing.alt}</span>
+                    <span className="invisible text-white text-sm font-bold">{coFinancing.alt}</span>
                   </a>
                 </motion.div>
 
@@ -277,7 +277,7 @@ export default function HowItWorksSections({
           <motion.div {...fadeUp(0)}>
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-8 bg-[#00A788]" />
-              <span className="text-[#00A788] text-xs font-semibold tracking-[0.2em] uppercase font-mono">{facility.eyebrow}</span>
+              <span className="text-[#00A788] text-sm font-semibold tracking-[0.2em] uppercase font-mono">{facility.eyebrow}</span>
             </div>
             <div className="max-w-2xl mb-12">
               <h2 className="text-3xl md:text-4xl font-bold font-sans leading-tight tracking-tight mb-4">
@@ -333,14 +333,14 @@ export default function HowItWorksSections({
                 transition={{ duration: 0.5, delay: idx * 0.05 }}
                 className="relative group text-left"
               >
-                <div className="absolute -left-[35px] md:-left-[51px] top-1.5 w-6 h-6 md:w-8 md:h-8 rounded-full bg-[#051F1A] border-2 border-white/20 group-hover:border-[#81C34D] transition-colors duration-300 flex items-center justify-center text-[10px] md:text-xs font-bold text-gray-400 group-hover:text-white font-mono">
+                <div className="absolute -left-[35px] md:-left-[51px] top-1.5 w-6 h-6 md:w-8 md:h-8 rounded-full bg-[#051F1A] border-2 border-white/20 group-hover:border-[#81C34D] transition-colors duration-300 flex items-center justify-center text-[10px] md:text-sm font-bold text-gray-400 group-hover:text-white font-mono">
                   {step.step}
                 </div>
                 <div className="bg-white/[0.01] border border-white/5 p-5 md:p-6 rounded-[6px] hover:bg-white/[0.03] hover:border-white/10 transition-all duration-300">
                   <h4 className="font-bold text-base md:text-lg text-white font-sans mb-2 group-hover:text-[#81C34D] transition-colors duration-300">
                     {step.title}
                   </h4>
-                  <p className="text-xs md:text-sm text-gray-400 leading-relaxed font-sans font-light">
+                  <p className="text-sm md:text-sm text-gray-400 leading-relaxed font-sans font-light">
                     {step.desc}
                   </p>
                 </div>
@@ -361,7 +361,7 @@ export default function HowItWorksSections({
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-[#81C34D]" />
-            <span className="text-[#81C34D] text-xs font-semibold tracking-[0.2em] uppercase font-mono">{nextStepsContent.eyebrow}</span>
+            <span className="text-[#81C34D] text-sm font-semibold tracking-[0.2em] uppercase font-mono">{nextStepsContent.eyebrow}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
             {nextStepsContent.headingPartOne}<span className="text-[#9BB7B1] italic font-serif">{nextStepsContent.headingItalic}</span>
@@ -385,7 +385,7 @@ export default function HowItWorksSections({
                   <div className="h-8 w-px bg-white/25" />
                   <div>
                     <h4 className="text-white text-base font-bold font-sans group-hover:text-white/80 transition-colors duration-300">{link.title}</h4>
-                    <p className="text-white/65 text-xs font-light mt-0.5 font-sans">{link.description}</p>
+                    <p className="text-white/65 text-sm font-light mt-0.5 font-sans">{link.description}</p>
                   </div>
                 </div>
                 <ArrowRight size={16} className="text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 shrink-0 ml-4" />

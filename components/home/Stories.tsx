@@ -64,7 +64,7 @@ export default function FeaturedStories({ data }: { data?: StoriesSection }) {
                       <StoryMedia story={story} />
                       {/* Category badge bottom-left */}
                       <div className="absolute bottom-3 left-3 pointer-events-none">
-                        <span className={`backdrop-blur-md text-xs font-bold tracking-wider uppercase px-3 py-0.5 rounded-full font-mono border ${accent.badge}`}>
+                        <span className={`backdrop-blur-md text-sm font-bold tracking-wider uppercase px-3 py-0.5 rounded-full font-mono border ${accent.badge}`}>
                           {story.badge}
                         </span>
                       </div>
@@ -77,16 +77,16 @@ export default function FeaturedStories({ data }: { data?: StoriesSection }) {
                       
                       <div className="space-y-0">
                         <div className="flex justify-between border-t border-gray-100 py-1.5">
-                          <span className="text-xs font-mono text-gray-400 uppercase tracking-wider">{c.roleLabel}</span>
-                          <span className="text-xs font-bold font-mono text-[#051F1A]">{story.role}</span>
+                          <span className="text-sm font-mono text-gray-400 uppercase tracking-wider">{c.roleLabel}</span>
+                          <span className="text-sm font-bold font-mono text-[#051F1A]">{story.role}</span>
                         </div>
                         <div className="flex justify-between border-t border-gray-100 py-1.5">
-                          <span className="text-xs font-mono text-gray-400 uppercase tracking-wider">{c.locationLabel}</span>
-                          <span className="text-xs font-bold font-mono text-[#051F1A]">{story.location}</span>
+                          <span className="text-sm font-mono text-gray-400 uppercase tracking-wider">{c.locationLabel}</span>
+                          <span className="text-sm font-bold font-mono text-[#051F1A]">{story.location}</span>
                         </div>
                         <div className="flex justify-between border-t border-gray-100 py-1.5">
-                          <span className="text-xs font-mono text-gray-400 uppercase tracking-wider">{c.typeLabel}</span>
-                          <span className={`text-xs font-bold font-mono ${accent.text}`}>{story.storyType}</span>
+                          <span className="text-sm font-mono text-gray-400 uppercase tracking-wider">{c.typeLabel}</span>
+                          <span className={`text-sm font-bold font-mono ${accent.text}`}>{story.storyType}</span>
                         </div>
                       </div>
                     </div>
@@ -112,7 +112,7 @@ export default function FeaturedStories({ data }: { data?: StoriesSection }) {
                       <StoryMedia story={story} />
                       {/* Category badge bottom-left */}
                       <div className="absolute bottom-2.5 left-2.5 pointer-events-none">
-                        <span className={`backdrop-blur-md text-xs font-bold tracking-wider uppercase px-3 py-0.5 rounded-full font-mono border ${accent.badge}`}>
+                        <span className={`backdrop-blur-md text-sm font-bold tracking-wider uppercase px-3 py-0.5 rounded-full font-mono border ${accent.badge}`}>
                           {story.badge}
                         </span>
                       </div>
@@ -128,16 +128,16 @@ export default function FeaturedStories({ data }: { data?: StoriesSection }) {
                       
                       <div className="grid grid-cols-3 gap-4 border-t border-gray-100 pt-3">
                         <div className="flex flex-col text-left">
-                          <span className="text-xs font-mono text-gray-400 uppercase tracking-wider block mb-0.5">{c.roleLabel}</span>
-                          <span className="text-xs font-bold font-mono text-[#051F1A]">{story.role}</span>
+                          <span className="text-sm font-mono text-gray-400 uppercase tracking-wider block mb-0.5">{c.roleLabel}</span>
+                          <span className="text-sm font-bold font-mono text-[#051F1A]">{story.role}</span>
                         </div>
                         <div className="flex flex-col text-left">
-                          <span className="text-xs font-mono text-gray-400 uppercase tracking-wider block mb-0.5">{c.locationLabel}</span>
-                          <span className="text-xs font-bold font-mono text-[#051F1A]">{story.location}</span>
+                          <span className="text-sm font-mono text-gray-400 uppercase tracking-wider block mb-0.5">{c.locationLabel}</span>
+                          <span className="text-sm font-bold font-mono text-[#051F1A]">{story.location}</span>
                         </div>
                         <div className="flex flex-col text-left">
-                          <span className="text-xs font-mono text-gray-400 uppercase tracking-wider block mb-0.5">{c.typeLabel}</span>
-                          <span className={`text-xs font-bold font-mono ${accent.text}`}>{story.storyType}</span>
+                          <span className="text-sm font-mono text-gray-400 uppercase tracking-wider block mb-0.5">{c.typeLabel}</span>
+                          <span className={`text-sm font-bold font-mono ${accent.text}`}>{story.storyType}</span>
                         </div>
                       </div>
                     </div>

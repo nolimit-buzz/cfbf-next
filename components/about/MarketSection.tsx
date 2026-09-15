@@ -45,7 +45,7 @@ export default function MarketSection({ data }: { data?: AboutMarketSectionData 
         {/* Header row */}
         <motion.div {...fadeUp(0)} className="text-left mb-12 space-y-4">
           <div>
-            <span className="text-brand-primary text-xs font-semibold tracking-[0.2em] uppercase font-mono block mb-2">
+            <span className="text-brand-primary text-sm font-semibold tracking-[0.2em] uppercase font-mono block mb-2">
               {c.eyebrow}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-brand-dark font-sans tracking-tight leading-tight">
@@ -69,11 +69,11 @@ export default function MarketSection({ data }: { data?: AboutMarketSectionData 
             </div>
             <div>
               <span className="text-5xl md:text-7xl font-bold font-mono leading-none tracking-tight block mb-3">{gdp.value}</span>
-              <span className="text-xs md:text-sm font-sans text-white/90 block leading-snug max-w-md">
+              <span className="text-sm md:text-sm font-sans text-white/90 block leading-snug max-w-md">
                 {gdp.description}
               </span>
             </div>
-            <div className="pt-4 border-t border-white/20 text-[11px] md:text-xs text-white/75 font-sans leading-relaxed mt-4">
+            <div className="pt-4 border-t border-white/20 text-[11px] md:text-sm text-white/75 font-sans leading-relaxed mt-4">
               {gdp.footer}
             </div>
           </div>
@@ -96,7 +96,7 @@ export default function MarketSection({ data }: { data?: AboutMarketSectionData 
             <span className="text-3xl md:text-4xl font-bold font-mono text-brand-dark leading-none block mb-4">{businesses.value}</span>
             <div>
               <span className="text-[9px] font-bold font-mono text-[#7C9590] uppercase tracking-widest block mb-1">{businesses.eyebrow}</span>
-              <span className="text-xs text-gray-500 font-sans leading-snug">
+              <span className="text-sm text-gray-500 font-sans leading-snug">
                 {businesses.description}
               </span>
             </div>
@@ -108,7 +108,7 @@ export default function MarketSection({ data }: { data?: AboutMarketSectionData 
               <Users size={80} />
             </div>
             <span className="text-3xl md:text-4xl font-bold font-mono leading-none tracking-tight block mb-4">{employment.value}</span>
-            <span className="text-xs font-sans text-white/90 block leading-snug">
+            <span className="text-sm font-sans text-white/90 block leading-snug">
               {employment.description}
             </span>
           </div>
@@ -121,7 +121,7 @@ export default function MarketSection({ data }: { data?: AboutMarketSectionData 
             <span className="text-3xl md:text-4xl font-bold font-mono leading-none tracking-tight block mb-4">{pension.value}</span>
             <div>
               <span className="text-[9px] font-bold font-mono text-brand-accent uppercase tracking-widest block mb-1">{pension.eyebrow}</span>
-              <span className="text-xs font-sans text-white/80 block leading-snug">
+              <span className="text-sm font-sans text-white/80 block leading-snug">
                 {pension.description}
               </span>
             </div>
@@ -137,7 +137,7 @@ export default function MarketSection({ data }: { data?: AboutMarketSectionData 
               <span className="text-[9px] font-bold font-mono text-brand-accent uppercase tracking-widest block mb-1">
                 {smeCount.eyebrow}
               </span>
-              <span className="text-xs font-sans text-white/80 block leading-snug max-w-xl">
+              <span className="text-sm font-sans text-white/80 block leading-snug max-w-xl">
                 {smeCount.description}
               </span>
             </div>
@@ -149,7 +149,7 @@ export default function MarketSection({ data }: { data?: AboutMarketSectionData 
               <TrendingUp size={100} />
             </div>
             <span className="text-4xl md:text-5xl lg:text-6xl font-bold font-mono leading-none tracking-tight block mb-4">{pensionTarget.value}</span>
-            <p className="text-xs font-sans text-[#051F1A]/95 leading-snug max-w-xl">
+            <p className="text-sm font-sans text-[#051F1A]/95 leading-snug max-w-xl">
               {pensionTarget.description}
             </p>
           </div>

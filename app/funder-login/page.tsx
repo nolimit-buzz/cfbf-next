@@ -175,7 +175,7 @@ export default function FunderLoginPage() {
         <motion.div {...fadeUp(0.05)} className="mb-10">
           <div className="flex items-center gap-3 mb-2">
             <div className="h-px w-8 bg-[#00A788]" />
-            <span className="text-[#00A788] text-xs font-bold uppercase tracking-[0.2em] font-mono">
+            <span className="text-[#00A788] text-sm font-bold uppercase tracking-[0.2em] font-mono">
               Account Logins
             </span>
           </div>
@@ -246,7 +246,7 @@ export default function FunderLoginPage() {
                   <h3 className="text-base font-bold text-[#051F1A] tracking-tight mb-3.5 leading-snug group-hover:text-opacity-95">
                     {portal.label}
                   </h3>
-                  <p className="text-gray-500 text-xs leading-relaxed font-light mb-6">
+                  <p className="text-gray-500 text-sm leading-relaxed font-light mb-6">
                     {portal.description}
                   </p>
                 </div>
@@ -257,7 +257,7 @@ export default function FunderLoginPage() {
                     href={portal.loginUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-all duration-300 font-mono shadow-sm hover:shadow-md hover:-translate-y-0.5 ${buttonTextColors[portal.id]}`}
+                    className={`w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-[6px] text-sm font-bold uppercase tracking-wider transition-all duration-300 font-mono shadow-sm hover:shadow-md hover:-translate-y-0.5 ${buttonTextColors[portal.id]}`}
                     style={{
                       backgroundColor: portal.accentColor,
                     }}
@@ -271,7 +271,7 @@ export default function FunderLoginPage() {
                       href={portal.registerUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-[6px] text-xs font-bold uppercase tracking-wider border border-gray-200 text-[#051F1A] transition-all duration-300 font-mono hover:-translate-y-0.5 ${registerButtonColors[portal.id]}`}
+                      className={`w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-[6px] text-sm font-bold uppercase tracking-wider border border-gray-200 text-[#051F1A] transition-all duration-300 font-mono hover:-translate-y-0.5 ${registerButtonColors[portal.id]}`}
                     >
                       Register
                       <ArrowUpRight size={11} />
@@ -292,7 +292,7 @@ export default function FunderLoginPage() {
           <motion.div {...fadeUp(0)} className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
               <div className="h-px w-8 bg-[#00A788]" />
-              <span className="text-[#00A788] text-xs font-bold uppercase tracking-[0.2em] font-mono">
+              <span className="text-[#00A788] text-sm font-bold uppercase tracking-[0.2em] font-mono">
                 Quick Links
               </span>
             </div>
@@ -346,7 +346,7 @@ export default function FunderLoginPage() {
           <motion.div {...fadeUp(0.05)} className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
               <div className="h-px w-8 bg-[#00A788]" />
-              <span className="text-[#00A788] text-xs font-bold uppercase tracking-[0.2em] font-mono">
+              <span className="text-[#00A788] text-sm font-bold uppercase tracking-[0.2em] font-mono">
                 Frequently Asked
               </span>
             </div>
@@ -398,11 +398,11 @@ export default function FunderLoginPage() {
         <div className="max-w-[1280px] mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <p className="text-white font-bold text-sm mb-0.5">Need access assistance?</p>
-            <p className="text-white/50 text-xs font-light">Our team will verify your credentials and provision access within one business day.</p>
+            <p className="text-white/50 text-sm font-light">Our team will verify your credentials and provision access within one business day.</p>
           </div>
           <Link
             href="/contact"
-            className="shrink-0 inline-flex items-center gap-2 bg-[#00A788] text-[#051F1A] px-6 py-3 rounded-[6px] text-xs font-bold uppercase tracking-wider font-mono hover:bg-[#81C34D] transition-colors duration-300"
+            className="shrink-0 inline-flex items-center gap-2 bg-[#00A788] text-[#051F1A] px-6 py-3 rounded-[6px] text-sm font-bold uppercase tracking-wider font-mono hover:bg-[#81C34D] transition-colors duration-300"
           >
             Contact the team
             <ArrowUpRight size={13} />

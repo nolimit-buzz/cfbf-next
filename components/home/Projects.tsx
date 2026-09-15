@@ -81,7 +81,7 @@ const ProjectGridItem: React.FC<{ project: Project, index: number, capitalLabel:
       </div>
 
       <div className="absolute bottom-0 left-0 w-full p-8 z-20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]">
-        <div className="bg-brand-accent/20 border border-brand-accent/20 w-fit px-3 py-1 rounded-[6px] text-xs font-bold text-brand-accent mb-4 backdrop-blur-sm font-sans tracking-wider">{project.category.toUpperCase()}</div>
+        <div className="bg-brand-accent/20 border border-brand-accent/20 w-fit px-3 py-1 rounded-[6px] text-sm font-bold text-brand-accent mb-4 backdrop-blur-sm font-sans tracking-wider">{project.category.toUpperCase()}</div>
         <h3 className="text-xl md:text-2xl font-bold text-white mb-4 leading-tight font-sans tracking-tight">{project.title}</h3>
         <div className="grid grid-cols-1 gap-3 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
           <div className="flex items-center gap-3 text-gray-300 text-sm border-t border-white/10 pt-3 font-sans">
@@ -142,7 +142,7 @@ export default function Projects({ data }: { data?: ProjectsSection }) {
             <button
               key={cat}
               onClick={() => handleFilterChange(cat)}
-              className={`px-6 py-2 rounded-full border text-xs tracking-wide transition-all duration-300 font-sans whitespace-nowrap ${filter === cat
+              className={`px-6 py-2 rounded-full border text-sm tracking-wide transition-all duration-300 font-sans whitespace-nowrap ${filter === cat
                   ? 'bg-brand-accent text-brand-dark border-brand-accent font-medium shadow-lg shadow-brand-accent/20 scale-105'
                   : 'bg-white/5 text-gray-400 border-white/10 hover:border-brand-accent hover:text-brand-accent font-light'
                 }`}
@@ -194,7 +194,7 @@ export default function Projects({ data }: { data?: ProjectsSection }) {
                     onClick={() => setExpandedProject(expandedProject === p.id ? null : p.id)}
                     className="flex flex-col md:flex-row items-start md:items-center gap-6 p-8 cursor-pointer interactive group"
                   >
-                    <span className="text-xs text-brand-accent font-mono bg-brand-accent/10 px-2 py-1 rounded-[6px]">/ {p.id}</span>
+                    <span className="text-sm text-brand-accent font-mono bg-brand-accent/10 px-2 py-1 rounded-[6px]">/ {p.id}</span>
                     <h3 className={`text-xl md:text-2xl font-bold flex-1 transition-colors ${expandedProject === p.id ? 'text-brand-accent' : 'text-white group-hover:text-brand-accent'}`}>
                       {p.title}
                     </h3>
@@ -203,7 +203,7 @@ export default function Projects({ data }: { data?: ProjectsSection }) {
                       <span className="hidden md:inline">{p.location}</span>
                       <span className="hidden md:inline">•</span>
                       <span className="hidden md:inline">{p.year}</span>
-                      <span className={`px-4 py-1.5 border rounded-full text-xs font-bold transition-colors ${expandedProject === p.id ? 'bg-brand-accent text-brand-dark border-brand-accent' : 'bg-white/5 text-gray-400 border-white/10'}`}>
+                      <span className={`px-4 py-1.5 border rounded-full text-sm font-bold transition-colors ${expandedProject === p.id ? 'bg-brand-accent text-brand-dark border-brand-accent' : 'bg-white/5 text-gray-400 border-white/10'}`}>
                         {p.category}
                       </span>
                     </div>

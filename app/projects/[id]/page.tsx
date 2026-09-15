@@ -87,7 +87,7 @@ async function ProjectDetail({ params }: PageProps) {
 
 export default function ProjectDetailPage({ params }: PageProps) {
   return (
-    <Suspense fallback={<div className="bg-[#051F1A] min-h-screen text-white flex items-center justify-center font-mono text-xs uppercase tracking-widest">Loading case study...</div>}>
+    <Suspense fallback={<div className="bg-[#051F1A] min-h-screen text-white flex items-center justify-center font-mono text-sm uppercase tracking-widest">Loading case study...</div>}>
       <ProjectDetail params={params} />
     </Suspense>
   );

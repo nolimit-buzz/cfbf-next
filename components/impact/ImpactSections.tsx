@@ -169,7 +169,7 @@ const IconStatBox: React.FC<{
         {value}
       </span>
       {unit && (
-        <span className="text-xs text-gray-400 ml-1 font-light font-sans">{unit}</span>
+        <span className="text-sm text-gray-400 ml-1 font-light font-sans">{unit}</span>
       )}
     </div>
 
@@ -279,7 +279,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
                   </span>
                 </div>
 
-                <p className="text-xs md:text-sm leading-relaxed font-sans font-light opacity-90 mb-4">
+                <p className="text-sm md:text-sm leading-relaxed font-sans font-light opacity-90 mb-4">
                   {s.description}
                 </p>
 
@@ -303,7 +303,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
         <div className="container mx-auto px-6 max-w-[1280px]">
           <div className="grid lg:grid-cols-12 gap-12 items-start">
             <div className="lg:col-span-5 text-left">
-              <span className="text-brand-primary text-xs font-semibold tracking-[0.2em] uppercase font-mono block mb-2">
+              <span className="text-brand-primary text-sm font-semibold tracking-[0.2em] uppercase font-mono block mb-2">
                 {philosophyCopy.eyebrow}
               </span>
               <h2 className="text-3xl md:text-4xl font-bold text-brand-dark font-sans tracking-tight leading-tight mb-6">
@@ -326,7 +326,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
                   <div>
                     <span className="text-[10px] font-mono font-bold text-brand-primary/40 block mb-3">/ {item.number}</span>
                     <h4 className="text-sm font-bold text-brand-dark font-sans mb-2">{item.title}</h4>
-                    <p className="text-xs text-gray-400 font-sans font-light leading-relaxed">{item.description}</p>
+                    <p className="text-sm text-gray-400 font-sans font-light leading-relaxed">{item.description}</p>
                   </div>
                 </div>
               ))}
@@ -347,7 +347,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
 
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 border-b border-white/10 pb-8 gap-6">
             <div>
-              <span className="text-brand-accent text-xs font-semibold tracking-[0.2em] uppercase font-mono block mb-2">
+              <span className="text-brand-accent text-sm font-semibold tracking-[0.2em] uppercase font-mono block mb-2">
                 {consoleCopy.eyebrow}
               </span>
               <h2 className="text-3xl md:text-5xl font-bold text-white font-sans tracking-tight leading-tight">
@@ -387,7 +387,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
                 <div>
                   {/* View mode buttons & info row */}
                   <div className="flex justify-between items-center mb-6">
-                    <span className="text-xs text-gray-400 font-sans font-light">
+                    <span className="text-sm text-gray-400 font-sans font-light">
                       {storiesCopy.countPrefix} {Math.min(visibleStories, stories.length)} {storiesCopy.countMiddle} {stories.length} {storiesCopy.countSuffix}
                     </span>
                     <div className="flex items-center gap-2 rounded-full p-1 bg-white/5 border border-white/10">
@@ -450,7 +450,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
                                   <h3 className="text-white text-sm font-bold font-sans mb-3 leading-snug group-hover:text-brand-accent transition-colors min-h-[40px] line-clamp-2">
                                     {story.title}
                                   </h3>
-                                  <p className="text-gray-300 text-xs font-light leading-relaxed mb-4 line-clamp-2">{story.excerpt}</p>
+                                  <p className="text-gray-300 text-sm font-light leading-relaxed mb-4 line-clamp-2">{story.excerpt}</p>
                                 </div>
 
                                 <div className="space-y-0 mt-2">
@@ -505,7 +505,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
                                   <h3 className="text-base font-bold text-white mb-1 group-hover:text-brand-accent transition-colors leading-snug font-sans">
                                     {story.title}
                                   </h3>
-                                  <p className="text-gray-350 text-xs font-light leading-relaxed mb-3 line-clamp-1">{story.excerpt}</p>
+                                  <p className="text-gray-350 text-sm font-light leading-relaxed mb-3 line-clamp-1">{story.excerpt}</p>
                                 </div>
 
                                 <div className="grid grid-cols-3 gap-4 border-t border-white/5 pt-3">
@@ -535,7 +535,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
                     <div className="flex justify-center mt-12">
                       <button
                         onClick={() => setVisibleStories(stories.length)}
-                        className="inline-flex items-center justify-center gap-2 border border-white/10 hover:border-brand-accent text-white hover:text-brand-accent px-8 py-3.5 rounded-[6px] text-xs font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans select-none focus:outline-none bg-white/[0.02]"
+                        className="inline-flex items-center justify-center gap-2 border border-white/10 hover:border-brand-accent text-white hover:text-brand-accent px-8 py-3.5 rounded-[6px] text-sm font-bold uppercase tracking-wider transition-all duration-300 interactive font-sans select-none focus:outline-none bg-white/[0.02]"
                       >
                         {storiesCopy.viewMoreLabel} <ArrowRight size={14} />
                       </button>
@@ -637,7 +637,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
                           <div className="w-7 h-7 rounded-[6px] bg-[#00A788]/10 flex items-center justify-center"><Globe size={14} className="text-[#00A788]" /></div>
                           <span className="text-[10px] font-mono text-[#00A788] uppercase tracking-widest font-bold">{numbersCopy.etpLabel}</span>
                         </div>
-                        <p className="text-gray-355 font-sans text-xs leading-relaxed font-light">
+                        <p className="text-gray-355 font-sans text-sm leading-relaxed font-light">
                           {numbersCopy.etpBody}
                         </p>
                       </div>
@@ -742,7 +742,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
 
               {activeImpactTab === 'assets' && (
                 <div className="overflow-x-auto bg-white/[0.01] border border-white/10 rounded-[10px] shadow-xl">
-                  <table className="w-full border-collapse text-left text-xs md:text-sm">
+                  <table className="w-full border-collapse text-left text-sm md:text-sm">
                     <thead>
                       <tr className="border-b border-white/10 text-[10px] font-mono font-bold text-gray-400 uppercase tracking-wider bg-white/[0.02]">
                         {assetsCopy.columns.map((col, idx) => (
@@ -784,7 +784,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
         <motion.div {...fadeUp(0)} className="container mx-auto px-6 max-w-[1280px]">
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-brand-accent" />
-            <span className="text-brand-accent text-xs font-semibold tracking-[0.2em] uppercase font-mono">{nextStepsCopy.eyebrow}</span>
+            <span className="text-brand-accent text-sm font-semibold tracking-[0.2em] uppercase font-mono">{nextStepsCopy.eyebrow}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
             {nextStepsCopy.headingPartOne}<span className="text-[#9BB7B1] italic font-serif">{nextStepsCopy.headingItalic}</span>
@@ -810,7 +810,7 @@ export default function ImpactSections(props: ImpactSectionsProps) {
                   <h4 className="text-white text-base font-bold font-sans group-hover:text-white/80 transition-colors duration-300">
                     {link.title}
                   </h4>
-                  <p className="text-white/65 text-xs font-light mt-0.5 font-sans">
+                  <p className="text-white/65 text-sm font-light mt-0.5 font-sans">
                     {link.description}
                   </p>
                 </div>

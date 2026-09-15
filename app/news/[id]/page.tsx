@@ -136,7 +136,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
   };
 
   return (
-    <Suspense fallback={<div className="bg-[#FAFDFB] min-h-screen text-brand-dark flex items-center justify-center font-mono text-xs uppercase tracking-widest">{loadingLabel}</div>}>
+    <Suspense fallback={<div className="bg-[#FAFDFB] min-h-screen text-brand-dark flex items-center justify-center font-mono text-sm uppercase tracking-widest">{loadingLabel}</div>}>
       <NewsDetail params={params} />
     </Suspense>
   );

@@ -25,7 +25,7 @@ export default function NextStepsSection({ data }: { data?: AboutNextStepsSectio
         <motion.div {...fadeUp(0)} className="container mx-auto px-6 max-w-[1280px]">
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8 bg-brand-accent" />
-            <span className="text-brand-accent text-xs font-semibold tracking-[0.2em] uppercase font-mono">{c.eyebrow}</span>
+            <span className="text-brand-accent text-sm font-semibold tracking-[0.2em] uppercase font-mono">{c.eyebrow}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
             {c.headingPrimary}
@@ -52,7 +52,7 @@ export default function NextStepsSection({ data }: { data?: AboutNextStepsSectio
                     <h4 className="text-white text-base font-bold font-sans group-hover:text-white/80 transition-colors duration-300">
                       {link.title}
                     </h4>
-                    <p className="text-white/65 text-xs font-light mt-0.5 font-sans">
+                    <p className="text-white/65 text-sm font-light mt-0.5 font-sans">
                       {link.sub}
                     </p>
                   </div>
