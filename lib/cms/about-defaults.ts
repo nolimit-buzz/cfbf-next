@@ -69,7 +69,7 @@ export const ABOUT_HERO_DEFAULTS: AboutContent<AboutHeroSection> = {
   statImage_alt_text: 'Wind turbines',
   stats: [
     { cardNumber: '01', value: 'USD 21.3M', label: 'Concessional Capital', sub: 'FCDO & BII commitment' },
-    { cardNumber: '02', value: 'USD 21.3M', label: 'Total Capital Committed', sub: 'to date' },
+    { cardNumber: '02', value: '11.65 Billion Naira', label: 'Total Capital Deployed', sub: 'to date' },
   ],
   sliderStats: [
     { value: '32', label: 'Active Pipeline States', sub: 'across all 6 geo-zones' },
@@ -106,7 +106,7 @@ export const ABOUT_MANDATE_DEFAULTS: AboutContent<AboutMandateSection> = {
   ],
   numbers: [
     { value: 'USD 21.3M', label: 'Concessional Capital' },
-    { value: 'USD 21.3M', label: 'Total Deployed Capital' },
+    { value: '11.65 Billion Naira', label: 'Total Deployed Capital' },
     { value: '32', label: 'Active Pipeline States' },
     { value: 'AAA', label: 'Credit Enhancement Rating' },
   ],
@@ -481,11 +481,6 @@ export const ABOUT_AUDIENCE_DEFAULTS: AboutContent<AboutAudienceSection> = {
             'Yes, Senior debt blocks are wrapped in an unconditional, irrevocable AAA credit guarantee administered by InfraCredit.',
         },
         {
-          question: 'What is the green asset governance standard?',
-          answer:
-            'Every transaction is pre-certified under the international Climate Bonds Initiative (CBI) standards.',
-        },
-        {
           question: 'How does it align with PENCOM guidelines?',
           answer:
             'Structures comply fully with PENCOM regulations, matching statutory asset quality and tenor requirements (up to 10 years).',
@@ -493,7 +488,7 @@ export const ABOUT_AUDIENCE_DEFAULTS: AboutContent<AboutAudienceSection> = {
         {
           question: 'Are payments denominated in foreign currency?',
           answer:
-            'No, all transactions and payouts are denominated in Nigerian Naira (NGN) to eliminate foreign exchange risk.',
+            'No, all transactions are denominated in Nigerian Naira in accordance with InfraCredit\'s mandate to provide long term local currency loans.',
         },
       ],
     },

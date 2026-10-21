@@ -11,7 +11,7 @@ export const unstable_instant = {
   ]
 };
 
-const PROJECT_IDS = ['01', '02', '03', '04', '05', '06'];
+const PROJECT_IDS = ['01', '02', '03', '04', '05', '06', '07', '08', '09'];
 
 /**
  * Maps a CMS `ProjectRecord` onto the shape `ProjectDetailClient` renders —

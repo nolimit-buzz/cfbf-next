@@ -109,7 +109,7 @@ export const PROJECTS_HERO_DEFAULTS: ProjectsContent<ProjectsHeroSection> = {
   stats: [
     {
       label: 'Capacity installed',
-      value: '4.02',
+      value: '5.88',
       unit: 'MW',
       description: 'installed green capacity de-risked by first-loss co-financing.',
       sdgBadge: 'SDG 7',
@@ -130,14 +130,14 @@ export const PROJECTS_HERO_DEFAULTS: ProjectsContent<ProjectsHeroSection> = {
     },
     {
       label: 'Connections powered',
-      value: '39,438',
+      value: '51,666',
       unit: '',
       description: 'projected household and SME connections powered across Nigeria.',
       sdgBadge: 'SDG 7',
     },
     {
       label: 'Capital deployed',
-      value: '₦7.86B+',
+      value: '₦11.65B',
       unit: '',
       description:
         'mobilized from institutional investors and pension funds into the real economy.',
@@ -175,7 +175,7 @@ export const PROJECTS_ANALYSIS_TAB_DEFAULTS: ProjectsContent<ProjectsAnalysisTab
   statBoxes: [
     {
       label: 'Capacity installed',
-      value: '4.02',
+      value: '5.88',
       unit: 'MW',
       description: 'installed clean generating capacity co-financed.',
     },
@@ -193,7 +193,7 @@ export const PROJECTS_ANALYSIS_TAB_DEFAULTS: ProjectsContent<ProjectsAnalysisTab
     },
     {
       label: 'Connections powered',
-      value: '39,438',
+      value: '51,666',
       unit: '',
       description: 'projected household and SME connections powered.',
     },

@@ -113,7 +113,12 @@ export default function FrameworkSection({
                 {/* Top bar & Fixed Header (always in place) */}
                 <div className="relative z-10 p-8 pt-12 sm:pt-16 pb-0 flex flex-col justify-start h-full text-left">
                   <div className="flex justify-between items-center mb-6">
-                    <span className="text-2xl font-light font-mono text-white/30 leading-none">{item.cardNumber}</span>
+                    <div
+                      className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center flex-shrink-0"
+                      style={{ color: style.color }}
+                    >
+                      <style.Icon size={18} />
+                    </div>
                     <ArrowUpRight size={14} className="text-white/60 group-hover:text-white transition-colors" />
                   </div>
                   <h3
